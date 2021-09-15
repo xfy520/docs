@@ -18,8 +18,10 @@ steps:
         from_secret: drone_git_url
       TEST: "Hello World"
     commands:
+      - sed -i "s#\"drone_git_url\":[^,]*#\"drone_git_url\":$DRONE_GIT_URL#g" .env
       - echo $DRONE_GIT_URL
       - echo $TEST
+      - echo $drone_git_url
 
 trigger:
   branch:
