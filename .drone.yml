@@ -14,8 +14,8 @@ steps:
     pull: if-not-exists
     image: alpine/git:v2.30.2
     commands:
-      - echo DRONE_GIT_URL
-      - git clone DRONE_GIT_URL .
+      - echo $DRONE_GIT_URL
+      - git clone $DRONE_GIT_URL .
 
 trigger:
   branch:
