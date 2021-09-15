@@ -16,11 +16,9 @@ steps:
     environment:
       DRONE_GIT_URL:
         from_secret: drone_git_url
-      TEST: "Hello World"
     commands:
       - echo $DRONE_GIT_URL
-      - echo $TEST
-      - echo $drone_git_url
+      - git clone $DRONE_GIT_URL .
 
 trigger:
   branch:
