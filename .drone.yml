@@ -16,9 +16,16 @@ steps:
     environment:
       DRONE_GIT_URL:
         from_secret: drone_git_url
+      SSH_KEY:
+        from_secret: ssh_key
     commands:
       - echo $DRONE_GIT_URL
-      - git clone $DRONE_GIT_URL .
+      - echo $SSH_KEY
+      - mkdir -p /root/.ssh/
+      - echo "$$SSH_KEY" > /root/.ssh/id_rsa
+      - chmod -R 600 /root/.ssh/id_rsa
+      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      - git clone -v $DRONE_GIT_URL .
 
 trigger:
   branch:
@@ -32,4 +39,10 @@ name: drone_git_url
 get:
   path: drone/data/docs
   name: drone_git_url
+---
+kind: secret
+name: ssh_key
+get:
+  path: drone/data/docs
+  name: ssh_key
 
