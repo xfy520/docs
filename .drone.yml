@@ -24,7 +24,6 @@ trigger:
     - main
   event:
     - push
-
 ---
 kind: secret
 name: drone_git_url
