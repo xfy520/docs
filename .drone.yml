@@ -14,7 +14,7 @@ steps:
     pull: if-not-exists
     image: alpine/git:v2.30.2
     environment:
-      USERNAME:
+      DRONE_GIT_URL:
         from_secret: DRONE_GIT_URL
     commands:
       - echo $DRONE_GIT_URL
