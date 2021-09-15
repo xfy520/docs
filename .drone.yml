@@ -17,6 +17,13 @@ steps:
     - echo $DRONE_GIT_URL
     - git clone $DRONE_GIT_URL .
 
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
 ---
 kind: secret
 
@@ -24,3 +31,4 @@ external_data:
   DRONE_GIT_URL:
     path: drone/data/docs
     name: DRONE_GIT_URL
+
