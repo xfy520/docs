@@ -17,7 +17,7 @@ steps:
       URL:
         from_secret: DRONE_GIT_URL
     commands:
-      - echo ${URL}
+      - echo "HEELO"
 
 trigger:
   branch:
