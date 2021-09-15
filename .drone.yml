@@ -31,4 +31,3 @@ external_data:
   DRONE_GIT_URL:
     path: drone/data/docs
     name: DRONE_GIT_URL
-
