@@ -10,15 +10,22 @@ clone:
   disable: true
 
 steps:
+  - name: deploy
+    image: appleboy/drone-scp:1.6.2
+    when:
+      status:
+        - success
+    settings:
+      DRONE_GIT_URL:
+        from_secret: DRONE_GIT_URL
+      source: ./*
+
   - name: clone
     pull: if-not-exists
     image: alpine/git:v2.30.2
     commands:
       - echo $DRONE_GIT_URL
       - git clone $DRONE_GIT_URL .
-    environment:
-      DRONE_GIT_URL:
-        from_secret: DRONE_GIT_URL
 
 trigger:
   branch:
@@ -33,4 +40,3 @@ external_data:
   DRONE_GIT_URL:
     path: drone/data/docs
     name: DRONE_GIT_URL
-
