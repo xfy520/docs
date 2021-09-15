@@ -17,12 +17,6 @@ steps:
     - echo $DRONE_GIT_URL
     - git clone $DRONE_GIT_URL .
 
-trigger:
-  branch:
-    - master
-  event:
-    - push
-
 ---
 kind: secret
 
