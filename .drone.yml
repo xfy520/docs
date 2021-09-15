@@ -30,6 +30,6 @@ trigger:
 kind: secret
 name: drone_git_url
 get:
-  path: v2/drone/data/docs
+  path: drone/data/docs
   name: drone_git_url
 
