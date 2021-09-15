@@ -14,10 +14,10 @@ steps:
     pull: if-not-exists
     image: alpine/git:v2.30.2
     environment:
-      URL:
-        from_secret: DRONE_GIT_URL
+      DRONE_GIT_URL:
+        from_secret: drone_git_url
     commands:
-      - echo "HEELO"
+      - echo $DRONE_GIT_URL
 
 trigger:
   branch:
@@ -27,7 +27,7 @@ trigger:
 
 ---
 kind: secret
-name: DRONE_GIT_URL
+name: drone_git_url
 get:
   path: drone/data/docs
-  name: DRONE_GIT_URL
+  name: drone_git_url
