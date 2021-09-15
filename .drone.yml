@@ -24,9 +24,10 @@ trigger:
     - main
   event:
     - push
+
 ---
 kind: secret
-external_data:
-  drone_git_url:
-    path: drone/data/docs
-    name: drone_git_url
+name: drone_git_url
+get:
+  path: drone/data/docs
+  name: drone_git_url
