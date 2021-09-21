@@ -38,8 +38,6 @@ steps:
       debug: true
       mount:
         - ./node_modules
-      volumes:
-        - /tmp/cache:/tmp/cache
 
   - name: install # install
     image: node:16.9-alpine
@@ -60,8 +58,6 @@ steps:
       debug: true
       mount:
         - ./node_modules
-      volumes:
-        - /tmp/cache:/tmp/cache
 
   - name: build
     image: node:16.9-alpine
@@ -89,7 +85,3 @@ name: ssh_key
 get:
   path: drone/data/docs
   name: ssh_key
-
-volumes:
-  - name: cache
-    temp: {}
