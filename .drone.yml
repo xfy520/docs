@@ -30,7 +30,8 @@ steps:
     image: drillster/drone-volume-cache
     pull: if-not-exists
     volumes:
-      - cache:/tmp/cache
+    - name: cache
+      path: /tmp/cache
     settings:
       backend: "filesystem"
       restore: true
@@ -52,7 +53,8 @@ steps:
     image: drillster/drone-volume-cache
     pull: if-not-exists
     volumes:
-      - cache:/tmp/cache
+    - name: cache
+      path: /tmp/cache
     settings:
       backend: "filesystem"
       rebuild: true
