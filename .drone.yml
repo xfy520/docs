@@ -27,12 +27,13 @@ steps:
     - git clone -v $DRONE_GIT_URL .
 
 - name: 加载缓存
-  image: drillster/drone-volume-cache
+  image: meltwater/drone-cache
   volumes:
   - name: cache
     path: /cache
   settings:
     restore: true
+    backend: "filesystem"
     mount:
     - ./node_modules
     - ./.yarn-cache
@@ -50,13 +51,14 @@ steps:
     - npm run build
 
 - name: 构建缓存
-  image: drillster/drone-volume-cache
+  image: meltwater/drone-cache
   detach: true
   volumes:
   - name: cache
     path: /cache
   settings:
     rebuild: true
+    backend: "filesystem"
     mount:
     - ./.yarn-cache
     - ./node_modules
