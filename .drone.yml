@@ -39,7 +39,7 @@ steps:
       - ./node_modules
     volumes:
       - name: cache
-        path: /var/lib/drone/cache
+        path: /tmp/cache
 
   - name: install # install
     image: node:16.9-alpine
@@ -61,7 +61,7 @@ steps:
       - ./node_modules
     volumes:
       - name: cache
-      - path: /var/lib/drone/cache
+        path: /tmp/cache
 
   - name: build
     image: node:16.9-alpine
@@ -89,3 +89,8 @@ name: ssh_key
 get:
   path: drone/data/docs
   name: ssh_key
+
+volumes:
+- name: cache
+  host:
+    path: /tmp/cache
