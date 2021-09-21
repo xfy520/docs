@@ -91,6 +91,6 @@ get:
   name: ssh_key
 
 volumes:
-- name: cache
-  host:
-    path: /tmp/cache
+  - name: cache
+    host:
+      path: /var/lib/cache
