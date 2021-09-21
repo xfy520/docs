@@ -13,6 +13,9 @@ steps:
 - name: clone
   image: alpine/git:v2.30.2
   pull: if-not-exists
+  volumes:
+  - name: cache
+    path: /cache
   environment:
     DRONE_GIT_URL:
       from_secret: drone_git_url
@@ -24,7 +27,7 @@ steps:
     - echo "$$SSH_KEY" > /root/.ssh/id_rsa
     - chmod -R 600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-    - git clone -v $DRONE_GIT_URL /var/lib/drone/
+    - git clone -v $DRONE_GIT_URL /cache
 
 - name: 加载缓存
   image: meltwater/drone-cache
