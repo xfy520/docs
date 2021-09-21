@@ -10,67 +10,56 @@ clone:
   disable: true
 
 steps:
-  - name: clone
-    image: alpine/git:v2.30.2
-    pull: if-not-exists
-    environment:
-      DRONE_GIT_URL:
-        from_secret: drone_git_url
-      SSH_KEY:
-        from_secret: ssh_key
-    commands:
-      - echo $DRONE_GIT_URL
-      - mkdir -p /root/.ssh/
-      - echo "$$SSH_KEY" > /root/.ssh/id_rsa
-      - chmod -R 600 /root/.ssh/id_rsa
-      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-      - git clone -v $DRONE_GIT_URL .
+- name: clone
+  image: alpine/git:v2.30.2
+  pull: if-not-exists
+  environment:
+    DRONE_GIT_URL:
+      from_secret: drone_git_url
+    SSH_KEY:
+      from_secret: ssh_key
+  commands:
+    - echo $DRONE_GIT_URL
+    - mkdir -p /root/.ssh/
+    - echo "$$SSH_KEY" > /root/.ssh/id_rsa
+    - chmod -R 600 /root/.ssh/id_rsa
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    - git clone -v $DRONE_GIT_URL .
 
-  - name: restore-cache # 加载缓存node_modules
-    image: drillster/drone-volume-cache
-    pull: if-not-exists
-    volumes:
-    - name: cache
-      path: /tmp/cache
-    settings:
-      backend: "filesystem"
-      restore: true
-      cache_key: "volume"
-      archive_format: "gzip"
-      filesystem_cache_root: "/tmp/cache"
-      debug: true
-      mount:
-        - ./node_modules
+- name: 加载缓存
+  image: drillster/drone-volume-cache
+  volumes:
+  - name: cache
+    path: /cache
+  settings:
+    restore: true
+    mount:
+    - ./node_modules
+    - ./.npm-cache
 
-  - name: install # install
-    image: node:16.9-alpine
-    pull: if-not-exists
-    commands:
-      - rm -rf package-lock.json
-      - yarn install
+- name: install # install
+  image: node:16.9-alpine
+  pull: if-not-exists
+  commands:
+    - npm config set cache ./.npm-cache --global
+    - npm install
 
-  - name: rebuild-cache # 更新node_modules缓存
-    image: drillster/drone-volume-cache
-    pull: if-not-exists
-    volumes:
-    - name: cache
-      path: /tmp/cache
-    settings:
-      backend: "filesystem"
-      rebuild: true
-      cache_key: "volume"
-      archive_format: "gzip"
-      filesystem_cache_root: "/tmp/cache"
-      debug: true
-      mount:
-        - ./node_modules
+- name: build
+  image: node:16.9-alpine
+  commands:
+    - npm run build
 
-  - name: build
-    image: node:16.9-alpine
-    pull: if-not-exists
-    commands:
-      - CI=false yarn run build
-      - ls
+- name: 构建缓存
+  image: drillster/drone-volume-cache
+  detach: true
+  volumes:
+  - name: cache
+    path: /cache
+  settings:
+    rebuild: true
+    mount:
+    - ./.npm-cache
+    - ./node_modules
 
 trigger:
   branch:
@@ -91,6 +80,8 @@ name: ssh_key
 get:
   path: drone/data/docs
   name: ssh_key
-  
+
 volumes:
-  cache: {}
+- name: cache
+  host:
+    path: /home/ubuntu/data/drone/cache/node_modules
