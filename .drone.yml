@@ -35,6 +35,7 @@ steps:
   settings:
     restore: true
     backend: "filesystem"
+    filesystem_cache_root: "/cache"
     mount:
     - ./node_modules
     - ./.yarn-cache
@@ -60,6 +61,7 @@ steps:
   settings:
     rebuild: true
     backend: "filesystem"
+    filesystem_cache_root: "/cache"
     mount:
     - ./.yarn-cache
     - ./node_modules
