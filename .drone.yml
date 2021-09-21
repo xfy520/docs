@@ -29,6 +29,8 @@ steps:
   - name: restore-cache # 加载缓存node_modules
     image: meltwater/drone-cache:dev
     pull: if-not-exists
+    volumes:
+      - /tmp/cache:/tmp/cache
     settings:
       backend: "filesystem"
       restore: true
@@ -38,8 +40,6 @@ steps:
       debug: true
       mount:
         - ./node_modules
-    volumes:
-      - /tmp/cache:/tmp/cache
 
   - name: install # install
     image: node:16.9-alpine
@@ -51,6 +51,8 @@ steps:
   - name: rebuild-cache # 更新node_modules缓存
     image: meltwater/drone-cache:dev
     pull: if-not-exists
+    volumes:
+      - /tmp/cache:/tmp/cache
     settings:
       backend: "filesystem"
       rebuild: true
@@ -60,8 +62,6 @@ steps:
       debug: true
       mount:
         - ./node_modules
-    volumes:
-      - - /tmp/cache:/tmp/cache
 
   - name: build
     image: node:16.9-alpine
