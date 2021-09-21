@@ -35,14 +35,14 @@ steps:
     restore: true
     mount:
     - ./node_modules
-    - ./.npm-cache
+    - ./.yarn-cache
 
 - name: install # install
   image: node:16.9-alpine
   pull: if-not-exists
   commands:
-    - npm config set cache ./.npm-cache --global
-    - npm install
+    - yarn config set cache-folder ./.yarn-cache --global
+    - yarn install
 
 - name: build
   image: node:16.9-alpine
@@ -58,7 +58,7 @@ steps:
   settings:
     rebuild: true
     mount:
-    - ./.npm-cache
+    - ./.yarn-cache
     - ./node_modules
 
 trigger:
