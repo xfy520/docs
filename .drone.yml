@@ -9,13 +9,12 @@ workspace:
 clone:
   disable: true
 
-steps:
-
 volumes:
 - name: cache
   host:
     path: /home/ubuntu/data/drone
 
+steps:
 - name: clone
   image: alpine/git:v2.30.2
   pull: if-not-exists
