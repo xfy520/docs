@@ -32,7 +32,7 @@ steps:
     - echo "$$SSH_KEY" > /root/.ssh/id_rsa
     - chmod -R 600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-    - git clone -v $DRONE_GIT_URL /cache
+    - git clone -v $DRONE_GIT_URL .
 
 - name: 加载缓存
   image: meltwater/drone-cache
