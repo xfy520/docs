@@ -14,9 +14,6 @@ steps:
 - name: clone
   image: alpine/git:v2.30.2
   pull: if-not-exists
-  volumes:
-  - name: cache
-    path: /cache
   environment:
     DRONE_GIT_URL:
       from_secret: drone_git_url
@@ -32,13 +29,14 @@ steps:
 
 - name: 加载缓存
   image: meltwater/drone-cache
-  restart: unless-stopped
   volumes:
   - name: cache
     path: /cache
   settings:
     restore: true
     backend: "filesystem"
+    cache_key: "volume"
+    archive_format: "gzip"
     filesystem_cache_root: "/cache"
     mount:
     - ./node_modules
@@ -49,13 +47,13 @@ steps:
   commands:
     - yarn config set ignore-engines true
     - yarn config set registry https://registry.npm.taobao.org/
-    - yarn install -ddd
+    - yarn install
 
 - name: build
   image: node:16.9-alpine
   commands:
-    - yarn build -ddd
-
+    - yarn run build
+ 
 - name: 构建缓存
   image: meltwater/drone-cache
   detach: true
@@ -65,6 +63,8 @@ steps:
   settings:
     rebuild: true
     backend: "filesystem"
+    cache_key: "volume"
+    archive_format: "gzip"
     filesystem_cache_root: "/cache"
     mount:
     - ./node_modules
