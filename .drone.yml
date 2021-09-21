@@ -2,11 +2,6 @@ kind: pipeline
 type: docker
 name: docs
 
-volumes:
-- name: cache
-  host:
-    path: /home/ubuntu/data/drone
-
 workspace:
   base: /app
   path: drone/docs
@@ -15,6 +10,12 @@ clone:
   disable: true
 
 steps:
+
+volumes:
+- name: cache
+  host:
+    path: /home/ubuntu/data/drone
+
 - name: clone
   image: alpine/git:v2.30.2
   pull: if-not-exists
