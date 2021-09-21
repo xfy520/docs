@@ -29,6 +29,9 @@ steps:
   - name: restore-cache # 加载缓存node_modules
     image: meltwater/drone-cache:dev
     pull: if-not-exists
+    volumes:
+    - name: cache
+      path: /tmp/cache
     settings:
       backend: "filesystem"
       restore: true
@@ -49,6 +52,9 @@ steps:
   - name: rebuild-cache # 更新node_modules缓存
     image: meltwater/drone-cache:dev
     pull: if-not-exists
+    volumes:
+    - name: cache
+      path: /tmp/cache
     settings:
       backend: "filesystem"
       rebuild: true
@@ -85,3 +91,7 @@ name: ssh_key
 get:
   path: drone/data/docs
   name: ssh_key
+  
+volumes:
+  - name: cache
+    temp: {}
