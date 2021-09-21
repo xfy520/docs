@@ -11,8 +11,8 @@ clone:
 
 steps:
   - name: clone
-    pull: if-not-exists
     image: alpine/git:v2.30.2
+    pull: if-not-exists
     environment:
       DRONE_GIT_URL:
         from_secret: drone_git_url
@@ -26,11 +26,54 @@ steps:
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
       - git clone -v $DRONE_GIT_URL .
 
+  - name: restore-cache # 加载缓存node_modules
+    image: meltwater/drone-cache
+    pull: if-not-exists
+    settings:
+      backend: "filesystem"
+      restore: true
+      cache_key: "volume"
+      archive_format: "gzip"
+    mount:
+      - ./node_modules
+    volumes:
+      - name: cache
+        path: /home/ubuntu/data/drone/cache
+
+  - name: install # install
+    image: node:16.9-alpine
+    pull: if-not-exists
+    commands:
+      - rm -rf package-lock.json
+      - yarn install
+
+  - name: rebuild-cache # 更新node_modules缓存
+    image: meltwater/drone-cache
+    pull: if-not-exists
+    settings:
+      backend: "filesystem"
+      rebuild: true
+      cache_key: "volume"
+      archive_format: "gzip"
+    mount:
+      - ./node_modules
+    volumes:
+      - name: cache
+      - path: /home/ubuntu/data/drone/cache
+
+  - name: build
+    image: node:16.9-alpine
+    pull: if-not-exists
+    commands:
+      - CI=false yarn run build
+      - ls
+
 trigger:
   branch:
     - main
   event:
     - push
+    - pull_request
 
 ---
 kind: secret
@@ -45,3 +88,7 @@ get:
   path: drone/data/docs
   name: ssh_key
 
+volumes:
+  - name: cache
+    host:
+      path: /var/lib/cache
