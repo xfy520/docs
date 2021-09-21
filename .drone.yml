@@ -47,6 +47,8 @@ steps:
     - yarn config set cache-folder "./node_modules"
     - yarn install
     - yarn run build
+    - ls
+    - ls
 
 - name: rebuild-cache
   pull: if-not-exists
