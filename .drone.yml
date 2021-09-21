@@ -37,7 +37,8 @@ steps:
     mount:
       - ./node_modules
     volumes:
-      - /tmp/cache:/cache
+    - name: cache
+      path: /tmp/cache
 
   - name: install # install
     image: node:16.9-alpine
@@ -57,7 +58,8 @@ steps:
     mount:
       - ./node_modules
     volumes:
-      - /tmp/cache:/cache
+    - name: cache
+      path: /tmp/cache
 
   - name: build
     image: node:16.9-alpine
