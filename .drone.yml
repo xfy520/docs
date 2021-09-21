@@ -41,9 +41,13 @@ steps:
 - name: install+build # install
   image: node:16.9-alpine
   pull: if-not-exists
+  volumes:
+  - name: cache
+    path: /cache
   commands:
     - yarn config set ignore-engines true
     - yarn config set registry https://registry.npm.taobao.org/
+    - yarn config set cache-folder "/cache"
     - yarn install
     - yarn run build
 
