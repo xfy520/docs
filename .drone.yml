@@ -24,7 +24,7 @@ steps:
       - echo "$$SSH_KEY" > /root/.ssh/id_rsa
       - chmod -R 600 /root/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-      - proxychains git clone -v $DRONE_GIT_URL .
+      - git clone -c http.proxy=socks5://127.0.0.1:10808 -v $DRONE_GIT_URL .
 
   - name: restore-cache # 加载缓存node_modules
     image: meltwater/drone-cache
