@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: docs
+name: default
 
 clone:
   disable: true
@@ -27,47 +27,36 @@ steps:
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - git clone -v $DRONE_GIT_URL .
 
-- name: 加载缓存
-  image: meltwater/drone-cache
+- name: restore-cache
+  pull: if-not-exists
+  image: drillster/drone-volume-cache
   volumes:
-  - name: cache
-    path: /cache
+    - name: cache
+      path: /cache
   settings:
     restore: true
-    backend: "filesystem"
-    cache_key: "volume"
-    archive_format: "gzip"
-    filesystem_cache_root: "/cache"
     mount:
-    - ./node_modules
+      - ./node_modules
 
-- name: install # install
+- name: install+build # install
   image: node:16.9-alpine
   pull: if-not-exists
   commands:
     - yarn config set ignore-engines true
     - yarn config set registry https://registry.npm.taobao.org/
     - yarn install
-
-- name: build
-  image: node:16.9-alpine
-  commands:
     - yarn run build
- 
-- name: 构建缓存
-  image: meltwater/drone-cache
-  detach: true
+
+- name: rebuild-cache
+  pull: if-not-exists
+  image: drillster/drone-volume-cache
   volumes:
-  - name: cache
-    path: /cache
+    - name: cache
+      path: /cache
   settings:
     rebuild: true
-    backend: "filesystem"
-    cache_key: "volume"
-    archive_format: "gzip"
-    filesystem_cache_root: "/cache"
     mount:
-    - ./node_modules
+      - ./node_modules
 
 trigger:
   branch:
