@@ -2,6 +2,11 @@ kind: pipeline
 type: docker
 name: docs
 
+volumes:
+- name: cache
+  host:
+    path: /home/ubuntu/data/drone
+
 workspace:
   base: /app
   path: drone/docs
@@ -88,8 +93,3 @@ name: ssh_key
 get:
   path: drone/data/docs
   name: ssh_key
-
-volumes:
-- name: cache
-  host:
-    path: /home/ubuntu/data/drone
