@@ -30,8 +30,7 @@ steps:
     image: meltwater/drone-cache:dev
     pull: if-not-exists
     volumes:
-    - name: cache
-      path: /tmp/cache
+      - cache:/tmp/cache
     settings:
       backend: "filesystem"
       restore: true
@@ -53,8 +52,7 @@ steps:
     image: meltwater/drone-cache:dev
     pull: if-not-exists
     volumes:
-    - name: cache
-      path: /tmp/cache
+      - cache:/tmp/cache
     settings:
       backend: "filesystem"
       rebuild: true
@@ -93,5 +91,4 @@ get:
   name: ssh_key
   
 volumes:
-  - name: cache
-    temp: {}
+  cache: {}
