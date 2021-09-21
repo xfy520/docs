@@ -28,6 +28,7 @@ steps:
 
 - name: 加载缓存
   image: meltwater/drone-cache
+  restart: unless-stopped
   volumes:
   - name: cache
     path: /cache
