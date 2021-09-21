@@ -34,7 +34,6 @@ steps:
       restore: true
       cache_key: "volume"
       archive_format: "gzip"
-      filesystem-cache-root: "/var/lib/drone/cache"
     mount:
       - ./node_modules
     volumes:
@@ -56,7 +55,6 @@ steps:
       rebuild: true
       cache_key: "volume"
       archive_format: "gzip"
-      filesystem-cache-root: "/var/lib/drone/cache"
     mount:
       - ./node_modules
     volumes:
