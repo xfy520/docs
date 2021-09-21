@@ -27,16 +27,17 @@ steps:
       - git clone -v $DRONE_GIT_URL .
 
   - name: restore-cache # 加载缓存node_modules
-    image: drillster/drone-volume-cache
+    image: meltwater/drone-cache:dev
     pull: if-not-exists
     settings:
       backend: "filesystem"
       restore: true
       cache_key: "volume"
       archive_format: "gzip"
+      filesystem_cache_root: "/tmp/cache"
       debug: true
-    mount:
-      - ./node_modules
+      mount:
+        - ./node_modules
     volumes:
       - name: cache
         path: /tmp/cache
@@ -49,15 +50,17 @@ steps:
       - yarn install
 
   - name: rebuild-cache # 更新node_modules缓存
-    image: drillster/drone-volume-cache
+    image: meltwater/drone-cache:dev
     pull: if-not-exists
     settings:
       backend: "filesystem"
       rebuild: true
       cache_key: "volume"
       archive_format: "gzip"
-    mount:
-      - ./node_modules
+      filesystem_cache_root: "/tmp/cache"
+      debug: true
+      mount:
+        - ./node_modules
     volumes:
       - name: cache
         path: /tmp/cache
@@ -92,4 +95,4 @@ get:
 volumes:
   - name: cache
     host:
-      path: /var/lib/cache
+    path: "/tmp/cache"
