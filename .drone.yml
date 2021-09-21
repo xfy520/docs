@@ -30,10 +30,11 @@ steps:
     image: meltwater/drone-cache
     pull: if-not-exists
     settings:
-      backend: filesystem
+      backend: "filesystem"
       restore: true
       cache_key: "volume"
       archive_format: "gzip"
+      debug: true
     mount:
       - ./node_modules
     volumes:
@@ -51,10 +52,11 @@ steps:
     image: meltwater/drone-cache
     pull: if-not-exists
     settings:
-      backend: filesystem
+      backend: "filesystem"
       rebuild: true
       cache_key: "volume"
       archive_format: "gzip"
+      debug: true
     mount:
       - ./node_modules
     volumes:
