@@ -27,7 +27,7 @@ steps:
       - git clone -v $DRONE_GIT_URL .
 
   - name: restore-cache # 加载缓存node_modules
-    image: meltwater/drone-cache:dev
+    image: drillster/drone-volume-cache
     pull: if-not-exists
     volumes:
       - cache:/tmp/cache
@@ -49,7 +49,7 @@ steps:
       - yarn install
 
   - name: rebuild-cache # 更新node_modules缓存
-    image: meltwater/drone-cache:dev
+    image: drillster/drone-volume-cache
     pull: if-not-exists
     volumes:
       - cache:/tmp/cache
