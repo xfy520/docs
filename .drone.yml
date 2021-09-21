@@ -12,7 +12,7 @@ clone:
 volumes:
 - name: cache
   host:
-    path: /home/ubuntu/data/drone
+    path: /home/ubuntu/data/drone/git
 
 steps:
 - name: clone
