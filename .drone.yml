@@ -12,7 +12,7 @@ clone:
 volumes:
 - name: cache
   host:
-    path: /home/ubuntu/data/drone/git
+    path: /home/ubuntu/data/drone/cache
 
 steps:
 - name: clone
@@ -46,13 +46,11 @@ steps:
     filesystem_cache_root: "/cache"
     mount:
     - ./node_modules
-    - ./.yarn-cache
 
 - name: install # install
   image: node:16.9-alpine
   pull: if-not-exists
   commands:
-    - yarn config set cache-folder ./.yarn-cache --global
     - yarn install
 
 - name: build
@@ -71,7 +69,6 @@ steps:
     backend: "filesystem"
     filesystem_cache_root: "/cache"
     mount:
-    - ./.yarn-cache
     - ./node_modules
 
 trigger:
