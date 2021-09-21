@@ -84,4 +84,4 @@ get:
 volumes:
 - name: cache
   host:
-    path: /home/ubuntu/data/drone/cache/node_modules
+    path: /tmp/cache
