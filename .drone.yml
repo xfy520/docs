@@ -2,10 +2,6 @@ kind: pipeline
 type: docker
 name: docs
 
-workspace:
-  base: /app
-  path: drone/docs
-
 clone:
   disable: true
 
@@ -51,12 +47,14 @@ steps:
   image: node:16.9-alpine
   pull: if-not-exists
   commands:
-    - yarn install
+    - yarn config set ignore-engines true
+    - yarn config set registry https://registry.npm.taobao.org/
+    - yarn install -ddd
 
 - name: build
   image: node:16.9-alpine
   commands:
-    - npm run build
+    - yarn build -ddd
 
 - name: 构建缓存
   image: meltwater/drone-cache
