@@ -83,15 +83,19 @@ steps:
     password:
       from_secret: docker_password
 
-#  - name: 部署
-#     image: docker:20.10.8
-#     volumes: [/var/run/docker.sock:/var/run/docker.sock]
-#     secrets: [docker_username, docker_password, docker_registry]
-#     commands:
-#       - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REGISTRY
-#       - docker rm -f drone-test || true
-#       - docker pull $DOCKER_REGISTRY/eggplant/drone-test
-#       - docker run -dt --name drone-test -p 8003:12306 $DOCKER_REGISTRY/eggplant/drone-test:latest
+- name: 部署
+  image: docker:20.10.8
+  environment:
+    DOCKER_USERNAME:
+      from_secret: docker_username
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+  commands:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
+  - docker pull image.wssio.com/docs:latest
+  - list=$(docker ps -a| grep docs* | awk '{print $1}')
+  - test "$list" = "" && echo "none docs containers running" || docker stop $list
+  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs-secure.entrypoints=https" -l "traefik.http.routers.docs-secure.rule=Host(`doc.wssio.com`)" -l "traefik.http.services.docs-secure.loadbalancer.server.port=8081" --network=proxy  --name=docs image.wssio.com/docs:latest
 
 trigger:
   branch:
