@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "vuepress dev docs --clean-cache",
-    "build": "vuepress build docs --clean-cache",
+    "build": "vuepress build docs",
     "serve": "http-server ./.dist -p 8888 -c-1"
   },
   "dependencies": {},
