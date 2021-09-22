@@ -69,6 +69,30 @@ steps:
     mount:
       - ./node_modules
 
+ - name: 打包镜像+上传
+    image: plugins/docker:linux-amd64
+    pull: if-not-exists
+    privileged: true
+    settings:
+      dockerfile: Dockerfile
+      repo: image.wssio.com/docs
+      registry: image.wssio.com
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+#  - name: 部署
+#     image: docker:20.10.8
+#     volumes: [/var/run/docker.sock:/var/run/docker.sock]
+#     secrets: [docker_username, docker_password, docker_registry]
+#     commands:
+#       - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REGISTRY
+#       - docker rm -f drone-test || true
+#       - docker pull $DOCKER_REGISTRY/eggplant/drone-test
+#       - docker run -dt --name drone-test -p 8003:12306 $DOCKER_REGISTRY/eggplant/drone-test:latest
+
 trigger:
   branch:
     - main
@@ -88,3 +112,15 @@ name: ssh_key
 get:
   path: drone/data/docs
   name: ssh_key
+---
+kind: secret
+name: docker_username
+get:
+  path: drone/data/docs
+  name: docker_username
+---
+kind: secret
+name: docker_password
+get:
+  path: drone/data/docs
+  name: docker_password
