@@ -41,9 +41,9 @@ export default defineUserConfig<DefaultThemeOptions, {
     }
   },
   bundler: '@vuepress/vite',
-  dest: `${__dirname}../../../dist`,
-  temp: `${__dirname}../../../temp`,
-  cache: `${__dirname}../../../cache`,
+  dest: `${__dirname}../../../.dist`,
+  temp: `${__dirname}../../../.temp`,
+  cache: `${__dirname}../../../.cache`,
   port: 8081,
   open: false,
 })
