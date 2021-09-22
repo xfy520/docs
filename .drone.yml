@@ -69,19 +69,19 @@ steps:
     mount:
       - ./node_modules
 
- - name: 打包镜像+上传
-    image: plugins/docker:linux-amd64
-    pull: if-not-exists
-    privileged: true
-    settings:
-      dockerfile: Dockerfile
-      repo: image.wssio.com/docs
-      registry: image.wssio.com
-      auto_tag: true
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
+- name: 打包镜像+上传
+  image: plugins/docker:linux-amd64
+  pull: if-not-exists
+  privileged: true
+  settings:
+    dockerfile: Dockerfile
+    repo: image.wssio.com/docs
+    registry: image.wssio.com
+    auto_tag: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
 
 #  - name: 部署
 #     image: docker:20.10.8
