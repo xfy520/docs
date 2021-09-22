@@ -3,8 +3,7 @@ type: docker
 name: docs
 
 workspace:
-  base: /drone
-  path: docs
+  base: /docs
 
 clone:
   disable: true
@@ -40,7 +39,7 @@ steps:
   settings:
     backend: "filesystem"
     restore: true
-    cache_key: cache
+    cache_key: "docs"
     archive_format: "gzip"
     mount:
       - ./node_modules
@@ -66,7 +65,7 @@ steps:
   settings:
     backend: "filesystem"
     archive_format: "gzip"
-    cache_key: cache
+    cache_key: "docs"
     rebuild: true
     mount:
       - ./node_modules
