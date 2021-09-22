@@ -2,6 +2,10 @@ kind: pipeline
 type: docker
 name: docs
 
+workspace:
+  base: /app
+  path: drone/docs
+
 clone:
   disable: true
 
@@ -29,12 +33,15 @@ steps:
 
 - name: restore-cache
   pull: if-not-exists
-  image: drillster/drone-volume-cache
+  image: meltwater/drone-cache
   volumes:
     - name: cache
-      path: /cache
+      path: /tmp/cache
   settings:
+    backend: "filesystem"
     restore: true
+    cache_key: "volume"
+    archive_format: "gzip"
     mount:
       - ./node_modules
 
@@ -52,11 +59,14 @@ steps:
 
 - name: rebuild-cache
   pull: if-not-exists
-  image: drillster/drone-volume-cache
+  image: meltwater/drone-cache
   volumes:
     - name: cache
-      path: /cache
+      path: /tmp/cache
   settings:
+    backend: "filesystem"
+    cache_key: "volume"
+    archive_format: "gzip"
     rebuild: true
     mount:
       - ./node_modules
