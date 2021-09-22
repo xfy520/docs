@@ -101,7 +101,7 @@ steps:
   - docker pull image.wssio.com/docs:latest
   - list=$(docker ps -a| grep docs* | awk '{print $1}')
   - test "$list" = "" && echo "none docs containers running" || docker stop $list
-  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs.entrypoints=https" -l "traefik.http.routers.docs.rule=Host(\"doc.wssio.com\")" -l "traefik.http.services.docs.loadbalancer.server.port=8081" --network=proxy  --name=docs image.wssio.com/docs:latest
+  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs.entrypoints=https" -l "traefik.http.routers.docs.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs.loadbalancer.server.port=8081" --network=proxy  --name=docs image.wssio.com/docs:latest
 
 trigger:
   branch:
