@@ -12,6 +12,9 @@ volumes:
 - name: cache
   host:
     path: /home/ubuntu/data/drone/cache
+- name: docker
+  host:
+    path: /var/run/docker.sock
 
 steps:
 - name: 拉取项目
@@ -85,6 +88,9 @@ steps:
 
 - name: 部署
   image: docker:20.10.8
+  volumes:
+  - name: docker
+    path: /var/run/docker.sock:ro
   environment:
     DOCKER_USERNAME:
       from_secret: docker_username
