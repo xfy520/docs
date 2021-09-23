@@ -3,6 +3,8 @@ import { UserConfig } from 'vite';
 import { Options } from '@vitejs/plugin-vue';
 import type { DefaultThemeOptions } from '@vuepress/theme-default';
 
+import { navbar, sidebar } from './configs'
+
 export default defineUserConfig<DefaultThemeOptions, {
   viteOptions: UserConfig,
   vuePluginOptions: Options
@@ -13,8 +15,6 @@ export default defineUserConfig<DefaultThemeOptions, {
   description: '欢迎来到闲聊世界',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['meta', { name: 'msapplication-TileColor', content: '#3eaf7c' }],
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }]
   ],
   bundlerConfig: {},
   plugins: [
@@ -33,9 +33,19 @@ export default defineUserConfig<DefaultThemeOptions, {
     ]
   ],
   themeConfig: {
-    home: '/',
-    notFound: ['访问出错了!'],
+    navbar,
+    sidebar,
+    tip: '提示',
+    warning: '注意',
+    danger: '警告',
+    notFound: [
+      '这里什么都没有',
+      '我们怎么到这来了？',
+      '这是一个 404 页面',
+      '看起来我们进入了错误的链接',
+    ],
     backToHome: '返回首页',
+    openInNewWindow: '在新窗口打开',
     themePlugins: {
       prismjs: true
     }
