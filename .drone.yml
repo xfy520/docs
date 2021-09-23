@@ -86,7 +86,7 @@ steps:
       from_secret: docker_password
   commands:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
-  - docker pull image.wssio.com/docs:latest
+  - docker pull image.wssio.com/docs:linux-amd64
   - list=$(docker ps -a| grep docs-app* | awk '{print $1}')
   - test "$list" = "" && echo "none docs-app containers running" || docker stop $list
   - test "$list" = "" && echo "none docs-app containers running" || docker rm $list
