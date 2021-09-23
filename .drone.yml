@@ -53,7 +53,7 @@ steps:
   commands:
     - npm config set registry https://registry.npm.taobao.org/
     - npm config set cache "./node_modules"
-    - npm i
+    - npm install
     - npm run build
     - ls -a
 
