@@ -113,6 +113,23 @@ steps:
   - rm shell.sh
   - cd docs
   - rm -r .dist .temp
+  
+- name: 通知
+  image: drillster/drone-email:latest
+  pull: if-not-exists
+  when:
+    status: [ changed, failure ]
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
+    recipients_only: true
+    subject: "Drone build: [{{ build.status }}] {{ repo.name }} ({{ repo.branch }}) #{{ build.number }}"
+    host: smtp.qq.com
+    port: 587
+    from: longzinziyan@gmail.com
+    username:
+      from_secret: email_user
+    password:
+      from_secret: email_password
 
 trigger:
   branch:
@@ -145,3 +162,15 @@ name: docker_password
 get:
   path: drone/data/docs
   name: docker_password
+---
+kind: secret
+name: email_user
+get:
+  path: drone/data/docs
+  name: email_user
+---
+kind: secret
+name: email_password
+get:
+  path: drone/data/docs
+  name: email_password
