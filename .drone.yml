@@ -39,6 +39,7 @@ steps:
     - echo "$$SSH_KEY" > /root/.ssh/id_rsa
     - chmod -R 600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    - cd /drone/src
     - echo $SHELL
     - echo "$$SHELL" > shell.sh
     - ls
