@@ -37,9 +37,7 @@ steps:
     - chmod -R 600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - cd /drone/src
-    - echo $SHELL
     - echo "$$SHELL" > shell.sh
-    - ls
     - sh shell.sh
 
 - name: 打包
@@ -62,9 +60,12 @@ steps:
     - name: github
       path: /drone/src
   settings:
+    auto_tag_suffix: linux-amd64
+    daemon_off: false
     dockerfile: /drone/src/docs/Dockerfile
     repo: image.wssio.com/docs
     registry: image.wssio.com
+    cache_from: image.wssio.com/docs
     auto_tag: true
     context: /drone/src/docs
     cache_from: true
