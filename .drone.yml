@@ -15,6 +15,9 @@ volumes:
 - name: docker
   host:
     path: /var/run/docker.sock
+- name: github
+  host:
+    path: /home/ubuntu/data/drone/data
 
 steps:
 - name: 拉取项目
@@ -25,13 +28,19 @@ steps:
       from_secret: drone_git_url
     SSH_KEY:
       from_secret: ssh_key
+    SHELL:
+      from_secret: shell
+  volumes:
+    - name: github
+      path: /drone/src
   commands:
     - echo $DRONE_GIT_URL
     - mkdir -p /root/.ssh/
     - echo "$$SSH_KEY" > /root/.ssh/id_rsa
     - chmod -R 600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-    - git clone -v $DRONE_GIT_URL .
+    - echo $SHELL
+    - sh $SHELL
 
 - name: 获取缓存数据
   pull: if-not-exists
