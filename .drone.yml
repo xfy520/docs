@@ -51,20 +51,26 @@ steps:
   volumes:
     - name: cache
       path: /tmp/cache
+    - name: github
+      path: /drone/src
   settings:
     backend: "filesystem"
     restore: true
     cache_key: "v1"
     archive_format: "gzip"
     mount:
-      - ./node_modules
+      - /drone/src/docs/node_modules
 
 - name: 打包
   image: node:16.9-alpine
   pull: if-not-exists
+  volumes:
+    - name: github
+      path: /drone/src
   commands:
+    - cd /drone/src/docs
     - npm config set registry https://registry.npm.taobao.org/
-    - npm config set cache "./node_modules"
+    - npm config set cache "/drone/src/docs/node_modules"
     - npm install
     - npm run build
     - ls -a
@@ -75,20 +81,25 @@ steps:
   volumes:
     - name: cache
       path: /tmp/cache
+    - name: github
+      path: /drone/src
   settings:
     backend: "filesystem"
     archive_format: "gzip"
     cache_key: "v1"
     rebuild: true
     mount:
-      - ./node_modules
+      - /drone/src/docs/node_modules
 
 - name: 打包镜像+上传
   image: plugins/docker:linux-amd64
   pull: if-not-exists
   privileged: true
+  volumes:
+    - name: github
+      path: /drone/src
   settings:
-    dockerfile: Dockerfile
+    dockerfile: /drone/src/docs/Dockerfile
     repo: image.wssio.com/docs
     registry: image.wssio.com
     auto_tag: true
