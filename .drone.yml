@@ -94,11 +94,10 @@ steps:
       from_secret: docker_password
   commands:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
-  - docker pull image.wssio.com/docs:linux-amd64
   - list=$(docker ps -a| grep docs-app* | awk '{print $1}')
   - test "$list" = "" && echo "none docs-app containers running" || docker stop $list
   - test "$list" = "" && echo "none docs-app containers running" || docker rm $list
-  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs-app.entrypoints=https" -l "traefik.http.routers.docs-app.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs-app.loadbalancer.server.port=8081" --network=proxy  --name=docs-app image.wssio.com/docs:latest
+  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs-app.entrypoints=https" -l "traefik.http.routers.docs-app.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs-app.loadbalancer.server.port=8081" --network=proxy  --name=docs-app image.wssio.com/docs:linux-amd64
 
 - name: 清理
   image: alpine:3.13.6
