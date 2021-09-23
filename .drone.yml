@@ -158,18 +158,16 @@ steps:
 - name: 通知
   image: drillster/drone-email:latest
   pull: if-not-exists
-  environment:
-    EMAIL_USER:
-      from_secret: email_user
   commands:
   - echo $EMAIL_USER
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
+    recipients: [longzinziyan@gmail.com]
     recipients_only: true
     subject: "Drone build: [{{ build.status }}] {{ repo.name }} ({{ repo.branch }}) #{{ build.number }}"
     host: smtp.qq.com
     port: 587
-    from: longzinziyan@gmail.com
+    from: 2811416050@qq.com
     username:
       from_secret: email_user
     password:
