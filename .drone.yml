@@ -158,6 +158,11 @@ steps:
 - name: 通知
   image: drillster/drone-email:latest
   pull: if-not-exists
+  environment:
+    EMAIL_USER:
+      from_secret: email_user
+  commands:
+  - echo $EMAIL_USER
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
     recipients_only: true
