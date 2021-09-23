@@ -159,12 +159,12 @@ steps:
   pull: if-not-exists
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
-    recipients: [longzinziyan@gmail.com]
+    recipients: [longzinziyan@gmail.com,2811416050@qq.com]
     recipients_only: true
     subject: "Drone build: [{{ build.status }}] {{ repo.name }} ({{ repo.branch }}) #{{ build.number }}"
     host: smtp.qq.com
     port: 587
-    from: 2811416050@qq.com
+    from: 1296114084@qq.com
     username:
       from_secret: email_user
     password:
