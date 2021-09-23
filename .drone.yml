@@ -62,13 +62,12 @@ steps:
   volumes:
     - name: github
       path: /drone/src
-  commands:
-    - cd /drone/src/docs
   settings:
-    dockerfile: Dockerfile
+    dockerfile: /drone/src/docs/Dockerfile
     repo: image.wssio.com/docs
     registry: image.wssio.com
     auto_tag: true
+    context: /drone/src/docs
     username:
       from_secret: docker_username
     password:
