@@ -1,6 +1,6 @@
 ---
 home: true
-title: Wssio
+title: 首页
 actions:
   - text: 开始阅读
     link: /guide/getting-started.html
