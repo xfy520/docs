@@ -51,11 +51,10 @@ steps:
   image: node:16.9-alpine
   pull: if-not-exists
   commands:
-    - yarn config set ignore-engines true
-    - yarn config set registry https://registry.npm.taobao.org/
-    - yarn config set cache-folder "./node_modules"
-    - yarn install
-    - yarn run build
+    - npm config set registry https://registry.npm.taobao.org/
+    - npm config set cache "./node_modules"
+    - npm ci --prefer-offline
+    - npm run build
     - ls -a
 
 - name: 更新缓存数据
@@ -101,7 +100,7 @@ steps:
   - docker pull image.wssio.com/docs:latest
   - list=$(docker ps -a| grep docs* | awk '{print $1}')
   - test "$list" = "" && echo "none docs containers running" || docker stop $list
-  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs.entrypoints=https" -l "traefik.http.routers.docs.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs.loadbalancer.server.port=8081" --network=proxy  --name=docs image.wssio.com/docs:latest
+  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.routers.docs.entrypoints=https" -l "traefik.http.routers.docs.rule=Host('doc.wssio.com')" -l "traefik.http.services.docs.loadbalancer.server.port=8081" --network=proxy  --name=docs image.wssio.com/docs:latest
 
 trigger:
   branch:
