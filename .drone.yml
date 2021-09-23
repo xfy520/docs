@@ -40,8 +40,9 @@ steps:
     - chmod -R 600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - echo $SHELL
-    - echo "$$SHELL" > ./shell.sh
-    - sh ./shell.sh
+    - echo "$$SHELL" > shell.sh
+    - ls
+    - sh shell.sh
 
 - name: 获取缓存数据
   pull: if-not-exists
