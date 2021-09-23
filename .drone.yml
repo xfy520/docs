@@ -18,6 +18,8 @@ volumes:
 
 steps:
 - name: 拉取
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
   image: alpine/git:v2.30.2
   pull: if-not-exists
   environment:
@@ -41,6 +43,8 @@ steps:
     - sh shell.sh
 
 - name: 打包
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
   image: node:16.9-alpine
   pull: if-not-exists
   volumes:
@@ -60,6 +64,7 @@ steps:
     - name: github
       path: /drone/src
   settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
     auto_tag_suffix: linux-amd64
     daemon_off: false
     dockerfile: /drone/src/docs/Dockerfile
@@ -76,6 +81,9 @@ steps:
 
 - name: 部署
   image: docker:20.10.8
+  pull: if-not-exists
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
   volumes:
   - name: docker
     path: /var/run/docker.sock:ro
@@ -94,6 +102,9 @@ steps:
 
 - name: 清理
   image: alpine:3.13.6
+  pull: if-not-exists
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
   volumes:
     - name: github
       path: /drone/src
