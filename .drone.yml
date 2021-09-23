@@ -9,9 +9,6 @@ clone:
   disable: true
 
 volumes:
-- name: cache
-  host:
-    path: /home/ubuntu/data/drone/cache
 - name: docker
   host:
     path: /var/run/docker.sock
@@ -45,22 +42,6 @@ steps:
     - ls
     - sh shell.sh
 
-- name: 获取缓存数据
-  pull: if-not-exists
-  image: meltwater/drone-cache:v1
-  volumes:
-    - name: cache
-      path: /tmp/cache
-    - name: github
-      path: /drone/src
-  settings:
-    backend: "filesystem"
-    restore: true
-    cache_key: "v1"
-    archive_format: "gzip"
-    mount:
-      - /drone/src/docs/node_modules
-
 - name: 打包
   image: node:16.9-alpine
   pull: if-not-exists
@@ -73,22 +54,6 @@ steps:
     - yarn install
     - yarn run build
     - ls -a
-
-- name: 更新缓存数据
-  pull: if-not-exists
-  image: meltwater/drone-cache:v1
-  volumes:
-    - name: cache
-      path: /tmp/cache
-    - name: github
-      path: /drone/src
-  settings:
-    backend: "filesystem"
-    archive_format: "gzip"
-    cache_key: "v1"
-    rebuild: true
-    mount:
-      - /drone/src/docs/node_modules
 
 - name: 打包镜像+上传
   image: plugins/docker:linux-amd64
