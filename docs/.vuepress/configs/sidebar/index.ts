@@ -4,43 +4,19 @@ import type { SidebarConfig } from '@vuepress/theme-default'
 const sidebar: SidebarConfig = {
   '/start/': [
     {
-      text: '开始',
+      text: '监控',
       children: [
         '/start/README.md',
       ],
     },
   ],
-  '/rearend/': [
+  '/rearend/java': [
     {
-      text: '后端',
+      text: 'Java',
       children: [
-        '/rearend/README.md',
+        '/rearend/java/README.md',
       ],
-    },
-  ],
-  '/frontend/': [
-    {
-      text: '前端',
-      children: [
-        '/frontend/README.md',
-      ],
-    },
-  ],
-  '/service/': [
-    {
-      text: '服务',
-      children: [
-        '/service/README.md'
-      ],
-    },
-  ],
-  '/expand/': [
-    {
-      text: '扩展',
-      children: [
-        '/expand/README.md'
-      ],
-    },
+    }
   ]
 }
 

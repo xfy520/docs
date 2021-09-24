@@ -1,0 +1,14 @@
+.home-img {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+}
+
+.home-img img {
+  display: flex;
+  width: 33%;
+  height: auto;
+  margin:0 0 0 1%;
+  cursor: pointer;
+}

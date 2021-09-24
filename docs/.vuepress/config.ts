@@ -2,21 +2,22 @@ import { defineUserConfig } from '@vuepress/cli';
 import { UserConfig } from 'vite';
 import { Options } from '@vitejs/plugin-vue';
 import type { DefaultThemeOptions } from '@vuepress/theme-default';
+import { navbar, sidebar } from './configs';
 
-import { navbar, sidebar } from './configs'
+const externals = {
+  'v-viewer': 'VueViewer',
+};
 
-export default defineUserConfig<DefaultThemeOptions, {
-  viteOptions: UserConfig,
-  vuePluginOptions: Options
-}>({
+export default defineUserConfig<DefaultThemeOptions, UserConfig>({
   base: '/',
   lang: 'zh-CN',
   title: '技术杂谈',
   description: '欢迎来到闲聊世界',
   head: [
+    ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
     ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/viewerjs/dist/viewer.css' }]
   ],
-  bundlerConfig: {},
   plugins: [
     [
       '@vuepress/plugin-search',
@@ -35,6 +36,9 @@ export default defineUserConfig<DefaultThemeOptions, {
   themeConfig: {
     navbar,
     sidebar,
+    editLinkText: '在 GitHub 上编辑此页',
+    lastUpdatedText: '上次更新',
+    contributorsText: '贡献者',
     tip: '提示',
     warning: '注意',
     danger: '警告',
@@ -46,8 +50,10 @@ export default defineUserConfig<DefaultThemeOptions, {
     ],
     backToHome: '返回首页',
     openInNewWindow: '在新窗口打开',
+    toggleDarkMode: '切换夜间模式',
+    toggleSidebar: '切换侧边栏',
     themePlugins: {
-      prismjs: true
+
     }
   },
   bundler: '@vuepress/vite',
@@ -56,4 +62,6 @@ export default defineUserConfig<DefaultThemeOptions, {
   cache: `${__dirname}../../../.cache`,
   port: 8081,
   open: false,
+  bundlerConfig: {
+  },
 })

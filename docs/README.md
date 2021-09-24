@@ -3,11 +3,8 @@ home: true
 title: 首页
 actions:
   - text: 开始阅读
-    link: /guide/getting-started.html
+    link: /start/
     type: primary
-  - text: 文档结构
-    link: /guide/
-    type: secondary
 features:
   - title: 前端
     details: JavaScript、TypeScript、HTML、Vue、React、CSS3、webpack、NodeJS等技术学习记录
@@ -20,6 +17,8 @@ footer: MIT Licensed | Copyright © 2021-present longzinziyan@gmail.com
 
 ### 开启你的快乐之旅
 
-```ts
-console.log('Hello World');
-```
+ <div class="home-img">
+  <img src="/images/system.png" alt="服务性能监控"/>
+  <img src="/images/docker.png" alt="Docker容器监控"/>
+  <img src="/images/traefik.png" alt="Traefik服务监控"/>
+</div>

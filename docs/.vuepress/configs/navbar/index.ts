@@ -9,26 +9,118 @@ const navbar: NavbarConfig = [
   },
   {
     text: '后端',
-      children: [
-        '/rearend/README.md',
-      ],
+    children: [
+      {
+        text: 'Java',
+        children: [
+          {
+            text: 'Java',
+            link: '/rearend/java/README.md'
+          },
+          {
+            text: 'Spring Boot',
+            link: '/rearend/java/springboot/README.md',
+          }
+        ],
+      },
+      {
+        text: 'Golang',
+        children: [
+          {
+            text: 'Golang',
+            link: '/rearend/golang/README.md'
+          },
+          {
+            text: 'Gin',
+            link: '/rearend/golang/gin/README.md',
+          }
+        ],
+      },
+      {
+        text: 'Node',
+        children: [
+          {
+            text: 'Node.js',
+            link: '/rearend/node/README.md',
+          },
+          {
+            text: 'Fastify',
+            link: '/rearend/node/fastify/README.md',
+          }
+        ],
+      },
+    ],
   },
   {
     text: '前端',
     children: [
-      '/frontend/README.md',
-    ],
-  },
-  {
-    text: '服务',
-    children: [
-      '/service/README.md'
+      {
+        text: 'Vue3.0',
+        link: '/frontend/vue3/README.md',
+      },
+      {
+        text: 'JavaScript',
+        link: '/frontend/javascript/README.md',
+      },
+      {
+        text: 'CSS',
+        link: '/frontend/css/README.md',
+      },
     ],
   },
   {
     text: '扩展',
     children: [
-      '/expand/README.md'
+      {
+        text: 'Docker',
+        link: '/expand/docker/README.md',
+      },
+      {
+        text: 'Docker-Compose',
+        link: '/expand/dockercompose/README.md',
+      },
+      {
+        text: 'Traefik',
+        link: '/expand/traefik/README.md',
+      },
+      {
+        text: 'Drone',
+        link: '/expand/drone/README.md',
+      },
+      {
+        text: 'Vite',
+        link: '/expand/vite/README.md',
+      },
+    ],
+  },
+  {
+    text: '数据库',
+    children: [
+      {
+        text: 'MySQL',
+        link: '/database/mysql/README.md'
+      },
+      {
+        text: 'MongoDB',
+        link: '/database/mongodb/README.md'
+      },
+      {
+        text: 'Redis',
+        link: '/database/redis/README.md'
+      },
+    ]
+  },
+  {
+    text: '工具',
+    children: [
+      {
+        text: 'Vs Code',
+        link: '/tool/vscode/README.md'
+      },
+      {
+        text: 'V2ray',
+        link: '/tool/v2ray/README.md',
+      },
     ],
   },
 ];
