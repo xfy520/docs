@@ -8,6 +8,31 @@ const navbar: NavbarConfig = [
     link: '/start/',
   },
   {
+    text: '开源项目',
+    children: [
+      {
+        text: 'wssio',
+        link: '/opensource/wssio/'
+      },
+      {
+        text: 'wscio',
+        link: '/opensource/wscio/'
+      },
+      {
+        text: 'vue3-menus',
+        link: '/opensource/vue3-menus/'
+      },
+      {
+        text: 'v-page-generator',
+        link: '/opensource/v-page-generator/'
+      },
+      {
+        text: 'vue3-seamless-scroll',
+        link: '/opensource/vue3-seamless-scroll/'
+      },
+    ]
+  },
+  {
     text: 'LeetCode',
     children: [
       {
