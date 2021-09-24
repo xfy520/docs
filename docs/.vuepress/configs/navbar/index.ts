@@ -8,6 +8,19 @@ const navbar: NavbarConfig = [
     link: '/start/',
   },
   {
+    text: 'LeetCode',
+    children: [
+      {
+        text: '数组（2）',
+        link: '/leetcode/array/1'
+      },
+      {
+        text: '字符串（2）',
+        link: '/leetcode/string/1'
+      }
+    ]
+  },
+  {
     text: '后端',
     children: [
       {
