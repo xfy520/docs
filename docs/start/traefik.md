@@ -8,7 +8,7 @@
 4. Traefik docker-compose.yml 文件
 5. 启动查看 控制面板
 
-### 创建一个新的 Docker 网络
+## 创建一个新的 Docker 网络
 
 ```shell
 docker network create traefik_net
@@ -16,7 +16,7 @@ docker network create traefik_net
 
 Traefik 和 服务容器需要在同一网络上才能自发现，虽然同一个 Compose 内会自动创建一个，但实际是隐藏的，会发生混乱，在跨 docker-compose 文件配置时显得不方便。所以最好仅创建自己的网络并将其设置为每个 docker-compose 文件中的默认网络。
 
-### 静态文件配置
+## 静态文件配置
 
 所谓静态配置指的事很少发生变动，配置可以应用到整个所有服务中，如日志、服务发现、服务指标监控等这些配置，在此示例只做文件配置展示，具体详细描述[前往](../expand/traefik/README.md)
 
@@ -100,7 +100,7 @@ certificatesResolvers: # TLS 证书配置
         entryPoint: http # 指定哪个入口点刷新证书
 ```
 
-### 动态配置文件
+## 动态配置文件
 
 动态配置分两种，一是指影响整个服务配置，如统一入口点、负载均衡、全局中间件等，二是指每个容器服务的单独配置，如服务自定义中间件、认证转发等单个配置
 
@@ -166,7 +166,7 @@ tls: # TLS 相关配置
       minVersion: VersionTLS12
 ```
 
-### docker-compose 配置
+## docker-compose 配置
 
 通过 docker-compose 配置启动 Traefik 服务
 
@@ -206,7 +206,7 @@ networks:
 
 ```
 
-### 启动查看、控制面板
+## 启动查看、控制面板
 
 ```shell
 docker-compose up -d
