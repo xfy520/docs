@@ -29,7 +29,7 @@ export default defineUserConfig<DefaultThemeOptions, UserConfig>({
     [
       '@vuepress/plugin-prismjs',
       {
-        preloadLanguages: ['java', 'css', 'javascript', 'typescript', 'html', 'json']
+        preloadLanguages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml']
       }
     ]
   ],
