@@ -47,10 +47,6 @@
 
 Prometheus 监控平台主要是提供了数据采集和存储功能，当要根据事件触发告警时则需要依赖 [Alertmanager](https://github.com/prometheus/alertmanager) 组件来完成或者使用 Grafana Alerting。AlertManager 支持告警分组，可以将同个分组下的多个告警告警到一封邮件中进行发送，减少骚扰；另外还有告警抑制功能，避免发生某个故障出现后导致其他一系列故障一起告警形成告警风暴的问题，还有告警静默功能，让同时间段内的告警不重复发出。
 
-## Pushgateway
-
-[Pushgateway](https://github.com/prometheus/pushgateway) 存在允许短暂和批量作业将其指标暴露给 Prometheus。由于这些工作的生命周期可能不足够长，不能够存在足够的时间以让 Prometheus 抓取它们的指标。Pushgateway 允许它们可以将其指标推送到 Pushgateway，然后 Pushgateway 再将这些指标暴露给 Prometheus 抓取。Pushgateway是一个独立的服务，Pushgateway位于应用程序发送指标和Prometheus服务器之间。Pushgateway接收指标，然后将其作为目标被Prometheus服务器拉取。可以将其看作代理服务。
-
 ## Grafana
 
 [Grafana](https://grafana.com/) 是一款采用 Go 语言编写的开源应用，是一款跨平台的开源的度量分析和可视化工具，通过将采集的数据查询然后可视化的展示，并及时通知，目前已支持大部分常用的时序数据库。

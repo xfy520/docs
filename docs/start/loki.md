@@ -1,1 +1,102 @@
 # Loki 安装
+
+Grafana Loki 是一个日志聚合工具，它是功能齐全的日志堆栈的核心。Loki 是一个为有效保存日志数据而优化的数据存储。日志数据的高效索引将 Loki 与其他日志系统区分开来。与其他日志系统不同，Loki 索引是根据标签构建的，原始日志消息未编入索引，同样 Loki 安装也需要一份 local-config.yaml 配置文件进行相关配置。
+
+## local-config.yaml 配置
+
+```yaml
+auth_enabled: false # 是否开启认证
+server: # Loki 服务配置
+  http_listen_port: 3100 # 监听端口3100
+
+ingester: # 采集器配置
+  lifecycler:
+    address: 127.0.0.1
+    ring:
+      kvstore: # 用于环的后端存储配置
+        store: inmemory # 存储方式配置为内存，支持onsul、etcd、inmemory、memberlist
+      replication_factor: 1 # 要写入和读取的摄取器的数量
+    final_sleep: 0s # 退出前休眠的持续时间，以确保抓取指标
+  chunk_idle_period: 1h # 之前没有更新的块应该在内存中停留多长时间
+  max_chunk_age: 1h # 时间序列块在内存中的最大持续时间
+  chunk_target_size: 1048576 # 块的目标 _compressed_ 大小（以字节为单位）
+  chunk_retain_period: 30s # 块被刷新后应该在内存中保留多长时间
+  max_transfer_retries: 0 # 之前离开时尝试传输块的次数，这里禁用块传输
+
+schema_config: # 从给定日期配置模式
+  configs:
+  - from: 2021-09-27 # 应该创建索引存储桶的第一天的日期
+    store: boltdb-shipper # 用于索引的存储，支持 aws、aws-dynamo、gcp、bigtable、bigtable-hashed、cassandra, boltdb
+    object_store: filesystem # 块存储方式，filesystem、支持 aws、azure、gcp
+    schema: v11 # 要使用的架构版本，当前推荐的架构是 v11
+    index: # 配置索引的更新和存储方式
+      prefix: index_ # 所有期间表的表前缀
+      period: 24h # 更新周期
+
+storage_config: # 存储配置
+  boltdb_shipper:
+    active_index_directory: /loki/boltdb-shipper-active # 接收程序将在其中写入boltdb文件的目录
+    cache_location: /loki/boltdb-shipper-cache # 用于还原boltDB文件以进行查询的缓存位置
+    cache_ttl: 24h # 在缓存中还原的用于查询的boltDB文件的TTL
+    shared_store: filesystem # 用于保存boltdb文件的共享存储，支持的类型：gcs、s3、azure、swift、filesystem
+  filesystem: # 当配置中存在文件系统时才需要必需字段
+    directory: /loki/chunks # 用于存储块的目录
+
+compactor: # 压缩配置
+  working_directory: /loki/boltdb-shipper-compactor # 可以下载文件进行压缩的目录
+  shared_store: filesystem # 用于存储 boltdb 文件的共享存储，支持的类型：gcs、s3、azure、swift、filesystem。
+
+limits_config: # 限制配置
+  reject_old_samples: true # 旧样品是否将被拒绝
+  reject_old_samples_max_age: 168h # 拒绝前的最大接受样品时间
+
+chunk_store_config: # 块缓存配置
+  max_look_back_period: 0s # 限制可以查询多长时间的回溯数据，默认为禁用。
+
+table_manager: # 块配置 Loki 表管理器
+  retention_deletes_enabled: false # Master 'on-switch' 用于表保留删除。
+  retention_period: 0s # 在删除前表将保留多久(0s禁用删除)
+
+ruler:
+  storage:
+    type: local # 用于后端规则存储的方法（azure、gcs、s3、swift、local）
+    local:
+      directory: /loki/rules # 扫描规则的目录
+  rule_path: /loki/rules-temp # 存储临时规则文件的文件路径
+  alertmanager_url: http://alertmanager:9093 # Alertmanager 服务地址列表，以逗号隔开
+  ring:
+    kvstore:
+      store: inmemory # 用于环的后端存储，支持的值有：consul、etcd、inmemory, memberlist, multi.
+  enable_api: true # 启用标记 api
+```
+
+## docker-compose 配置
+
+```yaml
+version: '3.8'
+
+services:
+  loki:
+    image: grafana/loki:main-66b1d2c-amd64
+    container_name: loki
+    restart: always
+    user: root
+    networks:
+      - traefik_net
+    expose:
+      - "3100"
+    volumes:
+      - ./loki/local-config.yaml:/etc/loki/local-config.yaml # 映射配置文件路径
+      - ./loki/loki_data:/loki # 映射所有文件存储路径
+    command: -config.file=/etc/loki/local-config.yaml # 通过命令设置配置文件
+
+networks:
+  traefik_net:
+    external: true
+```
+
+## 启动运行查看
+
+```sh
+docker-compose up -d
+```
