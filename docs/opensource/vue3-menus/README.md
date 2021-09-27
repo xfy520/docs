@@ -58,3 +58,38 @@ yarn add vue3-menus
   };
   Vue.createApp(vue3Composition).use(Vue3Menus).mount("#app");
 ```
+
+### Vite下使用
+
+##### 使用方式1
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import Vue3Menus from 'https://esm.sh/vue3-menus@1.0.5'; // 也可以将1.0.3换成其他版本号
+const app = createApp(App);
+app.mount('#app');
+```
+
+##### 使用方式2
+
+> 在vite配置文件vite.config中进行别名替换
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import Vue3Menus from 'vue3-menus';
+const app = createApp(App);
+app.mount('#app');
+```
+
+```js
+export default {
+  resolve: {
+    alias: {
+      // 其他配置
+      'vue3-menus': 'https://esm.sh/vue3-menus@1.0.5'// 也可以将1.0.3换成其他版本号
+    }
+  }
+}
+```

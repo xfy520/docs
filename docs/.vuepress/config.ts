@@ -4,9 +4,8 @@ import { resolve } from 'path';
 import type { DefaultThemeOptions } from '@vuepress/theme-default';
 import { navbar, sidebar } from './configs';
 
-const externals = {
-  'v-viewer': 'VueViewer',
-};
+const isProd = process.env.NODE_ENV === 'production';
+
 
 export default defineUserConfig<DefaultThemeOptions, UserConfig>({
   base: '/',
@@ -16,7 +15,6 @@ export default defineUserConfig<DefaultThemeOptions, UserConfig>({
   head: [
     ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/viewerjs/dist/viewer.css' }]
   ],
   plugins: [
     [
@@ -56,7 +54,7 @@ export default defineUserConfig<DefaultThemeOptions, UserConfig>({
 
     }
   },
-  bundler: '@vuepress/vite',
+  bundler: process.env.DOCS_BUNDLER ?? (isProd ? '@vuepress/webpack' : '@vuepress/vite'),
   dest: `${__dirname}../../../.dist`,
   temp: `${__dirname}../../../.temp`,
   cache: `${__dirname}../../../.cache`,
