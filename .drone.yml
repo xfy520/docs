@@ -62,7 +62,7 @@ steps:
   privileged: true
   environment:
     DOCKER_URL:
-      from_secret: docker_url
+      from_secret: my_docker_url
   volumes:
     - name: github
       path: /drone/src
@@ -95,7 +95,7 @@ steps:
     DOCKER_PASSWORD:
       from_secret: docker_password
     DOCKER_URL:
-      from_secret: docker_url
+      from_secret: my_docker_url
   commands:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ${DOCKER_URL}
   - list=$(docker ps -a| grep docs-app* | awk '{print $1}')
@@ -151,10 +151,10 @@ get:
   name: docker_password
 ---
 kind: secret
-name: docker_url
+name: my_docker_url
 get:
   path: drone/data/docs
-  name: docker_url
+  name: my_docker_url
 
 ---
 kind: pipeline
