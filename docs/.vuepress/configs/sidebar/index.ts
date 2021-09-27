@@ -16,6 +16,7 @@ const sidebar: SidebarConfig = {
         '/start/nodeexporter.md',
         '/start/prometheus.md',
         '/start/grafana.md',
+        '/start/end.md',
       ],
     },
   ],

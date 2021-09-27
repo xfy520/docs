@@ -1,0 +1,10 @@
+groups:
+- name: <string> # 警报规则组的名称
+  rules:
+  - alert: <string> # 警报规则的名称
+    expr: <string> # 使用PromQL表达式完成的警报触发条件，用于计算是否有满足触发条件
+    for:  [ <duration> | default 0 ] # 等待时间
+    labels: # 自定义标签，允许自行定义标签附加在警报上，比如high warning
+      [ <lable_name>: <label_value> ]
+    annotations: # 用来设置有关警报的一组描述信息，其中包括自定义的标签，以及expr计算后的值。
+      [ <lable_name>: <tmpl_string> ]

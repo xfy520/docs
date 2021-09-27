@@ -1,6 +1,6 @@
 # Node Exporter 安装
 
-Node Exporter 安装同样只需要一份 docker-compose 配置文件即可
+Node Exporter 安装同样只需要一份 docker-compose 配置文件即可，详细配置请[前往]()。
 
 ## docker-compose 配置
 

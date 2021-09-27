@@ -1,6 +1,6 @@
 # Traefik 安装
 
-这里主要为了配套搭建完整自动化部署、服务监控、容器编排、容器日志查看、私密信息管理服务安装 Traefik，Traefik详细文档请[跳转](../expand/traefik/README.md)，安装步骤：
+这里主要为了配套搭建完整自动化部署、服务监控、容器编排、容器日志查看、私密信息管理服务安装 Traefik，Traefik详细文档请[跳转](../expand/traefik/README.md)。
 
 1. 创建一个新的 Docker 网络
 2. Traefik 静态配置文件
@@ -136,7 +136,7 @@ http: # 为 HTTP 请求配置
         - "user-auth@file" # 中间件
         - "default-compress" # 中间件
     api:
-      rule: "Host(`traefik.wssio.com`) && PathPrefix(`/api`)" # 匹配 traefik.example.com/api 地址请求
+      rule: "Host(`traefik.example.com`) && PathPrefix(`/api`)" # 匹配 traefik.example.com/api 地址请求
       entrypoints:
         - "https" # 入口点为 HTTPS
       service:
@@ -145,7 +145,7 @@ http: # 为 HTTP 请求配置
         - "user-auth@file"
         - "default-compress"
     ping:
-      rule: "Host(`traefik.wssio.com`) && PathPrefix(`/ping`)" # 匹配 traefik.example.com/ping 地址请求
+      rule: "Host(`traefik.example.com`) && PathPrefix(`/ping`)" # 匹配 traefik.example.com/ping 地址请求
       entrypoints:
         - "https"
       service:
@@ -193,7 +193,7 @@ services:
       - ./traefik/acme.json:/acme.json # 映射 TLS 证书存储路径
       - ./traefik/configurations:/configurations # 映射动态配置目录地址
       - ./traefik/log:/path/to # 映射日志文件目录地址
-      - ./traefik/auth/passwd:/path/to/passwd:ro # 映射基础认证账户数据地址
+      - ./traefik/auth/passwd:/path/to/passwd:ro # 映射基础认证账户数据地址，运行命令：htpasswd -Bbn admin 123456，这里设置账号：admin，密码：123456 生成内容存放 ./traefik/auth/passwd
     networks:
       - traefik_net
     labels:

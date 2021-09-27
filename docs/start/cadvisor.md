@@ -1,6 +1,6 @@
 # cAdvisor 安装
 
-cAdvisor 安装比较简单，直接编写 docker-compose 文件即可启动
+cAdvisor 安装比较简单，直接编写 docker-compose 文件即可启动，详细配置请[前往]()。
 
 ## docker-compose 配置
 
@@ -9,7 +9,7 @@ version: '3.8'
 
 services:
   cadvisor:
-    image: image.wssio.com/gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.40.0
     container_name: cadvisor
     restart: always
     privileged: true

@@ -1,8 +1,8 @@
 # Prometheus 安装
 
-Prometheus 配置主要分两部分，一是配置服务相关设置，二是配置 Prometheus 告警规则
+Prometheus 配置主要分两部分，一是配置服务相关设置，二是配置 Prometheus 告警规则，详细配置请[前往]()。
 
-## 服务启动配置 prometheus.yml
+## 服务启动配置
 
 ```yaml
 global:
@@ -24,9 +24,9 @@ alerting: # Alertmanager相关配置
 
 scrape_configs: # 抓取配置列表
   - job_name: 'nodeexporter'
-    scrape_interval: 5s
+    scrape_interval: 5s # 抓取时间周期
     static_configs:
-      - targets: ['node-exporter:9100']
+      - targets: ['node-exporter:9100'] # 日志抓取目标，可以写成主机+端口，这里使用的容器名+端口
 
   - job_name: 'cadvisor'
     scrape_interval: 5s
@@ -90,10 +90,20 @@ services:
       - "traefik.http.middlewares.prometheus-auth.basicauth.removeheader=true"
       - "traefik.http.middlewares.prometheus-compress.compress=true" # 开启压缩中间件
       - "traefik.http.routers.prometheus.middlewares=prometheus-auth,prometheus-compress" # 添加认证与压缩中间件
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.example.com`)" # 浏览器访问地址
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.example.com`)" # 设置路由规则
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
 
 networks:
   traefik_net:
     external: true
 ```
+
+## 运行容器查看
+
+```sh
+docker-compose up -d
+```
+
+浏览器输入 `https://prometheus.example.com/targets` 查看，输出如下图中类似信息则安装成功
+
+![prometheus](/images/prom.png)

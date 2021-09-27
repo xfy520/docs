@@ -1,0 +1,32 @@
+global:
+  scrape_interval:     15s # 抓取周期
+  evaluation_interval: 15s # 估算规则的周期
+
+  external_labels: # 和外部系统（例如AlertManager）通信时为时间序列或者警情（Alert）强制添加的标签列表
+      monitor: 'my-project'
+
+rule_files: # 规则文件列表
+  - '/etc/prometheus/alert.yml'
+
+alerting: # Alertmanager相关配置
+  alertmanagers:
+  - scheme: http # 请求格式
+    static_configs:
+    - targets:
+      - 'alertmanager:9093' # Alertmanager 服务地址
+
+scrape_configs: # 抓取配置列表
+  - job_name: 'nodeexporter'
+    scrape_interval: 5s # 抓取时间周期
+    static_configs:
+      - targets: ['node-exporter:9100'] # 日志抓取目标，可以写成主机+端口，这里使用的容器名+端口
+
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: 'prometheus'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['prometheus:9090']

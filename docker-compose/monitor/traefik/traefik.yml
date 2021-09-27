@@ -1,0 +1,76 @@
+api:
+  dashboard: true # 是否启用 Traefik Api接口
+  insecure: true # 是否启用 Traefik 控制面板展示
+
+log: # Traefik 日志，涉及本身发生的一切（启动、配置、事件、关闭等）
+  filePath: "/path/to/log-file.log" # 日志文件路径
+  format: json # 日志存储格式
+  level: DEBUG # 日志存储级别
+
+accessLog: # 访问日志配置
+  filePath: "/path/to/access.log" # 日志文件路径
+  format: json # 日志存储格式
+  bufferingSize: 100 # 在写入日志文件之前保存在内存中的日志行数
+  filters: # 日志过滤
+    statusCodes: # 指定访问状态码
+      - "200"
+      - "300-302"
+    retryAttempts: true
+    minDuration: "10ms" # 指定超时时间保留日志
+  fields: # 限制保留指定字段
+    defaultMode: keep
+    names:
+      ClientUsername: drop
+    headers:
+      defaultMode: keep
+      names:
+          User-Agent: redact
+          Authorization: drop
+          Content-Type: keep
+
+metrics: # 服务指标配置，默认请求地址：
+  prometheus: # 启用 Prometheus
+    buckets: # 延迟指标的存储桶
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+
+entryPoints: # 入口点配置
+  http:
+    address: :80 # 监听 80 端口
+    http:
+      redirections: # 转发中间件
+        entryPoint:
+          to: https # 转发到新的入口点，这里转发到 HTTPS
+
+  https:
+    address: :443 # 监听 443 端口
+    http:
+      middlewares: # 中间件
+        - secureHeaders@file
+        - nofloc@file
+      tls: # TLS证书方式
+        certResolver: buypass # 选择 buypass 证书服务配置
+
+pilot:
+  dashboard: false # 官方数据监控面板
+
+ping: {} # ping相关配置
+
+providers: # 服务发现配置
+  docker:
+    endpoint: "unix:///var/run/docker.sock" # 服务者提供配置（必须）
+    exposedByDefault: false # 是否开启所有容器标签监听，如果设置为false，traefik.enable=true则从生成的路由配置中忽略没有标签的容器。
+  file:
+    filename: /configurations/dynamic.yml # 动态配置文件路径
+
+certificatesResolvers: # TLS 证书配置
+  buypass: # 自定义证书服务配置
+    acme:
+      email: your email # 申请邮箱
+      storage: acme.json # 证书内容存放文件路径
+      caServer: https://api.buypass.com/acme/directory # CA服务器地址
+      keyType: EC256 # 生成证书私钥
+      httpChallenge:
+        entryPoint: http # 指定哪个入口点刷新证书

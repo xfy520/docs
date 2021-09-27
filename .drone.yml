@@ -60,6 +60,9 @@ steps:
   image: plugins/docker:linux-amd64
   pull: if-not-exists
   privileged: true
+  environment:
+    DOCKER_URL:
+      from_secret: docker_url
   volumes:
     - name: github
       path: /drone/src
@@ -67,9 +70,9 @@ steps:
     mirror: https://docker.mirrors.ustc.edu.cn
     daemon_off: false
     dockerfile: /drone/src/docs/Dockerfile
-    repo: image.wssio.com/docs
-    registry: image.wssio.com
-    cache_from: image.wssio.com/docs
+    repo: ${DOCKER_URL}/docs
+    registry: $DOCKER_URL
+    cache_from: ${DOCKER_URL}/docs
     auto_tag: true
     context: /drone/src/docs
     cache_from: true
@@ -91,13 +94,15 @@ steps:
       from_secret: docker_username
     DOCKER_PASSWORD:
       from_secret: docker_password
+    DOCKER_URL:
+      from_secret: docker_url
   commands:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_URL
   - list=$(docker ps -a| grep docs-app* | awk '{print $1}')
   - test "$list" = "" && echo "none docs-app containers running" || docker stop $list
   - test "$list" = "" && echo "none docs-app containers running" || docker rm $list
-  - docker rmi image.wssio.com/docs:latest
-  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.middlewares.docs_compress.compress=true" -l "traefik.http.routers.docs-app.middlewares=docs_compress" -l "traefik.http.routers.docs-app.entrypoints=https" -l "traefik.http.routers.docs-app.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs-app.loadbalancer.server.port=8081" --network=proxy  --name=docs-app image.wssio.com/docs:latest
+  - docker rmi ${DOCKER_URL}/docs:latest
+  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.middlewares.docs_compress.compress=true" -l "traefik.http.routers.docs-app.middlewares=docs_compress" -l "traefik.http.routers.docs-app.entrypoints=https" -l "traefik.http.routers.docs-app.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs-app.loadbalancer.server.port=8081" --network=proxy  --name=docs-app ${DOCKER_URL}/docs:latest
 
 - name: 清理
   image: alpine:3.13.6
@@ -144,6 +149,12 @@ name: docker_password
 get:
   path: drone/data/docs
   name: docker_password
+---
+kind: secret
+name: docker_url
+get:
+  path: drone/data/docs
+  name: docker_url
 
 ---
 kind: pipeline

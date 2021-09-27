@@ -1,6 +1,6 @@
 # Alertmanager 安装
 
-Alertmanager 安装很简单，只需要一份配置文件，并在启动 Alertmanager 时指定配置文件即可开启告警功能，alertmanager.yml 配置文件可以配置告警分组、告警路由、告警抑制、告警静默等配置。下面配置一份很简单的告警配置
+Alertmanager 安装很简单，只需要一份配置文件，并在启动 Alertmanager 时指定配置文件即可开启告警功能，alertmanager.yml 配置文件可以配置告警分组、告警路由、告警抑制、告警静默等配置。下面配置一份很简单的告警配置，详细配置请[前往]()。
 
 ## alertmanager.yml 文件
 ```yaml

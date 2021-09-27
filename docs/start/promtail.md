@@ -2,7 +2,7 @@
 
 Promtail 是负责收集日志发送给 Loki 的代理程序，Promtail 默认通过一个 `config.yaml` 文件进行配置，其中包含 Promtail 服务端信息、存储位置以及如何从文件中抓取日志等配置。
 
-这里只是为了搭建服务监控例子，所以只做简单配置，具体详细配置[前往](promtail.md)
+这里只是为了搭建服务监控例子，所以只做简单配置，详细配置请[前往](promtail.md)。
 
 ## config.yml 配置
 
@@ -38,9 +38,9 @@ services:
     container_name: promtail
     restart: always
     volumes:
-      - /home/ubuntu/data/traefik/log:/var/log # Promtail 抓取日志路径映射
-      - /home/ubuntu/data/promtail/config.yml:/etc/promtail/config.yml # 映射 Promtail 配置文件路径
-      - /home/ubuntu/data/promtail/positions.yaml:/tmp/positions.yaml # 映射 Promtail 日志抓取进度记录文件路径
+      - ./traefik/log:/var/log # Promtail 抓取日志路径映射
+      - ./promtail/config.yml:/etc/promtail/config.yml # 映射 Promtail 配置文件路径
+      - ./promtail/positions.yml:/tmp/positions.yml # 映射 Promtail 日志抓取进度记录文件路径
     command: -config.file=/etc/promtail/config.yml # 通过命令的方式设置配置文件
     networks:
       - traefik_net

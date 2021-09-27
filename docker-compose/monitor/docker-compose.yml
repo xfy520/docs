@@ -1,0 +1,179 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.5.2
+    container_name: traefik
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    expose:
+      - 8080 # 导出内部 8080 端口，以便 Prometheus 拉取日志数据
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # 设置容器时区
+      - /etc/timezone:/etc/timezone:ro # 设置容器时区
+      - /var/run/docker.sock:/var/run/docker.sock:ro # 暴露 Docker Api
+      - ./traefik/traefik.yml:/traefik.yml:ro # 映射 Traefik 静态配置文件
+      - ./traefik/acme.json:/acme.json # 映射 TLS 证书存储路径
+      - ./traefik/configurations:/configurations # 映射动态配置目录地址
+      - ./traefik/log:/path/to # 映射日志文件目录地址
+      - ./traefik/auth/passwd:/path/to/passwd:ro # 映射基础认证账户数据地址，运行命令：htpasswd -Bbn admin 123456，这里设置账号：admin，密码：123456 生成内容存放 ./traefik/auth/passwd
+    networks:
+      - traefik_net
+    labels:
+      - "traefik.enable=true" # 开启 Traefik 服务自发现
+      - "traefik.docker.network=traefik_net" # 设置所属网络
+
+  promtail:
+    image: grafana/promtail:k63-64e2a36-amd64
+    container_name: promtail
+    restart: always
+    networks:
+      - traefik_net
+    depends_on:
+      - traefik
+    volumes:
+      - ./traefik/log:/var/log # Promtail 抓取日志路径映射
+      - ./promtail/config.yml:/etc/promtail/config.yml # 映射 Promtail 配置文件路径
+      - ./promtail/positions.yml:/tmp/positions.yml # 映射 Promtail 日志抓取进度记录文件路径
+    command: -config.file=/etc/promtail/config.yml # 通过命令的方式设置配置文件
+
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    container_name: alertmanager
+    restart: always
+    networks:
+      - traefik_net
+    depends_on:
+      - promtail
+    expose:
+      - 9093
+    volumes:
+        - ./alertmanager:/etc/alertmanager # 映射配置文件所在目录路径
+        - ./alertmanager/data:/alertmanager # 映射 alertmanager 根目录
+    command:
+      - '--config.file=/etc/alertmanager/config.yml' # 通过命令方式指定配置文件
+      - '--storage.path./alertmanager' # 通过命令设置数据存储路径
+
+  loki:
+    image: grafana/loki:main-66b1d2c-amd64
+    container_name: loki
+    restart: always
+    user: root
+    networks:
+      - traefik_net
+    expose:
+      - "3100"
+    depends_on:
+      - traefik
+      - promtail
+    volumes:
+      - ./loki/local-config.yml:/etc/loki/local-config.yml # 映射配置文件路径
+      - ./loki/loki_data:/loki # 映射所有文件存储路径
+    command: -config.file=/etc/loki/local-config.yml # 通过命令设置配置文件
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.40.0
+    container_name: cadvisor
+    restart: always
+    privileged: true
+    expose:
+      - 8080
+    networks:
+      - traefik_net
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    volumes: # 映射 docker 相关文件
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
+      - /dev/disk/:/dev/disk:ro
+
+  node-exporter:
+    image: prom/node-exporter:v1.2.2
+    container_name: node-exporter
+    restart: unless-stopped
+    expose:
+      - 9100
+    networks:
+      - traefik_net
+    volumes: # 映射系统相关文件
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - ./node_exporter:/node_exporter/prom
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs' # 启动容器以进行主机监视
+      - '--path.sysfs=/host/sys'
+      - '--collector.textfile.directory=/node_exporter/prom' # 指定本地文本收集路径，收集文本信息
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)' # 通过正则表达式忽略某些文件系统挂载点的信息收集
+
+  prometheus:
+    image: prom/prometheus:v2.30.0
+    container_name: prometheus
+    restart: always
+    user: "root" # 设置启动用户
+    expose:
+      - 9090
+    networks:
+      - traefik_net
+    depends_on:
+      - traefik
+      - cadvisor
+      - node-exporter
+    volumes:
+      - ./prometheus/:/etc/prometheus/ # 映射 Prometheus 配置文件所在目录
+      - ./prometheus/alert.yml:/etc/prometheus/alert.yml # 映射 规则文件所在路径
+      - ./prometheus/prometheus_data:/prometheus # 映射 Prometheus 数据目录
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml' # 命令设置配置文件
+      - '--storage.tsdb.path=/prometheus' # 命令设置 Prometheus 数据存放目录
+      - '--web.console.libraries=/etc/prometheus/console_libraries' # 控制台还可以访问在标志指向的目录
+      - '--web.console.templates=/etc/prometheus/consoles' # 控制台在输出标志指向的目录
+      - '--storage.tsdb.retention.time=200h' # 何时删除旧数据
+      - '--web.enable-lifecycle' # 如果 Prometheus 未使用，启动--web.enable-lifecycle
+    labels:
+      - "traefik.enable=true" # 启用 Traefik 容器扫描
+      - "traefik.backend=prometheus"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.prometheus.entrypoints=https" # 入口点 HTTPS
+      - "traefik.http.middlewares.prometheus-auth.basicauth.users=admin:$2y$05$zgdK8VMqVKsPpW7RYORvZO3aronGDtTi9VBvdFKs6bZON.KU6mcqu" # 基础认证账号密码，运行命令：htpasswd -Bbn admin 123456，这里设置账号：admin，密码：123456
+      - "traefik.http.middlewares.prometheus-auth.basicauth.removeheader=true"
+      - "traefik.http.middlewares.prometheus-compress.compress=true" # 开启压缩中间件
+      - "traefik.http.routers.prometheus.middlewares=prometheus-auth,prometheus-compress" # 添加认证与压缩中间件
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.example.com`)" # 设置路由规则
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+
+  grafana:
+    image: grafana/grafana:8.1.3
+    container_name: grafana
+    restart: always
+    user: "root" # 同样设置root用户启动，因为需要写入数据
+    networks:
+      - traefik_net
+    volumes:
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards # 映射面板配置目录
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources # 映射数据源配置目录
+      - ./grafana/grafana_data:/var/lib/grafana # 映射数据存放目录
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=123456 # 设置登录密码环境变量，默认账号admin
+      - GF_USERS_ALLOW_SIGN_UP=false # 设置为false时表示禁止⽤用户注册/创建用户账号
+    labels:
+      - "traefik.enable=true" # 暴露给 Traefik
+      - "traefik.backend=grafana"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.grafana.entrypoints=https"
+      - "traefik.http.middlewares.grafana_compress.compress=true" # 开启压缩中间件
+      - "traefik.http.routers.grafana.middlewares=grafana_compress" # 设置压缩中间件
+      - "traefik.http.routers.grafana.rule=Host(`grafana.example.com`)" # 设置路由规则
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
+networks:
+  traefik_net:
+    external: true

@@ -1,10 +1,3 @@
-# Loki 安装
-
-Grafana Loki 是一个日志聚合工具，它是功能齐全的日志堆栈的核心。Loki 是一个为有效保存日志数据而优化的数据存储。日志数据的高效索引将 Loki 与其他日志系统区分开来。与其他日志系统不同，Loki 索引是根据标签构建的，原始日志消息未编入索引，同样 Loki 安装也需要一份 local-config.yaml 配置文件进行相关配置，详细配置请[前往]()。
-
-## local-config.yml 配置
-
-```yaml
 auth_enabled: false # 是否开启认证
 server: # Loki 服务配置
   http_listen_port: 3100 # 监听端口3100
@@ -68,35 +61,3 @@ ruler:
     kvstore:
       store: inmemory # 用于环的后端存储，支持的值有：consul、etcd、inmemory, memberlist, multi.
   enable_api: true # 启用标记 api
-```
-
-## docker-compose 配置
-
-```yaml
-version: '3.8'
-
-services:
-  loki:
-    image: grafana/loki:main-66b1d2c-amd64
-    container_name: loki
-    restart: always
-    user: root
-    networks:
-      - traefik_net
-    expose:
-      - "3100"
-    volumes:
-      - ./loki/local-config.yml:/etc/loki/local-config.yml # 映射配置文件路径
-      - ./loki/loki_data:/loki # 映射所有文件存储路径
-    command: -config.file=/etc/loki/local-config.yml # 通过命令设置配置文件
-
-networks:
-  traefik_net:
-    external: true
-```
-
-## 启动运行查看
-
-```sh
-docker-compose up -d
-```

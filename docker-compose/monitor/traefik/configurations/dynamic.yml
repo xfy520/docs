@@ -1,0 +1,57 @@
+http: # 为 HTTP 请求配置
+  middlewares: # 中间件配置
+    default-compress:
+      compress: true # 开启压缩
+    nofloc:
+      headers: # 头部信息配置
+        customResponseHeaders: # 要应用于响应的头部key-value
+          Permissions-Policy: "interest-cohort=()"
+    secureHeaders:
+      headers:
+        sslRedirect: true # 只允许 HTTPS 请求
+        forceSTSHeader: true # 即使连接是 HTTP，也设置forceSTSHeader为true添加 STS 标头
+        stsIncludeSubdomains: true # 将includeSubDomains指令附加到Strict-Transport-Security标头
+        stsPreload: true # 将preload标志附加到Strict-Transport-Security标头。
+        stsSeconds: 31536000
+    user-auth:
+      basicAuth: # 基础认证配置
+        usersFile: "/path/to/passwd" # 认证方式
+  routers: # 路由规则配置
+    dashboard:
+      rule: "Host(`traefik.example.com`)" # 匹配 traefik.example.com 地址请求
+      entrypoints:
+        - "https" # 入口点为 HTTPS
+      service:
+        "dashboard@internal" # 导向到指定服务
+      middlewares:
+        - "user-auth@file" # 中间件
+        - "default-compress" # 中间件
+    api:
+      rule: "Host(`traefik.example.com`) && PathPrefix(`/api`)" # 匹配 traefik.example.com/api 地址请求
+      entrypoints:
+        - "https" # 入口点为 HTTPS
+      service:
+        "api@internal" # 导向到指定服务
+      middlewares:
+        - "user-auth@file"
+        - "default-compress"
+    ping:
+      rule: "Host(`traefik.example.com`) && PathPrefix(`/ping`)" # 匹配 traefik.example.com/ping 地址请求
+      entrypoints:
+        - "https"
+      service:
+        "ping@internal" # 导向到指定服务
+      middlewares:
+        - "user-auth@file"
+
+tls: # TLS 相关配置
+  options:
+    default:
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+      minVersion: VersionTLS12
