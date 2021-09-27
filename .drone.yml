@@ -71,7 +71,7 @@ steps:
     daemon_off: false
     dockerfile: /drone/src/docs/Dockerfile
     repo: ${DOCKER_URL}/docs
-    registry: $DOCKER_URL
+    registry: ${DOCKER_URL}
     cache_from: ${DOCKER_URL}/docs
     auto_tag: true
     context: /drone/src/docs
@@ -97,7 +97,7 @@ steps:
     DOCKER_URL:
       from_secret: docker_url
   commands:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_URL
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ${DOCKER_URL}
   - list=$(docker ps -a| grep docs-app* | awk '{print $1}')
   - test "$list" = "" && echo "none docs-app containers running" || docker stop $list
   - test "$list" = "" && echo "none docs-app containers running" || docker rm $list
