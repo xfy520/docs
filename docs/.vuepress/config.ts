@@ -1,6 +1,6 @@
 import { defineUserConfig } from '@vuepress/cli';
 import { UserConfig } from 'vite';
-import { Options } from '@vitejs/plugin-vue';
+import { resolve } from 'path';
 import type { DefaultThemeOptions } from '@vuepress/theme-default';
 import { navbar, sidebar } from './configs';
 
@@ -63,5 +63,14 @@ export default defineUserConfig<DefaultThemeOptions, UserConfig>({
   port: 8081,
   open: false,
   bundlerConfig: {
+  },
+  alias: {
+    '@js': resolve(__dirname, './public/js'),
+  },
+  markdown: {
+    importCode: {
+      handleImportPath: (str) =>
+        str.replace(/^@js/, resolve(__dirname, 'public/js')),
+    },
   },
 })

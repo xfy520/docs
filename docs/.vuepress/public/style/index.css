@@ -12,3 +12,11 @@
   margin:0 0 0 1%;
   cursor: pointer;
 }
+
+.vue3-menus-item {
+  margin-top: 1rem;
+  background-color: aqua;
+  line-height: 7rem;
+  height: 7rem;
+  text-align: center;
+}
