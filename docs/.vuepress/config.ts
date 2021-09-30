@@ -1,13 +1,11 @@
 import { defineUserConfig } from '@vuepress/cli';
-import { UserConfig } from 'vite';
 import { resolve } from 'path';
 import type { DefaultThemeOptions } from '@vuepress/theme-default';
 import { navbar, sidebar } from './configs';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-
-export default defineUserConfig<DefaultThemeOptions, UserConfig>({
+export default defineUserConfig<DefaultThemeOptions>({
   base: '/',
   lang: 'zh-CN',
   title: '技术杂谈',
@@ -60,8 +58,6 @@ export default defineUserConfig<DefaultThemeOptions, UserConfig>({
   cache: `${__dirname}../../../.cache`,
   port: 8081,
   open: false,
-  bundlerConfig: {
-  },
   alias: {
     '@js': resolve(__dirname, './public/js'),
   },

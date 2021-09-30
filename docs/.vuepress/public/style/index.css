@@ -20,3 +20,27 @@
   height: 7rem;
   text-align: center;
 }
+
+
+.vue3-seamless-scroll-scroll {
+  display: inline-block;
+  height: 300px;
+  width: 100%;
+  text-align: center;
+  margin: 0 25px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vue3-seamless-scroll-scroll>div:first-child {
+  margin-top: 15px;
+  height: 260px;
+  overflow: hidden;
+}
+
+.vue3-seamless-scroll-scroll .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+}
