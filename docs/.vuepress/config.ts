@@ -1,34 +1,51 @@
 import { defineUserConfig } from '@vuepress/cli';
+import { HeadConfig } from '@vuepress/shared';
+import { PluginConfig } from '@vuepress/core';
 import { resolve } from 'path';
 import type { DefaultThemeOptions } from '@vuepress/theme-default';
 import { navbar, sidebar } from './configs';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+const head: HeadConfig[] = [
+  ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
+  ['link', { rel: 'icon', href: '/favicon.ico' }]
+];
+
+const plugins: PluginConfig[] = [
+  [
+    '@vuepress/plugin-search',
+    {
+      placeholder: '搜索',
+      hotKeys: ['s', '/']
+    }
+  ],
+  [
+    '@vuepress/plugin-prismjs',
+    {
+      preloadLanguages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml']
+    }
+  ]
+];
+
+if (isProd) {
+  head.push(['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }]);
+  head.push(['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }]);
+  plugins.push([
+    '@vuepress/plugin-google-analytics',
+    {
+      id: 'G-5SQHLTK55C',
+    },
+  ])
+}
+
 export default defineUserConfig<DefaultThemeOptions>({
   base: '/',
   lang: 'zh-CN',
   title: '技术杂谈',
   description: '欢迎来到闲聊世界',
-  head: [
-    ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
-  ],
-  plugins: [
-    [
-      '@vuepress/plugin-search',
-      {
-        placeholder: '搜索',
-        hotKeys: ['s', '/']
-      }
-    ],
-    [
-      '@vuepress/plugin-prismjs',
-      {
-        preloadLanguages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml']
-      }
-    ]
-  ],
+  head,
+  plugins,
   themeConfig: {
     navbar,
     sidebar,
@@ -67,4 +84,4 @@ export default defineUserConfig<DefaultThemeOptions>({
         str.replace(/^@js/, resolve(__dirname, 'public/js')),
     },
   },
-})
+});

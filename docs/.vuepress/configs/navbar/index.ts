@@ -102,7 +102,7 @@ const navbar: NavbarConfig = [
       },
       {
         text: 'CSS',
-        link: '/frontend/css/README.md',
+        link: '/frontend/css/',
       },
     ],
   },

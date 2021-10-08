@@ -99,6 +99,9 @@ const sidebar: SidebarConfig = {
       ],
     },
   ],
+  '/frontend/css/': [
+    '/frontend/css/README.md'
+  ]
 };
 
 export default sidebar;
