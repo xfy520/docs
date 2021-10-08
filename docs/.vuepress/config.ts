@@ -9,6 +9,9 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const head: HeadConfig[] = [
   ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
+  ['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }],
+  ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
+  ['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }],
   ['link', { rel: 'icon', href: '/favicon.ico' }]
 ];
 
@@ -25,26 +28,21 @@ const plugins: PluginConfig[] = [
     {
       preloadLanguages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml']
     }
-  ]
-];
-
-if (isProd) {
-  head.push(['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }]);
-  head.push(['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }]);
-  plugins.push([
+  ],
+  [
     '@vuepress/plugin-google-analytics',
     {
       id: 'G-5SQHLTK55C',
     },
-  ]);
-  plugins.push([
+  ],
+  [
     '@mr-hope/sitemap',
     {
       hostname: 'https://doc.wssio.com',
       exclude: ['/404.html']
     },
-  ])
-}
+  ]
+];
 
 export default defineUserConfig<DefaultThemeOptions>({
   base: '/',
