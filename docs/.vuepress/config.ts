@@ -36,7 +36,7 @@ const plugins: PluginConfig[] = [
     },
   ],
   [
-    '@mr-hope/sitemap',
+    'sitemap',
     {
       hostname: 'https://doc.wssio.com',
       exclude: ['/404.html']
