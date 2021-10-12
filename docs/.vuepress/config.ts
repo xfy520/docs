@@ -34,13 +34,6 @@ const plugins: PluginConfig[] = [
     {
       id: 'G-5SQHLTK55C',
     },
-  ],
-  [
-    'sitemap',
-    {
-      hostname: 'https://doc.wssio.com',
-      exclude: ['/404.html']
-    },
   ]
 ];
 

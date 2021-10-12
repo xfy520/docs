@@ -63,6 +63,20 @@ const sidebar: SidebarConfig = {
       ],
     },
   ],
+  '/opensource/v3-color-picker/': [
+    {
+      text: 'v3-color-picker',
+      children: [
+        '/opensource/v3-color-picker/README.md',
+        '/opensource/v3-color-picker/options.md',
+        '/opensource/v3-color-picker/example/1.md',
+        '/opensource/v3-color-picker/example/2.md',
+        '/opensource/v3-color-picker/example/3.md',
+        '/opensource/v3-color-picker/example/4.md',
+        '/opensource/v3-color-picker/example/5.md',
+      ],
+    },
+  ],
   '/opensource/vue3-seamless-scroll/': [
     {
       text: 'vue3-seamless-scroll',

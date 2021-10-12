@@ -44,3 +44,20 @@
   justify-content: space-between;
   padding: 3px 0;
 }
+
+.v3-color-picker {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  justify-content: space-around;
+}
+
+.v3-color-picker-item {
+  color: red;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

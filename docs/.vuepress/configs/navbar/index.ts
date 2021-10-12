@@ -23,6 +23,10 @@ const navbar: NavbarConfig = [
         link: '/opensource/vue3-menus/'
       },
       {
+        text: 'v3-color-picker',
+        link: '/opensource/v3-color-picker/'
+      },
+      {
         text: 'v-page-generator',
         link: '/opensource/v-page-generator/'
       },
