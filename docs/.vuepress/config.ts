@@ -24,9 +24,11 @@ const plugins: PluginConfig[] = [
     }
   ],
   [
-    '@vuepress/plugin-prismjs',
+    resolve(__dirname, './plugins/prismjs'),
     {
-      preloadLanguages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml']
+      languages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml', 'diff'],
+      plugins: ["inline-color", "autolinker", "data-uri-highlight", "diff-highlight"],
+      theme: "dark",
     }
   ],
   [
@@ -64,8 +66,8 @@ export default defineUserConfig<DefaultThemeOptions>({
     toggleDarkMode: '切换夜间模式',
     toggleSidebar: '切换侧边栏',
     themePlugins: {
-
-    }
+      prismjs: false,
+    },
   },
   bundler: process.env.DOCS_BUNDLER ?? (isProd ? '@vuepress/webpack' : '@vuepress/vite'),
   dest: `${__dirname}../../../.dist`,
@@ -80,6 +82,6 @@ export default defineUserConfig<DefaultThemeOptions>({
     importCode: {
       handleImportPath: (str) =>
         str.replace(/^@js/, resolve(__dirname, 'public/js')),
-    },
+    }
   },
 });

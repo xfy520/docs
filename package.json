@@ -12,10 +12,12 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/prismjs": "^1.16.6",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "@vuepress/plugin-google-analytics": "^2.0.0-beta.26",
     "@vuepress/plugin-search": "^2.0.0-beta.26",
+    "clean-css": "^5.2.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
