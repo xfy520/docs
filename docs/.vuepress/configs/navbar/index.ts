@@ -1,7 +1,6 @@
 import type { NavbarConfig } from '@vuepress/theme-default'
 
 // 顶部导航栏
-
 const navbar: NavbarConfig = [
   {
     text: '开始',

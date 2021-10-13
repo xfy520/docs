@@ -4,6 +4,25 @@ Vue3.0 原生颜色选择器，与浏览器自带几乎一样，支持 Vite2.0�
 
 ![演示](/images/opensource/v3-color-picker.png)
 
+```js
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ * MIT license http://www.opensource.org/licenses/mit-license.php/
+ * @author Lea Verou http://lea.verou.me
+ * Reach Lea at fake@email.com (no, not really)
+ * And this is a Markdown link. Sweet, huh?
+ */
+var foo = 5;
+// And a single line comment http://google.com
+```
+
+```html
+<!-- Links in HTML, woo!
+Lea Verou http://lea.verou.me or, with Markdown, Lea Verou -->
+<img src="https://prismjs.com/assets/img/spectrum.png" alt="In attributes too!" />
+<p>Autolinking in raw text: http://prismjs.com</p>
+```
+
 <ClientOnly>
   <v3-color-picker v-model:value="color" btn></v3-color-picker>
   <v3-color-picker v-model:value="color" size="medium" btn></v3-color-picker>
@@ -95,10 +114,6 @@ export default defineComponent({
   width: 100%;
 }
 </style>
-```
-
-```css
-
 ```
 
 ### 指令方式使用

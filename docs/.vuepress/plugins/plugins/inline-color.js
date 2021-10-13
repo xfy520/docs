@@ -23,7 +23,7 @@ class Color {
   _f = null;
   v = null;
 
-  constructor(color) {
+  constructor (color) {
     if (color === null) {
       this.v = null;
     } else if (color === 'transparent') {

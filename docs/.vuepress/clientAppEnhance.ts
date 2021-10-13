@@ -13,7 +13,6 @@ export default defineClientAppEnhance(({ app, router }) => {
   }
   app.component('vue3-menus', Vue3Menus);
   app.config.globalProperties.$menusEvent = menusEvent;
-
   router.beforeEach((to, _from, next) => {
     // @ts-ignore
     if (typeof _hmt != 'undefined') {

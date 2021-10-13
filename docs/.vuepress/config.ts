@@ -24,9 +24,9 @@ const plugins: PluginConfig[] = [
     }
   ],
   [
-    resolve(__dirname, './plugins/prismjs'),
+    resolve(__dirname, './plugins'),
     {
-      languages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml', 'diff'],
+      languages: ['java', 'markup', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml', 'diff'],
       plugins: ["inline-color", "autolinker", "data-uri-highlight", "diff-highlight"],
       theme: "dark",
     }
@@ -79,6 +79,10 @@ export default defineUserConfig<DefaultThemeOptions>({
     '@js': resolve(__dirname, './public/js'),
   },
   markdown: {
+    code: {
+      preWrapper: false,
+    },
+    customComponent: false,
     importCode: {
       handleImportPath: (str) =>
         str.replace(/^@js/, resolve(__dirname, 'public/js')),
