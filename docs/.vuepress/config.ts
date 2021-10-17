@@ -12,7 +12,7 @@ const head: HeadConfig[] = [
   ['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }],
   ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
   ['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }],
-  ['link', { rel: 'icon', href: '/favicon.ico' }]
+  ['link', { rel: 'icon', href: '/favicon.ico' }],
 ];
 
 const plugins: PluginConfig[] = [
@@ -20,23 +20,23 @@ const plugins: PluginConfig[] = [
     '@vuepress/plugin-search',
     {
       placeholder: '搜索',
-      hotKeys: ['s', '/']
-    }
+      hotKeys: ['s', '/'],
+    },
   ],
   [
     resolve(__dirname, './plugins'),
     {
-      languages: ['java', 'markup', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml', 'diff'],
-      plugins: ["inline-color", "autolinker", "data-uri-highlight", "diff-highlight"],
+      languages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml', 'diff'],
+      plugins: ['inline-color', 'autolinker', 'data-uri-highlight', 'diff-highlight', 'treeview', 'highlight-keywords', 'line-numbers'],
       theme: "dark",
-    }
+    },
   ],
   [
     '@vuepress/plugin-google-analytics',
     {
       id: 'G-5SQHLTK55C',
     },
-  ]
+  ],
 ];
 
 export default defineUserConfig<DefaultThemeOptions>({
@@ -84,8 +84,7 @@ export default defineUserConfig<DefaultThemeOptions>({
     },
     customComponent: false,
     importCode: {
-      handleImportPath: (str) =>
-        str.replace(/^@js/, resolve(__dirname, 'public/js')),
-    }
+      handleImportPath: (str) => str.replace(/^@js/, resolve(__dirname, 'public/js')),
+    },
   },
 });
