@@ -24,7 +24,7 @@ const plugins: PluginConfig[] = [
     },
   ],
   [
-    resolve(__dirname, './plugins'),
+    'vuepress-plugin-prismjs-next',
     {
       languages: ['java', 'css', 'javascript', 'typescript', 'html', 'json', 'shell', 'yaml', 'diff'],
       plugins: ['inline-color', 'autolinker', 'data-uri-highlight', 'diff-highlight', 'treeview', 'highlight-keywords', 'line-numbers'],
