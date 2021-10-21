@@ -97,6 +97,14 @@ const sidebar: SidebarConfig = {
       ],
     },
   ],
+  '/opensource/vuepress-plugin-prismjs-next/': [
+    {
+      text: 'vuepress-plugin-prismjs-next',
+      children: [
+        '/opensource/vuepress-plugin-prismjs-next/README.md',
+      ],
+    },
+  ],
   '/leetcode/array/': [
     '/leetcode/array/1.md',
     '/leetcode/array/2.md',

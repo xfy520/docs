@@ -33,6 +33,10 @@ const navbar: NavbarConfig = [
         text: 'vue3-seamless-scroll',
         link: '/opensource/vue3-seamless-scroll/'
       },
+      {
+        text: 'vuepress-plugin-prismjs-next',
+        link: '/opensource/vuepress-plugin-prismjs-next/'
+      },
     ]
   },
   {
