@@ -1,95 +1,217 @@
-# 介绍
+# vuepress-plugin-prismjs-next
 
-## Inline color
+## 介绍
 
-```css:no-show-invisibles:no-line-numbers
-span.foo {
- background-color:navy;
- color:#BFD;
-}
+`Vuepress 2.0` 代码美化，基于 `prismjs` 二次封装，使其支持 `SSR` 渲染，[项目地址](https://github.com/xfy520/vuepress-plugin-prismjs-next)，[NPM](https://www.npmjs.com/package/vuepress-plugin-prismjs-next)
 
-span.bar {
- background:rgba(105, 0, 12, .38);
- color:hsl(30, 100%, 50%);
- border-color:transparent;
+主要功能列表：
+
+> - 语言预加载
+> - 主题设置
+> - 内联颜色
+> - 链接突出显示、跳转
+> - 数据 `uri` 突出显示
+> - 格式化空白区域
+> - 显示隐藏符号
+> - 括号匹配
+> - 行号显示
+> - 行高亮
+> - 工具栏、复制、语言显示
+> - 样式预览器
+> - 更多功能等待大家的提出
+
+## 使用
+
+### 安装
+
+```shell
+yarn add --dev vuepress-plugin-prismjs-next
+或者
+npm i vuepress-plugin-prismjs-next --save-dev
+```
+
+### Vuepress 配置
+
+在 `.vuepress` 目录下 `config.ts` 配置文件中添加插件
+
+```ts:no-mb
+export default {
+  plugins: [
+    ['vuepress-plugin-prismjs-next', true], // 开启插件
+  ]
 }
 ```
 
-```less:no-show-invisibles:no-line-numbers
+或者在 `.vuepress` 目录下 `config.js` 配置文件中添加插件
+
+```js:no-mb
+module.exports = {
+  plugins: [
+    ['vuepress-plugin-prismjs-next', true], // 开启插件
+  ]
+}
+```
+
+## 语言预加载
+
+> 配置 `languages` 参数，传入预加载语言列表，默认情况下，语言会在解析 `Markdown` 文件时按需加载。然而， `Prism.js` 在动态加载语言时可能会遇到 [一些潜在的问题](https://github.com/PrismJS/prism/issues/2716)。为了避免这些问题，你可以使用该配置项来预加载一些语言。
+
+```ts:no-mb
+export default {
+  plugins: [
+    ['vuepress-plugin-prismjs-next', {
+      languages: ['shell', 'javascript', 'java'],
+    }],
+  ]
+}
+```
+
+## 插件配置
+
+> 以下均以 `config.ts` 配置文件为例
+
+### inline-color
+
+> 内联颜色，在样式代码中会突显出颜色预览小方块，该插件会默认对所有样式添加预览小方块，如需关闭某个代码块显示可以在指定代码语言后面添加 `:no-ic` 或者 `:no-inline-color`，同 Vuepress [禁用行号](https://v2.vuepress.vuejs.org/zh/guide/markdown.html#%E4%BB%A3%E7%A0%81%E5%9D%97)配置一样，多个禁用操作符可以追加
+
+```ts:no-mb
+export default {
+  plugins: [
+    ['vuepress-plugin-prismjs-next', {
+      languages: ['css', 'less', 'html'],
+      plugins: ['inline-color']
+    }],
+  ]
+}
+```
+
+**css**
+
+```css:no-mb:no-pw
+span.foo {
+  background-color: navy;
+  color: #BFD;
+  background: rgba(105, 0, 12, .38);
+  color: hsl(30, 100%, 50%);
+  border-color: transparent;
+  background: linear-gradient(left, #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%);
+}
+```
+
+**less**
+
+```less:no-mb:no-pw
 @gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
 .example-gradient {
- background: -webkit-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Chrome10+, Safari5.1+ */
- background:    -moz-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* FF3.6+ */
- background:     -ms-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* IE10+ */
- background:      -o-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Opera 11.10+ */
- background:         linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* W3C */
-}
-@angle: 3rad;
-.example-angle {
- transform: rotate(.4turn)
+  background: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
+  color: rgba(105, 0, 12, .38);
 }
 @nice-blue: #5B83AD;
 .example-color {
- color: hsla(102, 53%, 42%, 0.4);
-}
-@easing: cubic-bezier(0.1, 0.3, 1, .4);
-.example-easing {
- transition-timing-function: ease;
-}
-@time: 1s;
-.example-time {
- transition-duration: 2s;
+  color: hsla(102, 53%, 42%, 0.4);
+  background: hsl(30, 100%, 50%);
 }
 ```
 
-```html:no-show-invisibles:no-line-numbers
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<title>Example</title>
+**html**
+
+```html:no-pw
 <style>
-/* Also works here */
-a.not-a-class {
- color:red;
-}
+  a.not-a-class {
+    color: red;
+  }
 </style>
-<body style="color:black">
+<body style="color: black">
 </body>
-</html>
 ```
 
-## autolinker
+**禁用 `inline-color`**
 
-```js:no-show-invisibles:no-line-numbers
+```css:no-mb:no-pw:no-ic
+span.foo {
+  background-color: navy;
+  color: #BFD;
+  background: rgba(105, 0, 12, .38);
+  color: hsl(30, 100%, 50%);
+  border-color: transparent;
+  background: linear-gradient(left, #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%);
+}
+```
+
+### autolinker
+
+> 自动添加超链接，支持 `Markdown` 链接语法，添加后默认全局开启，如需关闭某个代码块显示可以在指定代码语言后面添加 `:no-al` 或者 `:no-autolinker`，同 Vuepress [禁用行号](https://v2.vuepress.vuejs.org/zh/guide/markdown.html#%E4%BB%A3%E7%A0%81%E5%9D%97)配置一样，多个禁用操作符可以追加
+
+```ts:no-mb
+export default {
+  plugins: [
+    ['vuepress-plugin-prismjs-next', {
+      languages: ['css', 'html', 'javascript'],
+      plugins: ['autolinker']
+    }],
+  ]
+}
+```
+
+**js**
+
+```js
 /**
- * Prism: Lightweight, robust, elegant syntax highlighting
  * MIT license http://www.opensource.org/licenses/mit-license.php/
- * @author Lea Verou http://lea.verou.me
- * Reach Lea at fake@email.com (no, not really)
- * And this is a Markdown link. Sweet, huh?
+ * @author Lea Verou https://github.com/xfy520
+ * 邮箱 test@email.com
+ * [Markdown跳转](/opensource/vuepress-plugin-prismjs-next/#autolinker)
  */
 var foo = 5;
-// And a single line comment http://google.com
+// http://google.com
 ```
 
-```css:no-show-invisibles:no-line-numbers
+**css**
+
+```css
 @font-face {
- src: url(http://lea.verou.me/logo.otf);
- font-family: 'LeaVerou';
+	src: url(http://lea.verou.me/logo.otf);
+	font-family: 'LeaVerou';
 }
 ```
 
-```html:no-show-invisibles:no-line-numbers
-<!-- Links in HTML, woo!
-Lea Verou http://lea.verou.me or, with Markdown, Lea Verou -->
+**html**
+
+```html
+<!--Lea Verou http://lea.verou.me or, with Markdown, Lea Verou -->
 <img src="https://prismjs.com/assets/img/spectrum.png" alt="In attributes too!" />
 <p>Autolinking in raw text: http://prismjs.com</p>
 ```
 
-## data-uri-highlight
+**禁用 `autolinker`**
 
-```css:no-show-invisibles:no-line-numbers
+```js:no-al
+/**
+ * MIT license http://www.opensource.org/licenses/mit-license.php/
+ * @author Lea Verou https://github.com/xfy520
+ * 邮箱 test@email.com
+ * [Markdown跳转](/opensource/vuepress-plugin-prismjs-next/#autolinker)
+ */
+var foo = 5;
+// http://google.com
+```
+
+### data-uri-highlight
+
+> 数据 `uri` 突出显示，该插件没有任何样式，需要手动添加样式类 `data-uri`，添加完后全局生效。
+
+```ts:no-mb
+export default {
+  plugins: [
+    ['vuepress-plugin-prismjs-next', {
+      languages: ['css'],
+      plugins: ['data-uri-highlight']
+    }],
+  ]
+}
+```
+
+```css
 div {
     border: 40px solid transparent;
     border-image: 33.334% url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"> \
@@ -102,314 +224,4 @@ div {
     max-width: 20em;
     font: 130%/1.6 Baskerville, Palatino, serif;
 }
-```
-
-## show-invisibles
-
-```css:no-line-numbers
-.token.tab:not(:empty),
-.token.cr,
-.token.lf,
-.token.space {
- position: relative;
-}
-.token.tab:not(:empty):before,
-.token.cr:before,
-.token.lf:before,
-.token.space:before {
- color: #808080;
- opacity: 0.6;
- position: absolute;
-}
-.token.tab:not(:empty):before {
- content: '\21E5';
-}
-.token.cr:before {
- content: '\240D';
-}
-.token.crlf:before {
- content: '\240D\240A';
-}
-.token.lf:before {
- content: '\240A';
-}
-.token.space:before {
- content: '\00B7';
-}
-```
-
-## treeview
-
-```treeview:no-line-numbers
-|-- a first folder/
-|   |-- holidays.mov
-|   |-- javascript-file.js
-|   `-- some_picture.jpg
-|-- documents/
-|   |-- spreadsheet.xls
-|   |-- manual.pdf
-|   |-- document.docx
-|   `-- presentation.ppt
-|       `-- test
-|-- empty_folder/
-|-- going deeper/
-|   |-- going deeper/
-|   |   `-- going deeper/
-|   |        `-- going deeper/
-|   |            `-- .secret_file
-|   |-- style.css
-|   `-- index.html
-|-- music and movies/
-|   |-- great-song.mp3
-|   |-- S01E02.new.episode.avi
-|   |-- S01E02.new.episode.nfo
-|   `-- track 1.cda
-|-- .gitignore
-|-- .htaccess
-|-- .npmignore
-|-- archive 1.zip
-|-- archive 2.tar.gz
-|-- logo.svg
-`-- README.md
-```
-
-```treeview:no-line-numbers
-├── a first folder/
-|   ├── holidays.mov
-|   ├── javascript-file.js
-|   └── some_picture.jpg
-├── documents/
-|   ├── spreadsheet.xls
-|   ├── manual.pdf
-|   ├── document.docx
-|   └── presentation.ppt
-└── etc.
-```
-
-## match-braces
-
-```js:no-line-numbers
-const func = (a, b) => {
- return `${a}:${b}`;
-}
-```
-
-## line-numbers
-
-```css
-pre[class*="language-"].line-numbers {
- position: relative;
- padding-left: 3.8em;
- counter-reset: linenumber;
-}
-pre[class*="language-"].line-numbers > code {
- position: relative;
- white-space: inherit;
-}
-.line-numbers .line-numbers-rows {
- position: absolute;
- pointer-events: none;
- top: 0;
- font-size: 100%;
- left: -3.8em;
- width: 3em; /* works for line-numbers below 1000 lines */
- letter-spacing: -1px;
- border-right: 1px solid #999;
- -webkit-user-select: none;
- -moz-user-select: none;
- -ms-user-select: none;
- user-select: none;
-}
-.line-numbers-rows > span {
-  display: block;
-  counter-increment: linenumber;
-}
-.line-numbers-rows > span:before {
-  content: counter(linenumber);
-  color: #999;
-  display: block;
-  padding-right: 0.8em;
-  text-align: right;
-}
-```
-
-## line-highlight
-
-```less:no-line-numbers{1,3-9,12}
-@gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
-.example-gradient {
- background: -webkit-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Chrome10+, Safari5.1+ */
- background:    -moz-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* FF3.6+ */
- background:     -ms-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* IE10+ */
- background:      -o-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Opera 11.10+ */
- background:         linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* W3C */
-}
-@angle: 3rad;
-.example-angle {
- transform: rotate(.4turn)
-}
-@nice-blue: #5B83AD;
-.example-color {
- color: hsla(102, 53%, 42%, 0.4);
-}
-@easing: cubic-bezier(0.1, 0.3, 1, .4);
-.example-easing {
- transition-timing-function: ease;
-}
-@time: 1s;
-.example-time {
- transition-duration: 2s;
-}
-```
-
-```less{1,3-9,12}
-@gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
-.example-gradient {
- background: -webkit-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Chrome10+, Safari5.1+ */
- background:    -moz-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* FF3.6+ */
- background:     -ms-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* IE10+ */
- background:      -o-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Opera 11.10+ */
- background:         linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* W3C */
-}
-@angle: 3rad;
-.example-angle {
- transform: rotate(.4turn)
-}
-@nice-blue: #5B83AD;
-.example-color {
- color: hsla(102, 53%, 42%, 0.4);
-}
-@easing: cubic-bezier(0.1, 0.3, 1, .4);
-.example-easing {
- transition-timing-function: ease;
-}
-@time: 1s;
-.example-time {
- transition-duration: 2s;
-}
-```
-
-## previewers
-
-```css
-.example-gradient {
- background: -webkit-linear-gradient(left,     #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%); /* Chrome10+, Safari5.1+ */
- background:    -moz-linear-gradient(left,     #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%); /* FF3.6+ */
- background:     -ms-linear-gradient(left,     #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%); /* IE10+ */
- background:      -o-linear-gradient(left,     #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%); /* Opera 11.10+ */
- background:         linear-gradient(to right, #cb60b3 0%, #c146a1 50%, #a80077 51%, #db36a4 100%); /* W3C */
-}
-.example-angle {
- transform: rotate(10deg);
-}
-.example-color {
- color: rgba(255, 0, 0, 0.2);
- background: purple;
- border: 1px solid hsl(100, 70%, 40%);
-}
-.example-easing {
- transition-timing-function: linear;
-}
-.example-time {
- transition-duration: 3s;
-}
-```
-
-```html
-<table bgcolor="#6E5494">
-<tr style="background: lightblue;">
-```
-
-```less
-@gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
-.example-gradient {
- background: -webkit-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Chrome10+, Safari5.1+ */
- background:    -moz-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* FF3.6+ */
- background:     -ms-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* IE10+ */
- background:      -o-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Opera 11.10+ */
- background:         linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* W3C */
-}
-@angle: 3rad;
-.example-angle {
- transform: rotate(.4turn)
-}
-@nice-blue: #5B83AD;
-.example-color {
- color: hsla(102, 53%, 42%, 0.4);
-}
-@easing: cubic-bezier(0.1, 0.3, 1, .4);
-.example-easing {
- transition-timing-function: ease;
-}
-@time: 1s;
-.example-time {
- transition-duration: 2s;
-}
-```
-
-```sass
-$gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%)
-@mixin example-gradient
- background: -moz-radial-gradient(center, ellipse cover, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%)
- background: radial-gradient(ellipse at center, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%)
-$angle: 380grad
-@mixin example-angle
- transform: rotate(-120deg)
-.example-angle
- transform: rotate(18rad)
-$color: blue
-@mixin example-color
- color: rgba(147, 32, 34, 0.8)
-.example-color
- color: pink
-$easing: ease-out
-.example-easing
- transition-timing-function: ease-in-out
-$time: 3s
-@mixin example-time
- transition-duration: 800ms
-.example-time
- transition-duration: 0.8s
-```
-
-```scss
-$gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
-$attr: background;
-.example-gradient {
- #{$attr}-image: repeating-linear-gradient(10deg, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1) 10px, rgba(255, 0, 0, 0) 20px);
-}
-$angle: 1.8turn;
-.example-angle {
- transform: rotate(-3rad)
-}
-$color: blue;
-.example-color {
- #{$attr}-color: rgba(255, 255, 0, 0.75);
-}
-$easing: linear;
-.example-easing {
- transition-timing-function: cubic-bezier(0.9, 0.1, .2, .4);
-}
-$time: 1s;
-.example-time {
- transition-duration: 10s
-}
-```
-
-```stylus
-gradient = linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%)
-.example-gradient
- background-image: repeating-radial-gradient(circle, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1) 10px, rgba(255, 0, 0, 0) 20px)
-angle = 357deg
-.example-angle
- transform: rotate(100grad)
-color = olive
-.example-color
- color: #000
-easing = ease-in
-.example-easing
- transition-timing-function: ease-out
-time = 3s
-.example-time
- transition-duration: 0.5s
 ```
