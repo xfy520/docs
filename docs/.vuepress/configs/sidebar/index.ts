@@ -98,7 +98,25 @@ const sidebar: SidebarConfig = {
     },
   ],
   '/opensource/vuepress-plugin-prismjs-next/': [
-    '/opensource/vuepress-plugin-prismjs-next/README.md',
+    {
+      text: 'vuepress-plugin-prismjs-next',
+      children: [
+        '/opensource/vuepress-plugin-prismjs-next/README.md',
+        '/opensource/vuepress-plugin-prismjs-next/options.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/autolinker.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/diff-highlight.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/highlight-keywords.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/inline-color.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/line-highlight.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/line-numbers.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/match-braces.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/normalize-whitespace.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/previewers.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/show-invisibles.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/toolbar.md',
+        '/opensource/vuepress-plugin-prismjs-next/example/treeview.md',
+      ]
+    }
   ],
   '/leetcode/array/': [
     '/leetcode/array/1.md',

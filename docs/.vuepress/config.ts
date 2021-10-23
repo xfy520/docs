@@ -26,12 +26,12 @@ const plugins: PluginConfig[] = [
   [
     'vuepress-plugin-prismjs-next',
     {
-      languages: ['shell', 'less', 'css', 'javascript', 'sass', 'html', 'scss', 'stylus', 'yaml', 'java', 'diff', 'md'],
+      languages: ['shell', 'less', 'css', 'javascript', 'sass', 'html', 'scss', 'stylus', 'yaml', 'treeview', 'diff', 'md'],
       plugins: [
-        'inline-color', 'autolinker', 'data-uri-highlight', 'normalize-whitespace', 'show-invisibles',
-       'diff-highlight', 'treeview', 'highlight-keywords',
-      'match-braces', 'line-numbers', 'line-highlight', 'toolbar', 'show-language', 'copy-to-clipboard', 'download-button', 'previewers',
+        'autolinker', 'diff-highlight', 'highlight-keywords', 'inline-color', 'line-highlight', 'line-numbers', 'match-braces', 'normalize-whitespace',
+        'previewers', 'show-invisibles','toolbar',  'treeview', 'show-language', 'copy-to-clipboard', 'download-button',
       ],
+      theme: 'tomorrow'
     },
   ],
   [
