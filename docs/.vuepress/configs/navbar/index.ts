@@ -118,7 +118,7 @@ const navbar: NavbarConfig = [
     children: [
       {
         text: 'Docker',
-        link: '/expand/docker/README.md',
+        link: '/expand/docker/',
       },
       {
         text: 'Docker-Compose',

@@ -136,6 +136,15 @@ const sidebar: SidebarConfig = {
   ],
   '/frontend/css/': [
     '/frontend/css/README.md'
+  ],
+  '/expand/docker/': [
+    {
+      text: 'Docker',
+      children: [
+        '/expand/docker/README.md',
+        '/expand/docker/1.md',
+      ]
+    }
   ]
 };
 

@@ -18,8 +18,8 @@
 
 将样式直接书写在标签上，如
 
-<h5 style="color:red;">红色的字体</h5>
+<h5 style="color: red">红色的字体</h5>
 
-```html
-<h5 style="color:red;">红色的字体</h5>
+```html:no-v-pre
+<h5 style="color: red;">红色的字体</h5>
 ```
