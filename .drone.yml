@@ -42,10 +42,10 @@ steps:
     DOCKER_PASSWORD:
       from_secret: docker_password
   settings:
-    host:
-      from_secret: ssh_host
-    username:
-      from_secret: ssh_username
+    # host:
+    #   from_secret: ssh_host
+    # username:
+    #   from_secret: ssh_username
     password:
       from_secret: ssh_password
     port: 22
