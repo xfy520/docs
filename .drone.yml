@@ -10,7 +10,7 @@ steps:
 - name: 打包
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
-  image: node:16.9-alpine
+  image: node:16.13.1-alpine
   pull: if-not-exists
   commands:
     - ls
@@ -19,7 +19,7 @@ steps:
     - yarn run build
 
 - name: 上传
-  image: plugins/docker:20.10.9
+  image: plugins/docker:latest
   pull: if-not-exists
   privileged: true
   settings:
