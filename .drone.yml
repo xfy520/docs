@@ -1,117 +1,35 @@
+---
 kind: pipeline
 type: docker
 name: docs
 
-workspace:
-  base: /docs
-
-clone:
-  disable: true
-
-volumes:
-- name: docker
-  host:
-    path: /var/run/docker.sock
-- name: github
-  host:
-    path: /home/ubuntu/data/drone/data
-
 steps:
-- name: 拉取
-  settings:
-    mirror: https://docker.mirrors.ustc.edu.cn
-  image: alpine/git:v2.30.2
-  pull: if-not-exists
-  environment:
-    DRONE_GIT_URL:
-      from_secret: drone_git_url
-    SSH_KEY:
-      from_secret: ssh_key
-    SHELL:
-      from_secret: shell
-  volumes:
-    - name: github
-      path: /drone/src
-  commands:
-    - echo $DRONE_GIT_URL
-    - mkdir -p /root/.ssh/
-    - echo "$$SSH_KEY" > /root/.ssh/id_rsa
-    - chmod -R 600 /root/.ssh/id_rsa
-    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-    - cd /drone/src
-    - echo "$$SHELL" > shell.sh
-    - sh shell.sh
-
 - name: 打包
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
   image: node:16.9-alpine
   pull: if-not-exists
-  volumes:
-    - name: github
-      path: /drone/src
   commands:
-    - cd /drone/src/docs
     - yarn config set registry https://registry.npm.taobao.org/
     - yarn install
     - yarn run build
 
 - name: 上传
-  image: plugins/docker:linux-amd64
+  image: plugins/docker:20.10.9
   pull: if-not-exists
   privileged: true
-  volumes:
-    - name: github
-      path: /drone/src
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
     daemon_off: false
-    dockerfile: /drone/src/docs/Dockerfile
-    repo: image.wssio.com/docs
-    registry: image.wssio.com
-    cache_from: image.wssio.com/docs
+    repo: registry.cn-shanghai.aliyuncs.com/wssio/docs
+    registry: registry.cn-shanghai.aliyuncs.com
+    cache_from: registry.cn-shanghai.aliyuncs.com/wssio/docs
     auto_tag: true
-    context: /drone/src/docs
     cache_from: true
     username:
       from_secret: docker_username
     password:
       from_secret: docker_password
-
-- name: 部署
-  image: docker:20.10.8
-  pull: if-not-exists
-  settings:
-    mirror: https://docker.mirrors.ustc.edu.cn
-  volumes:
-  - name: docker
-    path: /var/run/docker.sock:ro
-  environment:
-    DOCKER_USERNAME:
-      from_secret: docker_username
-    DOCKER_PASSWORD:
-      from_secret: docker_password
-  commands:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
-  - list=$(docker ps -a| grep docs-app* | awk '{print $1}')
-  - test "$list" = "" && echo "none docs-app containers running" || docker stop $list
-  - test "$list" = "" && echo "none docs-app containers running" || docker rm $list
-  - docker rmi image.wssio.com/docs:latest
-  - docker run -d -v /home/ubuntu/data/nginx/docs:/var/log/nginx -l "traefik.enable=true" -l "traefik.docker.network=proxy" -l "traefik.http.middlewares.docs_compress.compress=true" -l "traefik.http.routers.docs-app.middlewares=docs_compress" -l "traefik.http.routers.docs-app.entrypoints=https" -l "traefik.http.routers.docs-app.rule=Host(\`doc.wssio.com\`)" -l "traefik.http.services.docs-app.loadbalancer.server.port=8081" --network=proxy  --name=docs-app image.wssio.com/docs:latest
-
-- name: 清理
-  image: alpine:3.13.6
-  pull: if-not-exists
-  settings:
-    mirror: https://docker.mirrors.ustc.edu.cn
-  volumes:
-    - name: github
-      path: /drone/src
-  commands:
-  - cd /drone/src
-  - rm shell.sh
-  - cd docs
-  - rm -r .dist .temp
 
 trigger:
   branch:
@@ -120,18 +38,6 @@ trigger:
     - push
     - pull_request
 
----
-kind: secret
-name: drone_git_url
-get:
-  path: drone/data/docs
-  name: drone_git_url
----
-kind: secret
-name: ssh_key
-get:
-  path: drone/data/docs
-  name: ssh_key
 ---
 kind: secret
 name: docker_username
@@ -144,46 +50,3 @@ name: docker_password
 get:
   path: drone/data/docs
   name: docker_password
-
----
-kind: pipeline
-type: docker
-name: notify
-
-clone:
-  disable: true
-
-steps:
-- name: 通知
-  image: drillster/drone-email:latest
-  pull: if-not-exists
-  settings:
-    mirror: https://docker.mirrors.ustc.edu.cn
-    recipients: [longzinziyan@gmail.com,2811416050@qq.com]
-    recipients_only: true
-    subject: "Drone build: [{{ build.status }}] {{ repo.name }} ({{ repo.branch }}) #{{ build.number }}"
-    host: smtp.qq.com
-    port: 587
-    from: 1296114084@qq.com
-    username:
-      from_secret: email_user
-    password:
-      from_secret: email_password
-
-trigger:
-  status: [success, failure]
-
-depends_on: [docs]
-
----
-kind: secret
-name: email_user
-get:
-  path: drone/data/docs
-  name: email_user
----
-kind: secret
-name: email_password
-get:
-  path: drone/data/docs
-  name: email_password
