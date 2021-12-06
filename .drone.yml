@@ -3,7 +3,23 @@ kind: pipeline
 type: docker
 name: docs
 
+clone:
+  disable: true
+
 steps:
+- name: 拉取
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
+  image: alpine/git:v2.30.2
+  pull: if-not-exists
+  environment:
+    DOCS_GIT_URL:
+      from_secret: docs_git_url
+  commands:
+    - echo $DOCS_GIT_URL
+    - git config --global https.proxy 'socks5://127.0.0.1:10808'
+    - git fetch $DOCS_GIT_URL
+
 - name: 打包
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
@@ -63,6 +79,12 @@ trigger:
     - push
     - pull_request
 
+---
+kind: secret
+name: docs_git_url
+get:
+  path: drone/data/docs
+  name: docs_git_url
 ---
 kind: secret
 name: docker_username
