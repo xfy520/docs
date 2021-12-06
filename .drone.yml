@@ -50,13 +50,13 @@ steps:
       from_secret: ssh_password
     port: 22
       command_timeout: 2m
-      script:
-        - sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-shanghai.aliyuncs.com
-        - list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
-        - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
-        - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
-        - sudo docker rmi registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
-        - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+    script:
+      - sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-shanghai.aliyuncs.com
+      - list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
+      - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
+      - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
+      - sudo docker rmi registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
 
 trigger:
   branch:
