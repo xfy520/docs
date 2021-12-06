@@ -54,7 +54,7 @@ steps:
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
       - sudo docker rmi registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
-      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:80 --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
 
 trigger:
   branch:
