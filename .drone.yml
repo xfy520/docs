@@ -3,6 +3,9 @@ kind: pipeline
 type: docker
 name: docs
 
+clone:
+  disable: true
+
 steps:
 - name: 打包
   settings:
@@ -31,6 +34,30 @@ steps:
     password:
       from_secret: docker_password
 
+- name: 部署
+  image: appleboy/drone-ssh:latest
+  environment:
+    DOCKER_USERNAME:
+      from_secret: docker_username
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+  settings:
+    host:
+      from_secret: ssh_host
+    username:
+      from_secret: ssh_username
+    password:
+      from_secret: ssh_password
+    port: 22
+      command_timeout: 2m
+      script:
+        - sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-shanghai.aliyuncs.com
+        - list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
+        - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
+        - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
+        - sudo docker rmi registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+        - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+
 trigger:
   branch:
     - main
@@ -50,3 +77,65 @@ name: docker_password
 get:
   path: drone/data/docs
   name: docker_password
+---
+kind: secret
+name: ssh_host
+get:
+  path: drone/data/docs
+  name: ssh_host
+---
+kind: secret
+name: ssh_username
+get:
+  path: drone/data/docs
+  name: ssh_username
+---
+kind: secret
+name: ssh_password
+get:
+  path: drone/data/docs
+  name: ssh_password
+
+
+---
+kind: pipeline
+type: docker
+name: notify
+
+clone:
+  disable: true
+
+steps:
+- name: 通知
+  image: drillster/drone-email:latest
+  pull: if-not-exists
+  settings:
+    mirror: https://docker.mirrors.ustc.edu.cn
+    recipients: [longzinziyan@gmail.com,2811416050@qq.com]
+    recipients_only: true
+    subject: "Drone build: [{{ build.status }}] {{ repo.name }} ({{ repo.branch }}) #{{ build.number }}"
+    host: smtp.qq.com
+    port: 587
+    from: 1296114084@qq.com
+    username:
+      from_secret: email_user
+    password:
+      from_secret: email_password
+
+trigger:
+  status: [success, failure]
+
+depends_on: [docs]
+
+---
+kind: secret
+name: email_user
+get:
+  path: drone/data/docs
+  name: email_user
+---
+kind: secret
+name: email_password
+get:
+  path: drone/data/docs
+  name: email_password
