@@ -94,7 +94,6 @@ get:
   path: drone/data/docs
   name: ssh_password
 
-
 ---
 kind: pipeline
 type: docker
