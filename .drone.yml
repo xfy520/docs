@@ -18,7 +18,7 @@ steps:
   commands:
     - echo $DOCS_GIT_URL
     - git config --global https.proxy 'socks5://127.0.0.1:10808'
-    - git fetch $DOCS_GIT_URL
+    - git clone $DOCS_GIT_URL
 
 - name: 打包
   settings:
