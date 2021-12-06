@@ -35,6 +35,8 @@ steps:
   image: plugins/docker:latest
   pull: if-not-exists
   privileged: true
+  commands:
+    - cd docs
   settings:
     mirror: https://docker.mirrors.ustc.edu.cn
     daemon_off: false
