@@ -154,8 +154,8 @@ export default defineComponent({
 <template>
   <div class="vue3-menus-item" @contextmenu="rightClick">组件方式打开菜单</div>
   <vue3-menus v-model:open="isOpen" :event="eventVal" :menus="menus" hasIcon>
-    <template #icon="{item: {activeIndex}}">{{activeIndex}}</template>
-    <template #label="{ item: { item } }">插槽：{{ item.label }}</template>
+    <template #icon="{menu,activeIndex, index}">{{activeIndex}}</template>
+    <template #label="{ menu,activeIndex, index}">插槽：{{ menu.label }}</template>
   </vue3-menus>
 </template>
 <script>
