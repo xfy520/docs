@@ -111,7 +111,7 @@ export default defineComponent({
 
 ```html
 <template>
-  <div class="vue3-menus-item" @contextmenu="rightClick">事件方式右键打开菜单</div>
+  <div class="vue3-menus-item" @contextmenu="rightClick">方法方式右键打开菜单</div>
 </template>
 <script>
 import { defineComponent, shallowRef } from "vue";
@@ -153,7 +153,7 @@ export default defineComponent({
 ```html
 <template>
   <div class="vue3-menus-item" @contextmenu="rightClick">组件方式打开菜单</div>
-  <vue3-menus v-model:open="isOpen" :event="eventVal" :menus="menus" hasIcon>
+  <vue3-menus :open="isOpen" :event="eventVal" :menus="menus" hasIcon>
     <template #icon="{menu,activeIndex, index}">{{activeIndex}}</template>
     <template #label="{ menu,activeIndex, index}">插槽：{{ menu.label }}</template>
   </vue3-menus>

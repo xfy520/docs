@@ -11,7 +11,7 @@ const head: HeadConfig[] = [
   ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
   ['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }],
   ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
-  ['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }],
+  // ['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }],
   ['link', { rel: 'icon', href: '/favicon.ico' }],
 ];
 

@@ -11,6 +11,17 @@
 - 默认值：`[]`
 
 - 描述：菜单列表信息
+
+### menusClass
+
+- 类型：`string`
+
+- 是否必填：`fasle`
+
+- 默认值：`null`
+
+- 描述：菜单外层 `div` 的 `class` 名
+
 ### itemClass
 
 - 类型：`string`
@@ -121,7 +132,7 @@
 
 - 描述：默认插槽
 
-- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单属性值, index: 当前菜单索引}`
+- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单项 MenusItemOptions, index: 当前菜单索引}`
 
 ### icon
 
@@ -133,7 +144,7 @@
 
 - 描述：图标插槽
 
-- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单属性值, index: 当前菜单索引}`
+- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单项 MenusItemOptions, index: 当前菜单索引}`
 
 ### label
 
@@ -145,7 +156,7 @@
 
 - 描述：菜单标题插槽
 
-- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单属性值, index: 当前菜单索引}`
+- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单项 MenusItemOptions, index: 当前菜单索引}`
 
 ### suffix
 
@@ -157,7 +168,7 @@
 
 - 描述：菜单后缀插槽
 
-- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单属性值, index: 当前菜单索引}`
+- 插槽传入值：`{activeIndex: 当前选中项, menu: 当前菜单项 MenusItemOptions, index: 当前菜单索引}`
 
 ## 指令与方法使用参数
 
@@ -170,6 +181,16 @@
 - 默认值：`[]`
 
 - 描述：菜单列表信息
+
+### menusClass
+
+- 类型：`string`
+
+- 是否必填：`fasle`
+
+- 默认值：`null`
+
+- 描述：菜单外层 `div` 的 `class` 名
 
 ### itemClass
 
