@@ -92,26 +92,6 @@
 
 - 描述：控制菜单组件显示
 
-### enter
-
-- 类型：(menu: [MenusItemOptions](#menusitemoptions), args: unknown) => unknown
-
-- 是否必填：`false`
-
-- 默认值：`undefined`
-
-- 描述：菜单项移入事件，返回`null`或`false`不展开子菜单
-
-### click
-
-- 类型：(menu: [MenusItemOptions](#menusitemoptions), args: unknown) => unknown
-
-- 是否必填：`false`
-
-- 默认值：`undefined`
-
-- 描述：菜单项点击事件，返回`null`或`false`不关闭菜单
-
 ### args
 
 - 类型：`unknown`
@@ -241,26 +221,6 @@
 - 默认值：`right`
 
 - 菜单打开方向
-
-### enter
-
-- 类型：(menu: [MenusItemOptions](#menusitemoptions), args: unknown) => unknown
-
-- 是否必填：`false`
-
-- 默认值：`undefined`
-
-- 描述：菜单项移入事件，返回`null`或`false`不展开子菜单
-
-### click
-
-- 类型：(menu: [MenusItemOptions](#menusitemoptions), args: unknown) => unknown
-
-- 是否必填：`false`
-
-- 默认值：`undefined`
-
-- 描述：菜单项点击事件，返回`null`或`false`不关闭菜单
 
 ## MenusItemOptions
 

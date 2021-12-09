@@ -123,7 +123,7 @@ export default defineComponent({
   <div class="demo" v-color="colorOptions" :style="{backgroundColor: colorOptions.value}">指令方式使用</div>
 </template>
 <script>
-import { defineComponent, shallowRef } from "vue";
+import { defineComponent, ref } from "vue";
 import { directives } from "v3-color-picker";
 
 export default defineComponent({
@@ -156,7 +156,7 @@ export default defineComponent({
   <div class="demo" @click="onClick" :style="{backgroundColor: colorOptions.value}"></div>
 </template>
 <script>
-import { defineComponent, shallowRef } from "vue";
+import { defineComponent, ref } from "vue";
 import { colorEvent } from "v3-color-picker";
 
 export default defineComponent({
@@ -187,7 +187,7 @@ export default defineComponent({
   <v3-color-picker v-model:value="color" :width="300"></v3-color-picker>
 </template>
 <script>
-import { defineComponent, nextTick, ref, shallowRef } from "vue";
+import { defineComponent, nextTick, ref } from "vue";
 import { V3ColorPicker } from "v3-color-picker";
 
 export default defineComponent({

@@ -1,5 +1,5 @@
 import { defineClientAppEnhance } from '@vuepress/client';
-import { Vue3Menus, menusEvent } from 'vue3-menus';
+// import { Vue3Menus, menusEvent } from 'vue3-menus';
 
 export default defineClientAppEnhance(({ app, router }) => {
   // @ts-ignore
@@ -10,9 +10,12 @@ export default defineClientAppEnhance(({ app, router }) => {
     import('v3-color-picker').then(module => {
       app.use(module.default)
     })
+    import('vue3-menus').then(module => {
+      app.use(module.default)
+    })
   }
-  app.component('vue3-menus', Vue3Menus);
-  app.config.globalProperties.$menusEvent = menusEvent;
+  // app.component('vue3-menus', Vue3Menus);
+  // app.config.globalProperties.$menusEvent = menusEvent;
   router.beforeEach((to, _from, next) => {
     // @ts-ignore
     if (typeof _hmt != 'undefined') {

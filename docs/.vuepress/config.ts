@@ -29,7 +29,7 @@ const plugins: PluginConfig[] = [
       languages: ['shell', 'less', 'css', 'javascript', 'sass', 'html', 'scss', 'stylus', 'yaml', 'treeview', 'diff', 'md'],
       plugins: [
         'autolinker', 'diff-highlight', 'highlight-keywords', 'inline-color', 'line-highlight', 'line-numbers', 'match-braces', 'normalize-whitespace',
-        'previewers', 'show-invisibles','toolbar',  'treeview', 'show-language', 'copy-to-clipboard', 'download-button',
+        'previewers', 'show-invisibles', 'toolbar', 'treeview', 'show-language', 'copy-to-clipboard', 'download-button',
       ],
       theme: 'tomorrow'
     },

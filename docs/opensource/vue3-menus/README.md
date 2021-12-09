@@ -74,7 +74,7 @@ Vite2.0 使用方式完全一样
   <div class="vue3-menus-item" v-menus:all="menus">指令方式左右击打开菜单</div>
 </template>
 <script>
-import { defineComponent, shallowRef } from "vue";
+import { defineComponent, ref } from "vue";
 import { directive } from 'vue3-menus';
 
 export default defineComponent({
@@ -83,7 +83,7 @@ export default defineComponent({
     menus: directive
   },
   setup() {
-    const menus = shallowRef({
+    const menus = ref({
       menus: [
         {
           label: "返回(B)",
@@ -114,13 +114,13 @@ export default defineComponent({
   <div class="vue3-menus-item" @contextmenu="rightClick">方法方式右键打开菜单</div>
 </template>
 <script>
-import { defineComponent, shallowRef } from "vue";
+import { defineComponent, ref } from "vue";
 import { menusEvent } from 'vue3-menus';
 
 export default defineComponent({
   name: "App",
   setup() {
-    const menus = shallowRef({
+    const menus = ref({
       menus: [
         {
           label: "返回(B)",
@@ -159,7 +159,7 @@ export default defineComponent({
   </vue3-menus>
 </template>
 <script>
-import { defineComponent, nextTick, ref, shallowRef } from "vue";
+import { defineComponent, nextTick, ref } from "vue";
 import { Vue3Menus } from 'vue3-menus';
 
 export default defineComponent({
@@ -178,7 +178,7 @@ export default defineComponent({
       })
       event.preventDefault();
     }
-    const menus = shallowRef([
+    const menus = ref([
       {
         label: "返回(B)",
         tip: 'Alt+向左箭头',
