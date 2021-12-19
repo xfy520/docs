@@ -141,4 +141,3 @@ name: email_password
 get:
   path: drone/data/docs
   name: email_password
-
