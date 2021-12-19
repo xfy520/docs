@@ -8,7 +8,7 @@ steps:
   image: node:16.13.1-alpine
   pull: if-not-exists
   commands:
-    - yarn install
+    - yarn install --force
     - yarn run build
 
 - name: 上传
