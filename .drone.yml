@@ -62,37 +62,37 @@ trigger:
 kind: secret
 name: docs_git_url
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: docs_git_url
 ---
 kind: secret
 name: docker_username
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: docker_username
 ---
 kind: secret
 name: docker_password
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: docker_password
 ---
 kind: secret
 name: ssh_host
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: ssh_host
 ---
 kind: secret
 name: ssh_username
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: ssh_username
 ---
 kind: secret
 name: ssh_password
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: ssh_password
 
 ---
@@ -128,11 +128,11 @@ depends_on: [docs]
 kind: secret
 name: email_user
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: email_user
 ---
 kind: secret
 name: email_password
 get:
-  path: drone/data/docs
+  path: v2:drone/data/docs
   name: email_password
