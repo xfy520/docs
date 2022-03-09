@@ -22,8 +22,10 @@ steps:
     cache_from: registry.cn-shanghai.aliyuncs.com/wssio/docs
     auto_tag: true
     cache_from: true
-    username: 2811416050@qq.com
-    password: 9jf9jpzMxmmo1Xep
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
 
 - name: 部署
   image: appleboy/drone-ssh:latest
