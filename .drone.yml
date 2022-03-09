@@ -20,7 +20,7 @@ steps:
     repo: registry.cn-shanghai.aliyuncs.com/wssio/docs
     registry: registry.cn-shanghai.aliyuncs.com
     cache_from: registry.cn-shanghai.aliyuncs.com/wssio/docs
-    auto_tag: true
+    tags: 1.0.0
     cache_from: true
     username:
       from_secret: docker_username
@@ -49,7 +49,7 @@ steps:
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
       - sudo docker rmi registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
-      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:1.0.0
 
 trigger:
   branch:
