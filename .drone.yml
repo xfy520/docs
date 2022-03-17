@@ -17,9 +17,9 @@ steps:
   privileged: true
   settings:
     daemon_off: false
-    repo: registry.cn-shanghai.aliyuncs.com/wssio/docs
-    registry: registry.cn-shanghai.aliyuncs.com
-    cache_from: registry.cn-shanghai.aliyuncs.com/wssio/docs
+    repo: image.wssio.com/docs
+    registry: image.wssio.com
+    cache_from: image.wssio.com/docs
     auto_tag: true
     cache_from: true
     username:
@@ -44,12 +44,12 @@ steps:
     port: 22
     command_timeout: 2m
     script:
-      - sudo winpty docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.cn-shanghai.aliyuncs.com
+      - sudo winpty docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
       - list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
-      - sudo docker rmi registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
-      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service registry.cn-shanghai.aliyuncs.com/wssio/docs:latest
+      - sudo docker rmi image.wssio.com/docs:latest
+      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service image.wssio.com/docs:latest
 
 trigger:
   branch:
