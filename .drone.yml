@@ -44,7 +44,7 @@ steps:
     port: 22
     command_timeout: 2m
     script:
-      - sudo winpty docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
+      - sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
       - list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
