@@ -15,25 +15,22 @@ steps:
   image: plugins/docker:latest
   pull: if-not-exists
   privileged: true
+  environment:
+    DOCKER_URL:
+      from_secret: docker_url
   settings:
     daemon_off: false
-    repo: image.wssio.com/docs
-    registry: image.wssio.com
-    cache_from: image.wssio.com/docs
+    repo: $DOCKER_URL/docs
+    registry: $DOCKER_URL
+    cache_from: $DOCKER_URL/docs
     auto_tag: true
     cache_from: true
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
 
 - name: 部署
   image: appleboy/drone-ssh:latest
   environment:
-    DOCKER_USERNAME:
-      from_secret: docker_username
-    DOCKER_PASSWORD:
-      from_secret: docker_password
+    DOCKER_URL:
+      from_secret: docker_url
   settings:
     host:
       from_secret: ssh_host
@@ -44,12 +41,11 @@ steps:
     port: 22
     command_timeout: 2m
     script:
-      - sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD image.wssio.com
       - list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
-      - sudo docker rmi image.wssio.com/docs:latest
-      - sudo docker run hello-world
+      - sudo docker rmi $DOCKER_URL/docs:latest
+      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service $DOCKER_URL/docs:latest
 
 trigger:
   branch:
@@ -64,18 +60,6 @@ name: docs_git_url
 get:
   path: drone/data/docs
   name: docs_git_url
----
-kind: secret
-name: docker_username
-get:
-  path: drone/data/docs
-  name: docker_username
----
-kind: secret
-name: docker_password
-get:
-  path: drone/data/docs
-  name: docker_password
 ---
 kind: secret
 name: ssh_host
@@ -94,6 +78,12 @@ name: ssh_password
 get:
   path: drone/data/docs
   name: ssh_password
+---
+kind: secret
+name: docker_url
+get:
+  path: drone/data/docs
+  name: docker_url
 
 ---
 kind: pipeline
