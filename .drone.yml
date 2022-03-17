@@ -50,13 +50,13 @@ steps:
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
       - sudo docker rmi image.wssio.com/docs:latest
       - sudo docker run hello-world
-     proxy_host:
-       from_secret: ssh_proxy_host
-     proxy_user:
-       from_secret: ssh_proxy_user
-     proxy_port: 22
-     proxy_password:
-       from_secret: ssh_proxy_password
+    proxy_host:
+      from_secret: ssh_proxy_host
+    proxy_user:
+      from_secret: ssh_proxy_user
+    proxy_port: 22
+    proxy_password:
+      from_secret: ssh_proxy_password
 
 trigger:
   branch:
