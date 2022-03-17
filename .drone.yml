@@ -49,7 +49,7 @@ steps:
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
       - test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
       - sudo docker rmi image.wssio.com/docs:latest
-      - sudo docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service image.wssio.com/docs:latest
+      - sudo docker run hello-world
 
 trigger:
   branch:
