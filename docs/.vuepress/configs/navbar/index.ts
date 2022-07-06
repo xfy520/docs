@@ -10,14 +10,6 @@ const navbar: NavbarConfig = [
     text: '开源项目',
     children: [
       {
-        text: 'wssio',
-        link: '/opensource/wssio/'
-      },
-      {
-        text: 'wscio',
-        link: '/opensource/wscio/'
-      },
-      {
         text: 'vue3-menus',
         link: '/opensource/vue3-menus/'
       },
@@ -26,16 +18,8 @@ const navbar: NavbarConfig = [
         link: '/opensource/v3-color-picker/'
       },
       {
-        text: 'v-page-generator',
-        link: '/opensource/v-page-generator/'
-      },
-      {
         text: 'vue3-seamless-scroll',
         link: '/opensource/vue3-seamless-scroll/'
-      },
-      {
-        text: 'vuepress-plugin-prismjs-next',
-        link: '/opensource/vuepress-plugin-prismjs-next/'
       },
     ]
   },
@@ -116,6 +100,10 @@ const navbar: NavbarConfig = [
   {
     text: '扩展',
     children: [
+      {
+        text: 'Linux',
+        link: '/expand/linux/',
+      },
       {
         text: 'Docker',
         link: '/expand/docker/',

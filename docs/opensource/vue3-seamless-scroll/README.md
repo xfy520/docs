@@ -54,7 +54,7 @@ Vite2.0 使用方式完全一样
 
 - 全局组件注册 `install`
 
-```JavaScript
+```js
   // **main.js**
   import { createApp } from 'vue';
   import App from './App.vue';

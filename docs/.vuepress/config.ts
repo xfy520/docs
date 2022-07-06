@@ -1,78 +1,95 @@
-import { defineUserConfig } from '@vuepress/cli';
-import { HeadConfig } from '@vuepress/shared';
-import { PluginConfig } from '@vuepress/core';
+import { defineUserConfig } from "vuepress";
+import type { HeadConfig } from '@vuepress/shared';
+import type { Plugin } from '@vuepress/core';
+import { viteBundler } from '@vuepress/bundler-vite';
+import { webpackBundler } from '@vuepress/bundler-webpack';
+import { searchPlugin } from '@vuepress/plugin-search'
+import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
+import { shikiPlugin } from '@vuepress/plugin-shiki'
 import { resolve } from 'path';
-import type { DefaultThemeOptions } from '@vuepress/theme-default';
+import wssioTheme from './theme';
+import { mermaidPlugin } from './plugins'
 import { navbar, sidebar } from './configs';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 const head: HeadConfig[] = [
+  ['link', { rel: 'icon', href: '/favicon.ico' }],
+  ['meta', { name: 'application-name', content: '技术聊斋' }],
+  ['meta', { name: 'apple-mobile-web-app-title', content: '技术聊斋' }],
+  ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+  ['meta', { name: 'msapplication-TileColor', content: '#3eaf7c' }],
+  ['meta', { name: 'theme-color', content: '#3eaf7c' }],
   ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
   ['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }],
   ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
-  // ['script', { type: 'text/javascript', src: '/js/script/autopush-360.js' }],
-  ['link', { rel: 'icon', href: '/favicon.ico' }],
 ];
 
-const plugins: PluginConfig[] = [
-  [
-    '@vuepress/plugin-search',
-    {
-      placeholder: '搜索',
-      hotKeys: ['s', '/'],
+const plugins: Plugin[] = [
+  searchPlugin({
+    locales: {
+      '/': {
+        placeholder: '搜索',
+      },
     },
-  ],
-  [
-    'vuepress-plugin-prismjs-next',
-    {
-      languages: ['shell', 'less', 'css', 'javascript', 'sass', 'html', 'scss', 'stylus', 'yaml', 'treeview', 'diff', 'md'],
-      plugins: [
-        'autolinker', 'diff-highlight', 'highlight-keywords', 'inline-color', 'line-highlight', 'line-numbers', 'match-braces', 'normalize-whitespace',
-        'previewers', 'show-invisibles', 'toolbar', 'treeview', 'show-language', 'copy-to-clipboard', 'download-button',
-      ],
-      theme: 'tomorrow'
-    },
-  ],
-  [
-    '@vuepress/plugin-google-analytics',
-    {
-      id: 'G-5SQHLTK55C',
-    },
-  ],
+    hotKeys: ['s', '/'],
+  }),
+  googleAnalyticsPlugin({
+    id: 'G-5SQHLTK55C',
+  }),
+  mermaidPlugin(),
 ];
 
-export default defineUserConfig<DefaultThemeOptions>({
+
+if (isProd) {
+  plugins.push(shikiPlugin({ theme: 'dark-plus' }))
+}
+
+export default defineUserConfig({
   base: '/',
-  lang: 'zh-CN',
-  title: '技术杂谈',
-  description: '欢迎来到闲聊世界',
   head,
-  plugins,
-  themeConfig: {
-    navbar,
-    sidebar,
-    editLinkText: '在 GitHub 上编辑此页',
-    lastUpdatedText: '上次更新',
-    contributorsText: '贡献者',
-    tip: '提示',
-    warning: '注意',
-    danger: '警告',
-    notFound: [
-      '这里什么都没有',
-      '我们怎么到这来了？',
-      '这是一个 404 页面',
-      '看起来我们进入了错误的链接',
-    ],
-    backToHome: '返回首页',
-    openInNewWindow: '在新窗口打开',
-    toggleDarkMode: '切换夜间模式',
-    toggleSidebar: '切换侧边栏',
-    themePlugins: {
-      prismjs: false,
+  locales: {
+    '/': {
+      lang: 'zh-CN',
+      title: '技术聊斋',
+      description: '欢迎来到闲聊世界',
     },
   },
-  bundler: process.env.DOCS_BUNDLER ?? (isProd ? '@vuepress/webpack' : '@vuepress/vite'),
+  theme: wssioTheme({
+    logo: '/home.png',
+    repo: 'xfy520/docs',
+    docsDir: 'docs',
+    locales: {
+      '/': {
+        navbar,
+        sidebar,
+        editLinkText: '在 GitHub 上编辑此页',
+        lastUpdatedText: '上次更新',
+        contributorsText: '贡献者',
+        tip: '提示',
+        warning: '注意',
+        danger: '警告',
+        notFound: [
+          '这里什么都没有',
+          '我们怎么到这来了？',
+          '这是一个 404 页面',
+          '看起来我们进入了错误的链接',
+        ],
+        backToHome: '返回首页',
+        openInNewWindow: '在新窗口打开',
+        toggleColorMode: '切换颜色模式',
+        toggleSidebar: '切换侧边栏',
+      }
+    },
+    themePlugins: {},
+  }),
+  bundler: isProd ? webpackBundler({
+    postcss: {},
+    vue: {},
+  }) : viteBundler({
+    viteOptions: {},
+    vuePluginOptions: {},
+  }),
   dest: `${__dirname}../../../.dist`,
   temp: `${__dirname}../../../.temp`,
   cache: `${__dirname}../../../.cache`,
@@ -82,12 +99,9 @@ export default defineUserConfig<DefaultThemeOptions>({
     '@js': resolve(__dirname, './public/js'),
   },
   markdown: {
-    code: {
-      preWrapper: false,
-    },
-    customComponent: false,
     importCode: {
       handleImportPath: (str) => str.replace(/^@js/, resolve(__dirname, 'public/js')),
     },
   },
+  plugins,
 });
