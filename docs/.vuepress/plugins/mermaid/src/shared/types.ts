@@ -1,6 +1,6 @@
 export interface PrposTypes {
   id: string,
-  graph: string | undefined,
+  code: string | undefined,
   options: Partial<MermaidOptions>,
   style: object,
 }

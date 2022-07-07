@@ -62,26 +62,3 @@
   cursor: pointer;
 }
 
-.data-uri {
-  background-color:#fff;
-}
-
-pre[class*="language-"]::-webkit-scrollbar {
-  height: 7px;
-  width: 7px;
-}
-
-pre[class*="language-"]::-webkit-scrollbar-thumb {
-  border-radius   : 10px;
-  background-color: #ededed;
-}
-
-pre[class*="language-"]::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: #2d2d2d;
-  border-radius: 10px;
-}
-
-.token.keyword.keyword-return,.token.keyword.keyword-if{
-  color: #f92672;
-}

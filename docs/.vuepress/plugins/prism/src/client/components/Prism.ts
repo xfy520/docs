@@ -16,7 +16,7 @@ export const Prism = defineComponent({
       required: true,
       defalut: () => ('')
     },
-    options: {
+    prismOptions: {
       type: Object as PropType<Partial<PrismOptions>>,
       required: false,
       default: () => ({}),
@@ -25,6 +25,10 @@ export const Prism = defineComponent({
       type: Object,
       required: false,
       default: () => ({}),
+    },
+    isDarkMode: {
+      type: Boolean,
+      required: true,
     }
   },
   setup() {

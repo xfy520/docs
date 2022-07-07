@@ -5,13 +5,11 @@ import { viteBundler } from '@vuepress/bundler-vite';
 import { webpackBundler } from '@vuepress/bundler-webpack';
 import { searchPlugin } from '@vuepress/plugin-search';
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
-import { shikiPlugin } from '@vuepress/plugin-shiki';
-import mermaid from 'mermaid';
+
 import { resolve } from 'path';
 import wssioTheme from './theme';
-import { mermaidPlugin } from './plugins'
+import { mermaidPlugin, prismPlugin, } from './plugins'
 import { navbar, sidebar } from './configs';
-import { Theme } from "./plugins/mermaid/src/shared";
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -40,12 +38,8 @@ const plugins: Plugin[] = [
     id: 'G-5SQHLTK55C',
   }),
   mermaidPlugin(),
+  prismPlugin(),
 ];
-
-
-if (isProd) {
-  plugins.push(shikiPlugin({ theme: 'dark-plus' }))
-}
 
 export default defineUserConfig({
   base: '/',
@@ -66,8 +60,8 @@ export default defineUserConfig({
     docsDir: 'docs',
     locales: {
       '/': {
-        navbar,
-        sidebar,
+        // navbar,
+        // sidebar,
         editLinkText: '在 GitHub 上编辑此页',
         lastUpdatedText: '上次更新',
         contributorsText: '贡献者',
@@ -86,7 +80,9 @@ export default defineUserConfig({
         toggleSidebar: '切换侧边栏',
       }
     },
-    themePlugins: {},
+    themePlugins: {
+      prismjs: false,
+    },
   }),
   bundler: isProd ? webpackBundler({
     postcss: {},
@@ -104,6 +100,8 @@ export default defineUserConfig({
     '@js': resolve(__dirname, './public/js'),
   },
   markdown: {
+    code: false,
+    customComponent: false,
     importCode: {
       handleImportPath: (str) => str.replace(/^@js/, resolve(__dirname, 'public/js')),
     },

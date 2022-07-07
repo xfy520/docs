@@ -1,13 +1,14 @@
+import type { PluginWithOptions } from 'markdown-it';
 import { hash } from '@vuepress/utils';
 
-export default (md: markdownit) => {
+const markdownItPlugin: PluginWithOptions = (md: markdownit) => {
   const opts = {
     render: (tokens: { [x: string]: any; }, idx: string) => {
       const token = tokens[idx];
       const key = `mermaid_${hash(idx)}`;
       const { content } = token;
       let encoded = encodeURIComponent(content);
-      return `<ClientOnly><Mermaid id="${key}" graph="${encoded}"></Mermaid></ClientOnly>`;
+      return `<ClientOnly><Mermaid id="${key}" code="${encoded}"></Mermaid></ClientOnly>`;
     },
     validate: (params) => {
       return params.trim().split(' ').includes('mermaid');
@@ -127,6 +128,8 @@ export default (md: markdownit) => {
 
   md.block.ruler.before('fence', name, fence, {
     alt: ['paragraph', 'reference', 'blockquote', 'list'],
-  })
+  });
   md.renderer.rules[name] = options.render;
 }
+
+export default markdownItPlugin;
