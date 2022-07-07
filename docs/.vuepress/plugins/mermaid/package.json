@@ -1,0 +1,35 @@
+{
+  "name": "vuepress-plugin-mermaid",
+  "version": "2.0.0-beta.48.1",
+  "description": "VuePress plugin - mermaid",
+  "private": "false",
+  "keywords": [
+    "vuepress-plugin",
+    "vuepress",
+    "plugin",
+    "mermaidjs",
+    "mermaid"
+  ],
+  "homepage": "https://github.com/xfy520/docs",
+  "bugs": {
+    "url": "https://github.com/xfy520/docs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xfy520/docs.git"
+  },
+  "license": "MIT",
+  "author": "xfy520 <longzinziyan@gmail.com>",
+  "main": "lib/node/index.js",
+  "types": "lib/node/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "vue": "workspace:*"
+  }
+}

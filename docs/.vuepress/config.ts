@@ -1,15 +1,17 @@
-import { defineUserConfig } from "vuepress";
+import { defineUserConfig } from 'vuepress';
 import type { HeadConfig } from '@vuepress/shared';
 import type { Plugin } from '@vuepress/core';
 import { viteBundler } from '@vuepress/bundler-vite';
 import { webpackBundler } from '@vuepress/bundler-webpack';
-import { searchPlugin } from '@vuepress/plugin-search'
+import { searchPlugin } from '@vuepress/plugin-search';
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
-import { shikiPlugin } from '@vuepress/plugin-shiki'
+import { shikiPlugin } from '@vuepress/plugin-shiki';
+import mermaid from 'mermaid';
 import { resolve } from 'path';
 import wssioTheme from './theme';
 import { mermaidPlugin } from './plugins'
 import { navbar, sidebar } from './configs';
+import { Theme } from "./plugins/mermaid/src/shared";
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -22,7 +24,7 @@ const head: HeadConfig[] = [
   ['meta', { name: 'theme-color', content: '#3eaf7c' }],
   ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
   ['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }],
-  ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
+  // ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
 ];
 
 const plugins: Plugin[] = [
@@ -48,6 +50,9 @@ if (isProd) {
 export default defineUserConfig({
   base: '/',
   head,
+  lang: 'zh-CN',
+  title: '技术聊斋',
+  description: '欢迎来到闲聊世界',
   locales: {
     '/': {
       lang: 'zh-CN',

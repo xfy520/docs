@@ -12,6 +12,20 @@
 
 ```mermaid
 graph TB
-    1[开始] --> 2[结束]
+  A[Linux内核]
+  A --> Debian[Debian]
+  A --> Fedora[Fedora]
+  A --> SUSE[SUSE]
+  A --> Other[其他发行版]
+  Debian --> Ubuntu[Ubuntu]
+  Ubuntu --> mint[Linux Mint]
+  Fedora --> RHEL[RHEL]
+  RHEL --> CentOS[CentOS]
+  RHEL --> Oracle[Oracle Linux]
+  SUSE --> SLES[SLES]
+  SLES --> open[openSUSE]
+  Other --> 其他发行版
 ```
+
+目前市面上较知名的发行版有：[Ubuntu](https://ubuntu.com/)、[CentOS](https://www.centos.org/)、[Debian](https://www.debian.org/)、[Fedora](https://getfedora.org/zh_Hans_CN/)、[openSUSE](https://www.opensuse.org/)、[更多](https://www.linux.org/)
 

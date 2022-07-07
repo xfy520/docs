@@ -1,0 +1,35 @@
+{
+  "name": "vuepress-plugin-prism",
+  "version": "2.0.0-beta.48.1",
+  "description": "VuePress plugin - prism",
+  "private": "false",
+  "keywords": [
+    "vuepress-plugin",
+    "vuepress",
+    "plugin",
+    "prismjs",
+    "prism"
+  ],
+  "homepage": "https://github.com/xfy520/docs",
+  "bugs": {
+    "url": "https://github.com/xfy520/docs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xfy520/docs.git"
+  },
+  "license": "MIT",
+  "author": "xfy520 <longzinziyan@gmail.com>",
+  "main": "lib/node/index.js",
+  "types": "lib/node/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "vue": "workspace:*"
+  }
+}
