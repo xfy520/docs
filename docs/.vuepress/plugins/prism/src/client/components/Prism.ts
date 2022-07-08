@@ -1,7 +1,21 @@
-import { defineComponent, PropType, h } from "vue";
-import type { PrismOptions } from "../../shared";
+import { defineComponent, PropType, h, toRefs } from 'vue';
+import type { DarkModeRef } from '@vuepress/theme-default/lib/client';
+import  * as Prism from 'prismjs';
+import * as rawLoadLanguages from 'prismjs/components/index';
 
-export const Prism = defineComponent({
+import type { PrismOptions, PrposTypes } from '../../shared';
+
+// @ts-ignore
+rawLoadLanguages.silent = true;
+
+const loadLanguages = (languages?: Array<string>) => {
+  const langsToLoad = languages?.filter((item) => !Prism.languages[item]);
+  if (langsToLoad?.length) {
+    rawLoadLanguages(langsToLoad);
+  }
+}
+
+export const PrismPlugin = defineComponent({
   name: 'Prism',
   props: {
     id: {
@@ -14,26 +28,48 @@ export const Prism = defineComponent({
     code: {
       type: String,
       required: true,
-      defalut: () => ('')
+      defalut: '',
+    },
+    language: {
+      type: String,
+      required: true,
+      defalut: '',
+    },
+    vPre: {
+      type: Boolean,
+      required: true,
+      defalut: true,
+    },
+    lineNumbers: {
+      type: [Boolean, Number],
+      required: true,
+      defalut: true,
     },
     prismOptions: {
       type: Object as PropType<Partial<PrismOptions>>,
       required: false,
-      default: () => ({}),
+      default: {},
     },
     style: {
       type: Object,
       required: false,
-      default: () => ({}),
+      default: {},
     },
-    isDarkMode: {
-      type: Boolean,
+    useDarkMode: {
+      type: Function as PropType<() => DarkModeRef>,
       required: true,
     }
   },
-  setup() {
+  setup(props: PrposTypes) {
+    const { id, code, language, style } = toRefs<PrposTypes>(props);
+    let prismLang = Prism.languages[language.value];
+    if (!prismLang) {
+      loadLanguages([language.value]);
+      prismLang = Prism.languages[language.value];
+    }
+    console.log(Prism.highlight(code.value, prismLang, language.value))
     return () => {
-      return h('div')
+      return h('div', null, decodeURIComponent(code.value))
     }
   }
 });

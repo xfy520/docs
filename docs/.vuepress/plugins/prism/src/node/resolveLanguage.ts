@@ -1,5 +1,5 @@
 import * as languages from './languages';
-import type { HighlightLanguage } from './languages';
+import type { HighlightLanguage } from '../shared';
 
 type LanguagesMap = Record<string, HighlightLanguage>
 

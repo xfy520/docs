@@ -1,6 +1,6 @@
-import { defineComponent, h, PropType, ref, toRefs, watchEffect } from 'vue';
+import { defineComponent, h, PropType, ref, toRefs, watch, watchEffect } from 'vue';
+import type { DarkModeRef } from '@vuepress/theme-default/lib/client';
 import type { MermaidOptions, PrposTypes } from '../../shared';
-import { useDarkMode } from '@vuepress/theme-default/lib/client';
 
 export const Mermaid = defineComponent({
   name: 'Mermaid',
@@ -17,7 +17,7 @@ export const Mermaid = defineComponent({
       required: true,
       defalut: () => ('')
     },
-    options: {
+    mermaidOptions: {
       type: Object as PropType<Partial<MermaidOptions>>,
       required: false,
       default: () => ({}),
@@ -27,26 +27,34 @@ export const Mermaid = defineComponent({
       required: false,
       default: () => ({}),
     },
+    useDarkMode: {
+      type: Function as PropType<() => DarkModeRef>,
+      required: true,
+    }
   },
-  setup(props) {
-    const { id, code, options, style } = toRefs<PrposTypes>(props);
+  setup(props: PrposTypes) {
+    const { id, code, mermaidOptions, style, } = toRefs<PrposTypes>(props);
     const svgRef = ref();
-    console.log(useDarkMode())
+    const isDarkMode = props.useDarkMode();
 
-    watchEffect(() => {
-      if (code.value) {
-        import('mermaid/dist/mermaid.min').then(mermaid => {
-          mermaid.initialize({
-            startOnLoad: true,
-            ...options.value,
-            // theme: props.isDarkMode ? 'dark' : 'forest',
-          });
-          mermaid.render(id.value, decodeURIComponent(code.value as string), (svg) => {
-            svgRef.value = svg;
-          });
-        })
-      }
-    });
+    const initialize = () => {
+      import('mermaid/dist/mermaid.min').then(mermaid => {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: isDarkMode.value ? 'dark' : 'forest',
+          ...mermaidOptions.value,
+        });
+        mermaid.render(id.value, decodeURIComponent(code.value as string), (svg) => {
+          svgRef.value = svg;
+        });
+      })
+    }
+
+    watch(isDarkMode, () => {
+      initialize();
+    })
+
+    initialize();
 
     return () => {
       return svgRef.value ? h('div', {
@@ -54,7 +62,7 @@ export const Mermaid = defineComponent({
         style: {
           width: '100%',
           'text-align': 'center',
-          // 'background-color': props.isDarkMode ? '#282c34' : '#efefef',
+          'background-color': isDarkMode.value ? '#282c34' : '#efefef',
           ...style.value
         },
       }) : null

@@ -28,6 +28,7 @@ export const prismPlugin = ({
     define: {
       __PRISM_COMPONENT_NAME__: name,
       __PRISM_DEFAULT_OPTIONS__: prismOptions,
+      __PLUGIN_DEFAULT_OPTIONS__: pluginOptions,
       __PRISM_DEFAULT_STYLE__: style,
     },
   }

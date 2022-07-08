@@ -8,7 +8,8 @@ const markdownItPlugin: PluginWithOptions = (md: markdownit) => {
       const key = `mermaid_${hash(idx)}`;
       const { content } = token;
       let encoded = encodeURIComponent(content);
-      return `<ClientOnly><Mermaid id="${key}" code="${encoded}"></Mermaid></ClientOnly>`;
+
+      return `<ClientOnly><Mermaid id='${key}' code='${encoded}'></Mermaid></ClientOnly>`;
     },
     validate: (params) => {
       return params.trim().split(' ').includes('mermaid');

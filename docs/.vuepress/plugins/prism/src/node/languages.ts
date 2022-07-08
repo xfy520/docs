@@ -1,10 +1,4 @@
-export interface HighlightLanguage {
-  name: string
-
-  ext: string
-
-  aliases: string[]
-}
+import type { HighlightLanguage } from '../shared';
 
 export const languageBash: HighlightLanguage = {
   name: 'bash',
