@@ -15,14 +15,12 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const head: HeadConfig[] = [
   ['link', { rel: 'icon', href: '/favicon.ico' }],
+  ['meta', { name: 'generator', content: '技术聊斋' }],
   ['meta', { name: 'application-name', content: '技术聊斋' }],
   ['meta', { name: 'apple-mobile-web-app-title', content: '技术聊斋' }],
   ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
   ['meta', { name: 'msapplication-TileColor', content: '#3eaf7c' }],
   ['meta', { name: 'theme-color', content: '#3eaf7c' }],
-  ['link', { rel: 'stylesheet', type: 'text/css', href: '/style/index.css' }],
-  ['script', { type: 'text/javascript', src: '/js/script/autopush-baidu.js' }],
-  // ['script', { type: 'text/javascript', src: '/js/script/count-baidu.js' }],
 ];
 
 const plugins: Plugin[] = [
@@ -60,8 +58,8 @@ export default defineUserConfig({
     docsDir: 'docs',
     locales: {
       '/': {
-        // navbar,
-        // sidebar,
+        navbar,
+        sidebar,
         editLinkText: '在 GitHub 上编辑此页',
         lastUpdatedText: '上次更新',
         contributorsText: '贡献者',

@@ -5,11 +5,13 @@
     "jsx": "preserve",
     "module": "ES2020",
     "paths": {},
-    "types": []
+    "types": [],
+    "resolveJsonModule": true
   },
   "include": [
     "**/.vuepress/*",
     "**/.vuepress/**/*",
+    "**/.vuepress/**/**/*",
   ],
   "exclude": [
     "node_modules",

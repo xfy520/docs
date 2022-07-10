@@ -1,4 +1,4 @@
-import type { HighlightLanguage } from '../shared';
+import type { HighlightLanguage } from '../../shared';
 
 export const languageBash: HighlightLanguage = {
   name: 'bash',

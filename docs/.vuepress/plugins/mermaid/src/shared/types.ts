@@ -1,9 +1,16 @@
 import type { DarkModeRef } from '@vuepress/theme-default/lib/client';
 
+export interface MermaidPluginOptions {
+  name?: string;
+  mermaidOptions?: Partial<MermaidOptions>;
+  style?: {
+    [key: string]: string | number;
+  };
+}
+
 export interface PrposTypes {
   id: string,
   code: string,
-  mermaidOptions: Partial<MermaidOptions>,
   style: object,
   useDarkMode: () => DarkModeRef,
 }

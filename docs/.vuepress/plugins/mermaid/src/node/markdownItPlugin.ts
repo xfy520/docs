@@ -1,28 +1,32 @@
 import type { PluginWithOptions } from 'markdown-it';
 import { hash } from '@vuepress/utils';
+import type { MermaidPluginOptions } from '../shared';
 
-const markdownItPlugin: PluginWithOptions = (md: markdownit) => {
+const markdownItPlugin: PluginWithOptions<MermaidPluginOptions> = (md: markdownit, {
+  name = 'Mermaid',
+  mermaidOptions = {},
+}: MermaidPluginOptions = {}) => {
   const opts = {
-    render: (tokens: { [x: string]: any; }, idx: string) => {
+    render: (tokens: { [x: string]: any; }, idx: number) => {
       const token = tokens[idx];
       const key = `mermaid_${hash(idx)}`;
       const { content } = token;
-      let encoded = encodeURIComponent(content);
+      const code = md.utils.escapeHtml(content);
 
-      return `<ClientOnly><Mermaid id='${key}' code='${encoded}'></Mermaid></ClientOnly>`;
+      return `<ClientOnly><${name} id='${key}' code='${code}'/></ClientOnly>`;
     },
     validate: (params) => {
       return params.trim().split(' ').includes('mermaid');
     }
   }
-  const name = 'mermaid-fence';
+  const rulesName = 'mermaid-fence';
   function defaultValidate(params) {
-    return params.trim().split(' ', 2)[0] === name;
+    return params.trim().split(' ', 2)[0] === rulesName;
   }
 
   const defaultRender = (tokens, idx, _options, env, self) => {
     if (tokens[idx].nesting === 1) {
-      tokens[idx].attrPush(['class', name]);
+      tokens[idx].attrPush(['class', rulesName]);
     }
     return self.renderToken(tokens, idx, _options);
   }
@@ -115,7 +119,7 @@ const markdownItPlugin: PluginWithOptions = (md: markdownit) => {
 
     let token;
     if (options.validate(params)) {
-      token = state.push(name, 'div', 0);
+      token = state.push(rulesName, 'div', 0);
     } else {
       token = state.push('fence', 'code', 0);
     }
@@ -127,10 +131,10 @@ const markdownItPlugin: PluginWithOptions = (md: markdownit) => {
     return true;
   }
 
-  md.block.ruler.before('fence', name, fence, {
+  md.block.ruler.before('fence', rulesName, fence, {
     alt: ['paragraph', 'reference', 'blockquote', 'list'],
   });
-  md.renderer.rules[name] = options.render;
+  md.renderer.rules[rulesName] = options.render;
 }
 
 export default markdownItPlugin;

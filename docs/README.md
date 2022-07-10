@@ -1,4 +1,4 @@
-<!-- ---
+---
 home: true
 title: 首页
 actions:
@@ -21,36 +21,32 @@ footer: MIT Licensed | Copyright © 2021-present longzinziyan@gmail.com
   <img src="/images/system.png" alt="服务性能监控"/>
   <img src="/images/docker.png" alt="Docker容器监控"/>
   <img src="/images/traefik.png" alt="Traefik服务监控"/>
-</div> -->
+</div>
 
-```mermaid
-graph TB
-  A[Linux内核]
-  A --> Debian[Debian]
-  A --> Fedora[Fedora]
-  A --> SUSE[SUSE]
-  A --> Other[其他发行版]
-  Debian --> Ubuntu[Ubuntu]
-  Ubuntu --> mint[Linux Mint]
-  Fedora --> RHEL[RHEL]
-  RHEL --> CentOS[CentOS]
-  RHEL --> Oracle[Oracle Linux]
-  SUSE --> SLES[SLES]
-  SLES --> open[openSUSE]
-  Other --> 其他发行版
-```
 
-```md
-<!-- 默认情况下，这里会被保持原样 -->
-1 + 2 + 3 = {{ 1 + 2 + 3 }}
-```
-
-```md:no-v-pre
-<!-- 这里会被 Vue 编译 -->
-1 + 2 + 3 = {{ 1 + 2 + 3 }}
-```
-
-```js:no-v-pre
-// 由于 JS 代码高亮，这里不会被正确编译
-const onePlusTwoPlusThree = {{ 1 + 2 + 3 }}
+```less
+@gradient: linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%);
+.example-gradient {
+	background: -webkit-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Chrome10+, Safari5.1+ */
+	background:    -moz-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* FF3.6+ */
+	background:     -ms-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* IE10+ */
+	background:      -o-linear-gradient(-45deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* Opera 11.10+ */
+	background:         linear-gradient(135deg, #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* W3C */
+}
+@angle: 3rad;
+.example-angle {
+	transform: rotate(.4turn)
+}
+@nice-blue: #5B83AD;
+.example-color {
+	color: hsla(102, 53%, 42%, 0.4);
+}
+@easing: cubic-bezier(0.1, 0.3, 1, .4);
+.example-easing {
+	transition-timing-function: ease;
+}
+@time: 1s;
+.example-time {
+	transition-duration: 2s;
+}
 ```

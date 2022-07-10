@@ -1,14 +1,14 @@
 {
   "name": "docs",
   "version": "1.0.0",
-  "description": "个人技术文档1",
+  "description": "技术聊斋",
   "author": "xfy520 <longzinziyan@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "vuepress dev docs --clean-cache",
     "build": "vuepress build docs",
-    "serve": "http-server ./.dist -p 8888 -c-1"
+    "serve": "http-server ./.dist -g -b -p 8888 -c-1"
   },
   "dependencies": {},
   "prettier": "prettier-config-vuepress",
@@ -25,7 +25,6 @@
     "prismjs": "^1.28.0",
     "sass-loader": "^13.0.2",
     "tsconfig-vuepress": "^0.2.1",
-    "typescript": "^4.7.4",
     "uglifycss": "^0.0.29",
     "v3-color-picker": "1.0.3",
     "vite": "2.9.13",
