@@ -16,7 +16,7 @@ export const mermaidPlugin = ({
         name, mermaidOptions
       });
     },
-    clientConfigFile: path.resolve(__dirname, '../client/config.js'),
+    clientConfigFile: path.resolve(__dirname, '../client/config.ts'),
     define: {
       __MERMAID_COMPONENT_NAME__: name,
       __MERMAID_DEFAULT_OPTIONS__: mermaidOptions,

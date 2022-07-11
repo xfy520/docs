@@ -27,7 +27,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "rimraf lib && tsc && tsc --project tsconfig.esm.json && esno build/index.ts"
+    "build": "rimraf lib && tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json && esno build/index.ts"
   },
   "publishConfig": {
     "access": "public"

@@ -106,3 +106,6 @@ typings/
 .tern-port
 
 docs/.vuepress/plugins/**/lib
+
+prism-languages.js
+prism-plugin.js

@@ -3,7 +3,6 @@
     "composite": false,
     "declaration": true,
     "declarationMap": false,
-    "declarationDir": "./lib/dt",
     "lib": [
       "DOM",
       "ES2020"
@@ -22,12 +21,10 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ES2018",
-    "outDir": "./lib/umd",
-    "rootDirs": ["src/node", "src/shared"]
+    "outDir": "./lib",
   },
   "files": [
-    "src/index.ts",
-    "src/client/config.ts",
+    "src/node/index.ts"
   ],
   "exclude": [
     "node_modules"

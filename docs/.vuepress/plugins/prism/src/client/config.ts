@@ -1,5 +1,5 @@
 import { defineClientConfig } from '@vuepress/client';
-import { onMounted, watch } from 'vue';
+import { onBeforeMount, onMounted, watch } from 'vue';
 import { useDarkMode } from '@vuepress/theme-default/lib/client';
 import * as Prism from 'prismjs';
 
@@ -7,12 +7,12 @@ import 'prismjs/components/prism-css-extras';
 import 'prismjs/plugins/toolbar/prism-toolbar';
 import 'prismjs/plugins/treeview/prism-treeview.min.css';
 
-import '../../static/plugins/prism-plugin';
-import '../../static/language/prism-languages';
+import './plugins/prism-plugin';
+import './language/prism-languages';
 
-import type {  PluginThemeType } from '../shared';
+import type { PluginThemeType } from '../shared';
 
-import '../../static/styles/index.scss';
+import './styles/index.scss';
 
 declare const __PRISM_COMPONENT_NAME__: string;
 declare const __PRISM_VERSION__: string;
@@ -77,7 +77,9 @@ export default defineClientConfig({
       watch(isDarkMode, () => {
         initPrismTheme(true);
       })
-      initPrismTheme(false);
+      onBeforeMount(() => {
+        initPrismTheme(false);
+      })
       return () => null;
     }
   }]

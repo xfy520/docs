@@ -1,4 +1,4 @@
-import type { Plugin } from 'vuepress';
+import type { App, Plugin } from 'vuepress';
 import { path, fs } from '@vuepress/utils';
 import { version } from 'prismjs/package.json';
 
@@ -19,7 +19,7 @@ const writePuglin = (plugins: Array<string> = ['line-numbers', 'show-language', 
       try {
         let buffer;
         if (plugin === 'download-button' || plugin === 'autolinker') {
-          buffer = fs.readFileSync(path.resolve(__dirname, `../../static/plugins/prism-${plugin}.js`));
+          buffer = fs.readFileSync(path.resolve(__dirname, `../client/plugins/prism-${plugin}.js`));
         } else {
           buffer = fs.readFileSync(`node_modules/prismjs/plugins/${plugin}/prism-${plugin}.min.js`);
         }
@@ -29,11 +29,11 @@ const writePuglin = (plugins: Array<string> = ['line-numbers', 'show-language', 
       }
     })
   }
-  fs.writeFileSync(path.resolve(__dirname, '../../static/plugins/prism-plugin.js'), pluginStr);
+  fs.writeFileSync(path.resolve(__dirname, '../client/plugins/prism-plugin.js'), pluginStr);
 }
 
 const writeLanguages = (languages: LanguagesListType = ['css', 'python', 'java', 'javascript', 'typescript', 'less',
-'markdown', 'bash', 'go', 'go-module', 'docker', 'sql', 'yaml', 'cpp',]) => {
+  'markdown', 'bash', 'go', 'go-module', 'docker', 'sql', 'yaml', 'cpp',]) => {
   let languageStr = '';
   if (languages && languages.length) {
     languages.forEach(language => {
@@ -49,7 +49,7 @@ const writeLanguages = (languages: LanguagesListType = ['css', 'python', 'java',
       }
     });
   }
-  fs.writeFileSync(path.resolve(__dirname, '../../static/language/prism-languages.js'), languageStr);
+  fs.writeFileSync(path.resolve(__dirname, '../client/language/prism-languages.js'), languageStr);
 }
 
 const loadPlugin = (plugins?: PluginListType): PrismPluginType => {
@@ -83,17 +83,17 @@ export const prismPlugin = (options: PrismPluginOptions = {
         label: '下载'
       }
     }, 'show-invisibles', 'autolinker', 'inline-color', 'previewers', 'match-braces',
-   'highlight-keywords', 'treeview', {
-    name: 'normalize-whitespace',
-    options: {
-      'remove-trailing': true,
-      'remove-indent': true,
-      'left-trim': true,
-      'right-trim': true,
-    }
-  }],
+    'highlight-keywords', 'treeview', {
+      name: 'normalize-whitespace',
+      options: {
+        'remove-trailing': true,
+        'remove-indent': true,
+        'left-trim': true,
+        'right-trim': true,
+      }
+    }],
   languages: ['css', 'python', 'java', 'javascript', 'typescript', 'less',
-   'markdown', 'bash', 'go', 'go-module', 'docker', 'sql', 'yaml', 'cpp'],
+    'markdown', 'bash', 'go', 'go-module', 'docker', 'sql', 'yaml', 'cpp'],
   vPreBlock: true,
   vPreInline: true,
   tabSize: 4,

@@ -1,8 +1,7 @@
 {
-  "name": "vuepress-plugin-mermaid",
-  "version": "2.0.0-beta.48.1",
+  "name": "vuepress-plugin-mermaid-v2",
+  "version": "2.0.48-beta.0",
   "description": "VuePress plugin - mermaid",
-  "private": "false",
   "keywords": [
     "vuepress-plugin",
     "vuepress",
@@ -36,6 +35,8 @@
     "fs-extra": "^10.1.0",
     "kolorist": "^1.5.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vue": "workspace:*",
+    "vuepress": "workspace:*"
   }
 }
