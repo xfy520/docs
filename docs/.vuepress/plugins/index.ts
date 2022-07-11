@@ -1,2 +1,2 @@
-export * from './mermaid/src';
-export * from './prism/src';
+export * from './mermaid/src/node';
+export * from './prism/src/node';

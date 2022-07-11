@@ -1,59 +1,23 @@
 import { defineClientConfig } from '@vuepress/client';
 import { onMounted, watch } from 'vue';
 import { useDarkMode } from '@vuepress/theme-default/lib/client';
+import * as Prism from 'prismjs';
 
-import type { PrismPluginType, PluginThemeType } from '../shared';
+import 'prismjs/components/prism-css-extras';
+import 'prismjs/plugins/toolbar/prism-toolbar';
+import 'prismjs/plugins/treeview/prism-treeview.min.css';
 
-import 'prismjs/plugins/toolbar/prism-toolbar.min.css';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.min.css';
-import 'prismjs/plugins/show-invisibles/prism-show-invisibles.min.css';
-import 'prismjs/plugins/inline-color/prism-inline-color.min.css';
-import 'prismjs/plugins/previewers/prism-previewers.min.css';
-import './styles/index.scss';
+import '../../static/plugins/prism-plugin';
+import '../../static/language/prism-languages';
+
+import type {  PluginThemeType } from '../shared';
+
+import '../../static/styles/index.scss';
 
 declare const __PRISM_COMPONENT_NAME__: string;
 declare const __PRISM_VERSION__: string;
-declare const __PRISM_PLUGINS__: PrismPluginType;
 declare const __PRISM_THEME__: PluginThemeType;
-
-if (__PRISM_PLUGINS__) {
-  if (__PRISM_PLUGINS__['line-numbers']) {
-    import('prismjs/plugins/line-numbers/prism-line-numbers');
-  }
-  if (__PRISM_PLUGINS__['show-language']) {
-    import('prismjs/plugins/show-language/prism-show-language');
-  }
-  if (__PRISM_PLUGINS__['line-highlight']) {
-    import('prismjs/plugins/line-highlight/prism-line-highlight');
-  }
-  if (__PRISM_PLUGINS__['copy-to-clipboard']) {
-    import('prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard');
-  }
-  if (__PRISM_PLUGINS__['download-button']) {
-    import('./plugins/prism-download-button');
-  }
-  if (__PRISM_PLUGINS__['show-invisibles']) {
-    import('prismjs/plugins/show-invisibles/prism-show-invisibles');
-  }
-  if (__PRISM_PLUGINS__['autolinker']) {
-    import('prismjs/plugins/autolinker/prism-autolinker');
-  }
-  if (__PRISM_PLUGINS__['inline-color']) {
-    import('prismjs/components/prism-css-extras');
-    import('prismjs/plugins/inline-color/prism-inline-color');
-  }
-  if (__PRISM_PLUGINS__['previewers']) {
-    import('prismjs/plugins/previewers/prism-previewers');
-  }
-}
-
-import * as Prism from 'prismjs';
-import 'prismjs/plugins/toolbar/prism-toolbar';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-markdown';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-less';
-
+declare const __PRISM_NORMALIZE_WHITESPACE__: {};
 
 const PrismDefaultTheme = {
   'coy': true,
@@ -62,6 +26,10 @@ const PrismDefaultTheme = {
   'okaidia': true,
   'solarizedlight': true,
   'twilight': true,
+}
+
+if (typeof __PRISM_NORMALIZE_WHITESPACE__ !== 'undefined') {
+  Prism.plugins.NormalizeWhitespace.setDefaults(__PRISM_NORMALIZE_WHITESPACE__);
 }
 
 export default defineClientConfig({

@@ -15,7 +15,6 @@ const markdownItPlugin: PluginWithOptions<PrismPluginOptions> = (md: markdownit,
   tabSize = 4,
 
 }: PrismPluginOptions = {}, prismPlugins: PrismPluginType = {}) => {
-  console.log(prismPlugins)
   md.renderer.rules.fence = (tokens, idx: number, options: markdownit.Options) => {
     const token = tokens[idx];
     const info = token.info ? md.utils.unescapeAll(token.info).trim() : '';
@@ -65,7 +64,18 @@ const markdownItPlugin: PluginWithOptions<PrismPluginOptions> = (md: markdownit,
       attrList.push(`data-prismjs-copy-success="${(copy.options && copy.options.success) || 'success'}"`);
     }
 
-
+    if(prismPlugins['match-braces']) {
+      classList.push('match-braces');
+      if (/:no-brace-hover\b/.test(info)) {
+        classList.push('no-brace-hover');
+      }
+      if (/:no-brace-select\b/.test(info)) {
+        classList.push('no-brace-select');
+      }
+      if (!(/:no-rainbow-braces\b/.test(info))) {
+        classList.push('rainbow-braces');
+      }
+    }
 
     let result = `<pre style="${styleList.join(' ')}" class=" ${classList.join(' ')}" ${attrList.join(' ')}><code style="${styleList.join(' ')}">${code}</code></pre>`
 

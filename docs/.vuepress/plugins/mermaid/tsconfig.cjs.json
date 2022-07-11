@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "composite": false,
+    "declaration": true,
+    "declarationMap": false,
+    "lib": [
+      "DOM",
+      "ES2020"
+    ],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "newLine": "lf",
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "listEmittedFiles": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "ES2018",
+    "outDir": "./lib",
+  },
+  "files": [
+    "src/node/index.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+}

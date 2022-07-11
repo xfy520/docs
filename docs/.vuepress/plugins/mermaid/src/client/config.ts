@@ -5,6 +5,8 @@ import mermaid from 'mermaid/dist/mermaid.js';
 import type { PrposTypes } from '../shared';
 import { Mermaidjs } from './components';
 
+import './styles/index.scss';
+
 declare const __MERMAID_COMPONENT_NAME__: string;
 declare const __MERMAID_DEFAULT_OPTIONS__: {};
 declare const __MERMAID_DEFAULT_STYLE__: {};

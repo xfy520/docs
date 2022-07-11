@@ -1,10 +1,8 @@
-import type { App, HeadAttrsConfig, HeadTagEmpty, Plugin } from 'vuepress';
+import type { Plugin } from 'vuepress';
 import { path } from '@vuepress/utils';
 
 import markdownItPlugin from './markdownItPlugin';
 import type { MermaidPluginOptions } from '../shared';
-
-
 
 export const mermaidPlugin = ({
   name = 'Mermaid',
@@ -18,7 +16,7 @@ export const mermaidPlugin = ({
         name, mermaidOptions
       });
     },
-    clientConfigFile: path.resolve(__dirname, '../client/config.ts'),
+    clientConfigFile: path.resolve(__dirname, '../client/config.js'),
     define: {
       __MERMAID_COMPONENT_NAME__: name,
       __MERMAID_DEFAULT_OPTIONS__: mermaidOptions,

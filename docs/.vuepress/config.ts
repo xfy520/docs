@@ -43,12 +43,12 @@ export default defineUserConfig({
   base: '/',
   head,
   lang: 'zh-CN',
-  title: '技术聊斋',
+  title: '',
   description: '欢迎来到闲聊世界',
   locales: {
     '/': {
       lang: 'zh-CN',
-      title: '技术聊斋',
+      title: '',
       description: '欢迎来到闲聊世界',
     },
   },

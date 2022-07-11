@@ -1,7 +1,7 @@
-import { defineComponent, h, onMounted, PropType, ref, toRefs, watch, watchEffect } from 'vue';
+import { defineComponent, h, PropType, ref, toRefs, watchEffect } from 'vue';
 import type { DarkModeRef } from '@vuepress/theme-default/lib/client';
 import mermaid from 'mermaid/dist/mermaid.js';
-import type { MermaidOptions, PrposTypes } from '../../shared';
+import type { PrposTypes } from '../../shared';
 
 export const Mermaidjs = defineComponent({
   name: 'Mermaid',
