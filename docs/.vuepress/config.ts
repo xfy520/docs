@@ -7,8 +7,7 @@ import { searchPlugin } from '@vuepress/plugin-search';
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
 
 import { resolve } from 'path';
-import { VuepressThemeFleet } from './theme';
-import { mermaidPlugin, prismPlugin, } from './plugins';
+import { VuepressThemeFleet, prismPlugin, mermaidPlugin } from 'vuepress-theme-fleet';
 import { navbar, sidebar } from './configs';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -41,12 +40,12 @@ export default defineUserConfig({
   base: '/',
   head,
   lang: 'zh-CN',
-  title: '',
+  title: '技术聊斋',
   description: '欢迎来到闲聊世界',
   locales: {
     '/': {
       lang: 'zh-CN',
-      title: '',
+      title: '技术聊斋',
       description: '欢迎来到闲聊世界',
     },
   },
