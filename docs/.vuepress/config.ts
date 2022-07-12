@@ -7,8 +7,8 @@ import { searchPlugin } from '@vuepress/plugin-search';
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
 
 import { resolve } from 'path';
-import wssioTheme from './theme';
-import { mermaidPlugin, prismPlugin, } from './plugins'
+import { VuepressThemeFleet } from './theme';
+import { mermaidPlugin, prismPlugin, } from './plugins';
 import { navbar, sidebar } from './configs';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -35,8 +35,6 @@ const plugins: Plugin[] = [
   googleAnalyticsPlugin({
     id: 'G-5SQHLTK55C',
   }),
-  mermaidPlugin(),
-  prismPlugin(),
 ];
 
 export default defineUserConfig({
@@ -52,7 +50,7 @@ export default defineUserConfig({
       description: '欢迎来到闲聊世界',
     },
   },
-  theme: wssioTheme({
+  theme: VuepressThemeFleet({
     logo: '/home.png',
     repo: 'xfy520/docs',
     docsDir: 'docs',
@@ -81,6 +79,10 @@ export default defineUserConfig({
     themePlugins: {
       prismjs: false,
     },
+    plugins: [
+      mermaidPlugin(),
+      prismPlugin(),
+    ]
   }),
   bundler: isProd ? webpackBundler({
     postcss: {},
@@ -99,7 +101,7 @@ export default defineUserConfig({
   },
   markdown: {
     code: false,
-    customComponent: false,
+    component: false,
     importCode: {
       handleImportPath: (str) => str.replace(/^@js/, resolve(__dirname, 'public/js')),
     },

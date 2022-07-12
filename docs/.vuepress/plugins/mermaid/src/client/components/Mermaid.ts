@@ -31,7 +31,7 @@ export const Mermaidjs = defineComponent({
   setup(props: PrposTypes) {
     const { id } = toRefs<PrposTypes>(props);
     const svgRef = ref('');
-    const isDarkMode = props.useDarkMode();
+    const isDarkMode = ref(true);
 
     const render = () => {
       mermaid.render(id.value, props.code, (svg) => {
