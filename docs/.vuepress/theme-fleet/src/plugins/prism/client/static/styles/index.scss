@@ -3,6 +3,10 @@ pre[class*="language-"]::after {
   box-shadow: none !important;
 }
 
+pre[class*="language-"] {
+  background-color: var(--code-bg-color) !important;
+}
+
 pre code {
   margin: 0;
   padding: 0.5rem 0;
@@ -14,7 +18,7 @@ div.code-toolbar {
   position: relative;
 }
 
-div.code-toolbar>.toolbar {
+div.code-toolbar > .toolbar {
   position: absolute;
   top: 0.3em;
   right: 0.2em;
@@ -23,23 +27,23 @@ div.code-toolbar>.toolbar {
   transition: opacity 0.3s ease-in-out;
 }
 
-div.code-toolbar:hover>.toolbar {
+div.code-toolbar:hover > .toolbar {
   opacity: 1;
 }
 
-div.code-toolbar:focus-within>.toolbar {
+div.code-toolbar:focus-within > .toolbar {
   opacity: 1;
 }
 
-div.code-toolbar>.toolbar>.toolbar-item {
+div.code-toolbar > .toolbar > .toolbar-item {
   display: inline-block;
 }
 
-div.code-toolbar>.toolbar>.toolbar-item>a {
+div.code-toolbar > .toolbar > .toolbar-item > a {
   cursor: pointer;
 }
 
-div.code-toolbar>.toolbar>.toolbar-item>button {
+div.code-toolbar > .toolbar > .toolbar-item > button {
   padding: 0;
   overflow: visible;
   color: inherit;
@@ -50,9 +54,9 @@ div.code-toolbar>.toolbar>.toolbar-item>button {
   user-select: none;
 }
 
-div.code-toolbar>.toolbar>.toolbar-item>a,
-div.code-toolbar>.toolbar>.toolbar-item>button,
-div.code-toolbar>.toolbar>.toolbar-item>span {
+div.code-toolbar > .toolbar > .toolbar-item > a,
+div.code-toolbar > .toolbar > .toolbar-item > button,
+div.code-toolbar > .toolbar > .toolbar-item > span {
   display: inline-block;
   height: 1.2rem;
   margin-right: 0.5rem;
@@ -67,12 +71,12 @@ div.code-toolbar>.toolbar>.toolbar-item>span {
   cursor: pointer;
 }
 
-div.code-toolbar>.toolbar>.toolbar-item>a:hover,
-div.code-toolbar>.toolbar>.toolbar-item>a:focus,
-div.code-toolbar>.toolbar>.toolbar-item>button:hover,
-div.code-toolbar>.toolbar>.toolbar-item>button:focus,
-div.code-toolbar>.toolbar>.toolbar-item>span:hover,
-div.code-toolbar>.toolbar>.toolbar-item>span:focus {
+div.code-toolbar > .toolbar > .toolbar-item > a:hover,
+div.code-toolbar > .toolbar > .toolbar-item > a:focus,
+div.code-toolbar > .toolbar > .toolbar-item > button:hover,
+div.code-toolbar > .toolbar > .toolbar-item > button:focus,
+div.code-toolbar > .toolbar > .toolbar-item > span:hover,
+div.code-toolbar > .toolbar > .toolbar-item > span:focus {
   color: inherit;
   text-decoration: none;
 }
@@ -86,7 +90,7 @@ pre[class*="language-"].line-numbers {
   counter-reset: linenumber;
 }
 
-pre[class*="language-"].line-numbers>code {
+pre[class*="language-"].line-numbers > code {
   position: relative;
   padding: 0;
   white-space: inherit;
@@ -104,12 +108,12 @@ pre[class*="language-"].line-numbers>code {
   pointer-events: none;
 }
 
-.line-numbers-rows>span {
+.line-numbers-rows > span {
   display: block;
   counter-increment: linenumber;
 }
 
-.line-numbers-rows>span::before {
+.line-numbers-rows > span::before {
   display: block;
   padding-right: 0.8em;
   color: #999;
@@ -501,11 +505,11 @@ pre[id].linkable-line-numbers span.line-numbers-rows {
   pointer-events: all;
 }
 
-pre[id].linkable-line-numbers span.line-numbers-rows>span::before {
+pre[id].linkable-line-numbers span.line-numbers-rows > span::before {
   cursor: pointer;
 }
 
-pre[id].linkable-line-numbers span.line-numbers-rows>span:hover::before {
+pre[id].linkable-line-numbers span.line-numbers-rows > span:hover::before {
   background-color: rgb(128 128 128 / 20%);
 }
 
@@ -556,15 +560,15 @@ pre[id].linkable-line-numbers span.line-numbers-rows>span:hover::before {
 // match-braces end
 // diff-highlight start
 
-pre.diff-highlight>code .token.deleted:not(.prefix),
-pre>code.diff-highlight .token.deleted:not(.prefix) {
+pre.diff-highlight > code .token.deleted:not(.prefix),
+pre > code.diff-highlight .token.deleted:not(.prefix) {
   display: block;
   color: inherit;
   background-color: rgb(255 0 0 / 10%);
 }
 
-pre.diff-highlight>code .token.inserted:not(.prefix),
-pre>code.diff-highlight .token.inserted:not(.prefix) {
+pre.diff-highlight > code .token.inserted:not(.prefix),
+pre > code.diff-highlight .token.inserted:not(.prefix) {
   display: block;
   color: inherit;
   background-color: rgb(0 255 128 / 10%);
