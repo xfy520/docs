@@ -14,7 +14,7 @@ jobs:
     
     - name: NodeBuild
       uses: actions/setup-node@master
-    - run: npm --registry https://registry.npmmirror.com install
+    - run: npm install
     - run: npm run build
     
     - name: BuildImage
