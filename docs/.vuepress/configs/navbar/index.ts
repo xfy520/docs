@@ -21,6 +21,14 @@ const navbar: NavbarConfig = [
         text: 'vue3-seamless-scroll',
         link: '/opensource/vue3-seamless-scroll/'
       },
+      {
+        text: 'vuepress-theme-fleet',
+        link: '/opensource/vuepress-theme-fleet/'
+      },
+      {
+        text: 'dl 一下',
+        link: '/opensource/dl/'
+      },
     ]
   },
   {

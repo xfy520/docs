@@ -55,4 +55,20 @@ export default {
       ],
     },
   ],
+  '/opensource/vuepress-theme-fleet/': [
+    {
+      text: 'vuepress-theme-fleet',
+      children: [
+        '/opensource/vuepress-theme-fleet/README.md',
+      ],
+    },
+  ],
+  '/opensource/dl/': [
+    {
+      text: 'dl 一下',
+      children: [
+        '/opensource/dl/README.md',
+      ],
+    },
+  ],
 }

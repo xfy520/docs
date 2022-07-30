@@ -4,19 +4,15 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "module": "ES2020",
-    "paths": {},
-    "types": [],
-    "resolveJsonModule": true
   },
   "include": [
-    "**/.vuepress/*",
-    "**/.vuepress/**/*",
-    "**/.vuepress/**/**/*",
+    "docs/.vuepress/**/*",
   ],
   "exclude": [
     "node_modules",
+    "lib",
     ".temp",
-    ".cache",
-    "dist"
+    ".dist",
+    ".cache"
   ]
 }

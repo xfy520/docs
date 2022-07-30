@@ -50,7 +50,6 @@ export default defineUserConfig({
     },
   },
   theme: VuepressThemeFleet({
-    logo: '/home.png',
     repo: 'xfy520/docs',
     docsDir: 'docs',
     locales: {

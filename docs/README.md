@@ -23,16 +23,3 @@ footer: MIT Licensed | Copyright © 2021-present longzinziyan@gmail.com
   <img src="/images/traefik.png" alt="Traefik服务监控"/>
 </div>
 
-
-```js
-
-
-		var example = {
-			foo: true,
-
-			bar: false
-		};
-
-
-
-```
