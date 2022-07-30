@@ -1,0 +1,15 @@
+name: 部署
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  NodeBuild:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Build
+      uses: actions/setup-node@master
+    - run: npm install
+    - run: npm run build
