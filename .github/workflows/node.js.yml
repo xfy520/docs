@@ -17,4 +17,10 @@ jobs:
           password: ${{ secrets.HOST_PASSWORD }}
           port: ${{ secrets.HOST_PORT }}
           script:
-            ls -a
+            list=$(sudo docker ps -a| grep docs-service* | awk '{print $1}')
+            test "$list" = "" && echo "none docs-app containers running" || sudo docker stop $list
+            test "$list" = "" && echo "none docs-app containers running" || sudo docker rm $list -f
+            docker rmi -f $(docker images ${{ secrets.DOCKER_REPOSITORY }}:latest -q)
+            docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} registry.cn-shanghai.aliyuncs.com
+            docker pull ${{ secrets.DOCKER_REPOSITORY }}:latest
+            docker run -d -v /home/ubuntu/data/docs:/var/log/nginx -p 8081:8081 --name=docs-service ${{ secrets.DOCKER_REPOSITORY }}:latest
