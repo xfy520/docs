@@ -31,7 +31,7 @@ jobs:
     name: Pull Docker
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy
+      - name: Pull
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
