@@ -82,7 +82,7 @@ clone:
   disable: true
 
 steps:
-- name: 通知
+- name: 通知1
   image: drillster/drone-email:latest
   pull: if-not-exists
   settings:
