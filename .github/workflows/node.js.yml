@@ -11,5 +11,6 @@ jobs:
     steps:
     - name: Build
       uses: actions/setup-node@master
+    - run: ls
     - run: npm install
     - run: npm run build
