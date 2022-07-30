@@ -28,6 +28,7 @@ jobs:
       run: docker push ${{ secrets.DOCKER_REPOSITORY }}:latest
 
   DockerPull:
+    needs: [Build]
     name: Pull Docker
     runs-on: ubuntu-latest
     steps:
