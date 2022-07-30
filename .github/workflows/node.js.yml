@@ -5,24 +5,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-  NodeBuild:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@main
     
-    - name: Build
+    - name: NodeBuild
       uses: actions/setup-node@master
     - run: npm --registry https://registry.npmmirror.com install
     - run: npm run build
-    - run: ls -a
-  DockerBuild:
-    runs-on: ubuntu-latest      
-    steps:
-      - name: Build Image
-        run: docker build -t ${{ secrets.DOCKER_REPOSITORY }}:latest ./
-      - name: Login to registry
-        run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} registry.cn-shanghai.aliyuncs.com
-      - name: Push Image
-        run: docker push ${{ secrets.DOCKER_REPOSITORY }}:latest
+    
+    - name: BuildImage
+      run: docker build -t ${{ secrets.DOCKER_REPOSITORY }}:latest ./
+    
+    - name: Login to registry
+      run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} registry.cn-shanghai.aliyuncs.com
+      
+    - name: Push Image
+      run: docker push ${{ secrets.DOCKER_REPOSITORY }}:latest
