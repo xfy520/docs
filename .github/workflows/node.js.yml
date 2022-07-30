@@ -16,4 +16,4 @@ jobs:
       uses: actions/setup-node@master
     - run: npm --registry https://registry.npmmirror.com install
     - run: npm run build
-    - run: ls
+    - run: ls -a
