@@ -1,4 +1,4 @@
-name: 部署
+name: Build
 
 on:
   push:
