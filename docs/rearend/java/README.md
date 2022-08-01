@@ -20,3 +20,11 @@ jvm （Java Virtual Mechinal）, `Java`虚拟机，是`jre`的一部分，是整
 
 不同平台的`jvm`是不同的，但是他们都提供了相同的接口。`jvm`是`Java`程序跨平台的关键部分，只要为不
 同平台实现了相同的虚拟机，编译后的`Java`字节码就可以在该平台上运行
+
+**Java 程序从源代码到运行需要三步**
+
+```mermaid
+graph LR
+A(java源代码)--> |jdk中javac编译| B(class字节码文件，jvm理解的字节码)
+B--> |jvm|C(机器可执行二进制码)
+```
