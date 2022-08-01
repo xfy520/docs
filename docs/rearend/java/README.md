@@ -24,7 +24,7 @@ jvm （Java Virtual Mechinal）, `Java`虚拟机，是`jre`的一部分，是整
 **Java 程序从源代码到运行需要三步**
 
 ```mermaid
-graph LR
+graph TD
 A(java源代码)--> |jdk中javac编译| B(class字节码文件, jvm理解的字节码)
 B--> |jvm|C(机器可执行二进制码)
 ```
