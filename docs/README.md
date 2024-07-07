@@ -12,7 +12,9 @@ features:
     details: Java、NodeJS、Golang、MyBatis-Plus、SpringCloud、SpringBoot、Gin、Iris、Fastify、MySQL、MongoDB等设计后端技术学习记录
   - title: 其他
     details: Docker容器、Traefik反向代理、Drone CI/CD、Metrics服务指标、Vault数据管理、各个插件编写等学习记录
-footer: MIT Licensed | Copyright © 2021-present longzinziyan@gmail.com
+footer:
+  <a href="https://beian.miit.gov.cn/" target="_blank">黔ICP备2021006391号-1</a> | MIT Licensed | Copyright © 2021-present longzinziyan@gmail.com
+footerHtml: true
 ---
 
 ### 开启你的快乐之旅
@@ -22,4 +24,3 @@ footer: MIT Licensed | Copyright © 2021-present longzinziyan@gmail.com
   <img src="/images/docker.png" alt="Docker容器监控"/>
   <img src="/images/traefik.png" alt="Traefik服务监控"/>
 </div>
-

@@ -7,7 +7,7 @@ import { searchPlugin } from '@vuepress/plugin-search';
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
 
 import { resolve } from 'path';
-import { VuepressThemeFleet, prismPlugin, mermaidPlugin } from 'vuepress-theme-fleet';
+import { VuepressThemeFleet, prismPlugin, mermaidPlugin } from './vuepress-theme-fleet';
 import { navbar, sidebar } from './configs';
 
 const isProd = process.env.NODE_ENV === 'production';

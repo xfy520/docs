@@ -1,0 +1,14 @@
+import type { PrismHighlightLanguage } from '../../../../shared';
+export declare const languageBash: PrismHighlightLanguage;
+export declare const languageCsharp: PrismHighlightLanguage;
+export declare const languageDocker: PrismHighlightLanguage;
+export declare const languageFsharp: PrismHighlightLanguage;
+export declare const languageJavascript: PrismHighlightLanguage;
+export declare const languageKotlin: PrismHighlightLanguage;
+export declare const languageMarkdown: PrismHighlightLanguage;
+export declare const languagePython: PrismHighlightLanguage;
+export declare const languageRuby: PrismHighlightLanguage;
+export declare const languageRust: PrismHighlightLanguage;
+export declare const languageStylus: PrismHighlightLanguage;
+export declare const languageTypescript: PrismHighlightLanguage;
+export declare const languageYaml: PrismHighlightLanguage;

@@ -7,7 +7,7 @@ const navbar: NavbarConfig = [
     link: '/start/',
   },
   {
-    text: '开源项目',
+    text: '公开库',
     children: [
       {
         text: 'vue3-menus',
